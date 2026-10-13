@@ -1,0 +1,22 @@
+name: pm-skills
+version: 1.0.0
+description: 产品经理技能包 - 52 个 PM 框架，覆盖产品规划、需求分析、优先级决策、路线图规划
+author: starxhub
+tags:
+  - product-management
+  - prd
+  - roadmap
+  - prioritization
+  - discovery
+  - strategy
+commands:
+  - pm:prd
+  - pm:roadmap
+  - pm:prioritize
+  - pm:discover
+  - pm:strategy
+  - pm:story
+  - pm:position
+  - pm:diagnose
+  - pm:interview
+  - pm:ost
