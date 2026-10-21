@@ -49,7 +49,7 @@ python ~/.qwenworkcn/skills/claude-code-multi-agent-scaffold/scripts/scaffold.py
 ```
 <项目根目录>/
 ├── CLAUDE.md                     ← 项目集体记忆（含 TODO，需填写）
-├── .claude/                      ← 21 个 Agent + 9 个命令 + hooks + 7 份规范
+├── .claude/                      ← 24 个 Agent + 11 个命令 + hooks + 7 份规范 + 1 个 Skill
 ├── .github/                      ← CI workflow（复用 ci.sh）+ dependabot
 ├── scripts/ci.sh + .githooks/    ← 本地优先质量门禁（fmt+build+test+前端构建；pre-push 推送前自动跑）
 ├── docs/00-项目文档/              ← 文档模板 + 变更/经验记录
@@ -89,7 +89,7 @@ Claude Code 自动读取 CLAUDE.md 和 .claude/agents/，团队就绪。
 ### 第 5 步：开始使用（按生命周期顺序）
 
 ```bash
-# ① 从模糊想法开始：产出需求 + 设计文档
+# ① 从模糊想法开始：产出需求 + 设计文档 + 高保真原型
 /product-discovery 设计一个 XX 功能
 
 # ② 需求明确后开发：规划→实施→测试→审查
@@ -140,20 +140,21 @@ push 后 CI（.github/workflows/ci.yml）自动运行：后端 build+test、前�
 
 **触发时机**：项目刚开始，只有一句模糊想法，还没写需求文档。
 
-**五步流程**：
+**六步流程**：
 
 1. **需求分析**（启动 requirement-analyst）→ 产出结构化需求文档，写回 `requirements.md`，然后提交 `docs: 需求分析文档`
 2. **需求确认**（主 Agent）→ 把需求摘要展示给你，**停下等拍板**，你确认后才继续
 3. **用户研究**（启动 ux-researcher）→ 产出用户画像 `personas.md`、用户旅程 `user-journey.md`、竞品分析 `competitive-analysis.md`，提交 `docs: 用户研究`
 4. **产品设计**（启动 product-designer）→ 产出信息架构 `ia.md`、交互流程 `flows.md`、设计规范 `design-spec.md`，提交 `docs: 产品设计`
-5. **汇总**（主 Agent）→ 汇报需求、研究、设计产出清单和下一步建议
+5. **高保真原型**（启动 html-prototyper）→ 基于设计文档产出可交互的高保真 HTML 原型（双模式：高保真/线框，四套设计系统，三档设备自适应），写入 `docs/00-项目文档/prototypes/`，提交 `docs: 高保真原型`
+6. **汇总**（主 Agent）→ 汇报需求、研究、设计、原型产出清单和下一步建议
 
 **用法示例**：
 ```
 /product-discovery 设计一个多租户会议室预约功能
 ```
 
-**注意**：第二步会强停一次等你确认，这是刻意设计——需求错了后面全错，所以必须先对齐。
+**注意**：第二步会强停一次等你确认，这是刻意设计——需求错了后面全错，所以必须先对齐。第五步的高保真原型可直接用于需求评审和前端开发参考。
 
 ---
 
@@ -353,6 +354,34 @@ python scripts/doc-archive.py . --threshold 500     # 只处理超过 500 行的
 ```
 
 **注意**：归档不是删除——条目移到 `archive/` 子目录，原文件保留摘要指针。支持幂等运行，重复执行不会重复归档。
+
+---
+
+## html-prototyper Agent 升级说明
+
+**升级内容**：html-prototyper 已从"HTML 原型设计师"升级为"高保真原型设计师"，具备完整的设计系统能力。
+
+**核心能力**：
+- **双模式输出**：高保真（完整视觉）⇄ 线框（黑白灰结构）一键切换
+- **四套设计系统**：企业中后台（saas）、移动App（mobile）、电商消费（commerce）、品牌官网暗色（brand）
+- **完整组件库**：按钮、表单、卡片、表格、弹窗、抽屉、导航等，全部走声明式 `data-*` API
+- **微交互与动效**：数字滚动、级联入场、弹窗转场、页面切换
+- **三档自适应**：桌面（≥1024px）/ 平板（720-1024px）/ 手机（<720px）
+- **零外部依赖**：纯 CSS + SVG，断网可看
+
+**技术实现**：
+- 模型升级：sonnet → opus（更强的视觉审美和 CSS 能力）
+- 内置 Skill：`.claude/skills/hifi-prototype/` 包含完整的设计系统、组件库、交互引擎
+- 输出路径：`docs/00-项目文档/prototypes/`（index.html + hifi.css + hifi.js）
+
+**使用场景**：
+- 需求评审：高保真原型可直接用于评审会议，替代 Figma 设计稿
+- 前端开发参考：原型即视觉规范，前端可直接参考实现
+- 客户演示：接近真实产品的交互体验，适合给老板/投资人展示
+
+**与 product-designer 的分工**：
+- product-designer：产出信息架构（ia.md）、交互流程（flows.md）、设计规范（design-spec.md）
+- html-prototyper：基于设计文档产出可交互的高保真 HTML 原型
 
 ---
 

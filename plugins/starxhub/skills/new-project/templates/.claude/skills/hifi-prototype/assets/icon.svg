@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" fill="none">
+  <defs>
+    <linearGradient id="chev" gradientUnits="userSpaceOnUse" x1="170" y1="60" x2="205" y2="465">
+      <stop offset="0" stop-color="#38B4E8"/>
+      <stop offset=".5" stop-color="#2E6FE6"/>
+      <stop offset="1" stop-color="#5C3CE6"/>
+    </linearGradient>
+    <linearGradient id="grn" gradientUnits="userSpaceOnUse" x1="390" y1="89" x2="292" y2="171">
+      <stop offset="0" stop-color="#2F9E4F"/>
+      <stop offset="1" stop-color="#91CA3E"/>
+    </linearGradient>
+    <linearGradient id="pur" gradientUnits="userSpaceOnUse" x1="315" y1="327" x2="413" y2="409">
+      <stop offset="0" stop-color="#9D4BE4"/>
+      <stop offset="1" stop-color="#F0367C"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="36" fill="#F7F5EE"/>
+  <path d="M150 110 L254 244 L146 404" fill="none" stroke="url(#chev)" stroke-width="72" stroke-linecap="round" stroke-linejoin="miter" stroke-miterlimit="8"/>
+  <rect x="277" y="102" width="128" height="56" rx="28" fill="url(#grn)" transform="rotate(-40 341 130)"/>
+  <rect x="300" y="340" width="128" height="56" rx="28" fill="url(#pur)" transform="rotate(40 364 368)"/>
+</svg>

@@ -47,7 +47,7 @@ Generate a complete Claude Code multi-agent team covering the full software-engi
 | 需求分析 | requirement-analyst | 需求澄清、用户故事、验收标准 | opus |
 | 需求分析 | ux-researcher | 用户画像、用户旅程、竞品分析 | opus |
 | 需求分析 | product-designer | 信息架构、交互流程、设计规范 | opus |
-| 需求分析 | html-prototyper | HTML 原型制作、交互实现、视觉还原 | sonnet |
+| 需求分析 | html-prototyper | 高保真原型设计、双模式输出（高保真/线框）、四套设计系统、微交互动效 | opus |
 | 任务规划 | pm | 需求拆解、任务计划、优先级 | opus |
 | 需求评审 | req-coordinator | 需求评审协调者，调度评审团队、汇总报告 | opus |
 | 需求评审 | req-quality-group-lead | 需求质量评审组长，调度质量专家和一致性专家 | opus |
@@ -69,7 +69,7 @@ Generate a complete Claude Code multi-agent team covering the full software-engi
 | 测试修复 | functional-tester | 功能测试用例设计（文档驱动 / 代码逆向） | opus |
 | 测试修复 | bug-fixer | Bug 复现、根因定位、最小修复、回归验证、知识沉淀 | opus |
 
-Flow: 模糊需求 → requirement-analyst → ux-researcher → product-designer → html-prototyper（HTML 原型）→ pm → req-coordinator（评审团队把关）→ 开发 agents → reviewer → functional-tester（用例）/ bug-fixer（修复）
+Flow: 模糊需求 → requirement-analyst → ux-researcher → product-designer → html-prototyper（高保真原型）→ pm → req-coordinator（评审团队把关）→ 开发 agents → reviewer → functional-tester（用例）/ bug-fixer（修复）
 
 ### 需求评审团队拓扑
 
@@ -147,8 +147,9 @@ new-project/
 │   ├── .mcp.json
 │   ├── .gitignore
 │   ├── .claude/            ← agents/commands/hooks/rules/settings + standards
-│   │   ├── agents/         ← 24 个 Agent 模板（含 8 个需求评审 + 2 个方案门禁 + 2 个测试修复 + 1 个 HTML 原型）
-│   │   └── rules/          ← 13 个路径范围规则（_always 3 + _backend 6 + _frontend 4，按技术栈选择）
+│   │   ├── agents/         ← 24 个 Agent 模板（含 8 个需求评审 + 2 个方案门禁 + 2 个测试修复 + 1 个高保真原型）
+│   │   ├── rules/          ← 13 个路径范围规则（_always 3 + _backend 6 + _frontend 4，按技术栈选择）
+│   │   └── skills/         ← 内置 Skill（hifi-prototype 高保真原型设计系统）
 │   ├── docs/00-项目文档/   ← 12 个文档模板
 │   ├── docs/README.md      ← 文档管理规范
 │   └── code/               ← 自定义基础设施（CLI 生成骨架后写入）

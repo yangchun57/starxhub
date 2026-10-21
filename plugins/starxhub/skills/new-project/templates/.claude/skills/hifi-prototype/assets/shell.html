@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{PROJECT_NAME} · 高保真原型</title>
+<link rel="stylesheet" href="hifi.css">
+</head>
+<body>
+<div class="stage" data-device="desktop">
+
+  <!-- 舞台条：项目名 / 设备 / 主题 / 当前页 -->
+  <div class="stage-bar">
+    <div class="stage-brand"><span class="dot"></span></div>
+    <span class="stage-name">{PROJECT_NAME}</span>
+    <span class="stage-sub">高保真原型</span>
+    <span class="stage-mode-tag">线框模式</span>
+    <span class="stage-spacer"></span>
+    <span class="stage-sub stage-page">P1 · 页面名</span>
+    <div class="stage-seg">
+      <button type="button" data-device-btn="desktop" class="is-on">桌面</button>
+      <button type="button" data-device-btn="tablet">平板</button>
+      <button type="button" data-device-btn="mobile">手机</button>
+    </div>
+    <div class="theme-dots">
+      <button type="button" class="theme-dot is-on" data-theme-dot="saas"><span class="tip">企业中后台</span></button>
+      <button type="button" class="theme-dot" data-theme-dot="mobile"><span class="tip">移动 App</span></button>
+      <button type="button" class="theme-dot" data-theme-dot="commerce"><span class="tip">电商消费</span></button>
+      <button type="button" class="theme-dot" data-theme-dot="brand"><span class="tip">品牌官网</span></button>
+    </div>
+    <div class="stage-seg">
+      <button type="button" data-mode-btn="hifi" class="is-on">高保真</button>
+      <button type="button" data-mode-btn="wireframe">线框</button>
+    </div>
+  </div>
+
+  <div class="stage-body">
+    <div class="stage-frame">
+      <div class="app" data-theme="saas">
+
+<!-- PAGES -->
+
+      </div><!-- /app -->
+    </div><!-- /stage-frame -->
+  </div><!-- /stage-body -->
+</div><!-- /stage -->
+<script src="hifi.js"></script>
+</body>
+</html>

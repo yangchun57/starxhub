@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>温情智选 · 高保真原型（参考示例）</title>
+<link rel="stylesheet" href="hifi.css">
+</head>
+<body>
+<div class="stage" data-device="desktop">
+
+  <div class="stage-bar">
+    <div class="stage-brand"><span class="dot"></span></div>
+    <span class="stage-name">温情智选 · 员工福利平台</span>
+    <span class="stage-sub">高保真参考示例</span>
+    <span class="stage-mode-tag">线框模式</span>
+    <span class="stage-spacer"></span>
+    <span class="stage-sub stage-page">P0 · 流程总览</span>
+    <div class="stage-seg">
+      <button type="button" data-device-btn="desktop" class="is-on">桌面</button>
+      <button type="button" data-device-btn="tablet">平板</button>
+      <button type="button" data-device-btn="mobile">手机</button>
+    </div>
+    <div class="theme-dots">
+      <button type="button" class="theme-dot is-on" data-theme-dot="saas"><span class="tip">企业中后台</span></button>
+      <button type="button" class="theme-dot" data-theme-dot="mobile"><span class="tip">移动 App</span></button>
+      <button type="button" class="theme-dot" data-theme-dot="commerce"><span class="tip">电商消费</span></button>
+      <button type="button" class="theme-dot" data-theme-dot="brand"><span class="tip">品牌官网</span></button>
+    </div>
+    <div class="stage-seg">
+      <button type="button" data-mode-btn="hifi" class="is-on">高保真</button>
+      <button type="button" data-mode-btn="wireframe">线框</button>
+    </div>
+  </div>
+
+  <div class="stage-body">
+    <div class="stage-frame">
+      <div class="app" data-theme="saas">
+
+      <!-- ================= P0 · 流程总览 ================= -->
+      <section class="page is-active" id="p0" data-pid="P0" data-title="流程总览">
+        <div class="content">
+          <div class="content-inner stack-lg">
+            <div>
+              <h1 class="h1">温情智选 · 员工福利平台</h1>
+              <p class="sub" style="margin-top:8px">V1.0 积分闭环 · 高保真参考实现。点击任意卡片进入对应页面；顶部可切换设备与主题。</p>
+            </div>
+
+            <div class="grid">
+              <div class="col-4"><div class="card card-hover card-click" data-goto="p1" style="height:100%">
+                <div class="card-bd stack">
+                  <div class="row"><span class="stat-icon" data-icon="lock"></span><span class="tag tag-brand">P1</span></div>
+                  <div class="h4">登录注册</div>
+                  <p class="xs">分屏品牌区 + 表单校验 + 加载反馈。含手机号/密码校验、错误提示、登录中状态。</p>
+                </div>
+              </div></div>
+              <div class="col-4"><div class="card card-hover card-click" data-goto="p2" style="height:100%">
+                <div class="card-bd stack">
+                  <div class="row"><span class="stat-icon" data-icon="chart"></span><span class="tag tag-brand">P2</span></div>
+                  <div class="h4">数据看板</div>
+                  <p class="xs">指标卡（数字滚动）、柱状图、环形图、迷你趋势线、排行榜与时间线。</p>
+                </div>
+              </div></div>
+              <div class="col-4"><div class="card card-hover card-click" data-goto="p3" style="height:100%">
+                <div class="card-bd stack">
+                  <div class="row"><span class="stat-icon" data-icon="gift"></span><span class="tag tag-brand">P3</span></div>
+                  <div class="h4">积分发放</div>
+                  <p class="xs">数据表格全能力：搜索、筛选、排序、全选、行菜单、分页、新建弹窗、详情抽屉。</p>
+                </div>
+              </div></div>
+              <div class="col-4"><div class="card card-hover card-click" data-goto="p4" style="height:100%">
+                <div class="card-bd stack">
+                  <div class="row"><span class="stat-icon" data-icon="cart"></span><span class="tag tag-brand">P4</span></div>
+                  <div class="h4">福利商城</div>
+                  <p class="xs">商品卡、价格与评分、收藏、优惠券、秒杀倒计时。建议切换「电商消费」主题查看。</p>
+                </div>
+              </div></div>
+              <div class="col-4"><div class="card card-hover card-click" data-goto="p5" style="height:100%">
+                <div class="card-bd stack">
+                  <div class="row"><span class="stat-icon" data-icon="alert-triangle"></span><span class="tag tag-brand">P5</span></div>
+                  <div class="h4">异常与状态</div>
+                  <p class="xs">空状态、骨架屏加载、各类警告、权限不足、底部筛选面板（Sheet）。</p>
+                </div>
+              </div></div>
+              <div class="col-4"><div class="card card-hover card-click" data-goto="p6" style="height:100%">
+                <div class="card-bd stack">
+                  <div class="row"><span class="stat-icon" data-icon="zap"></span><span class="tag tag-brand">P6</span></div>
+                  <div class="h4">移动端 App</div>
+                  <p class="xs">渐变头图、快捷入口、消息单元、底部 TabBar 与悬浮按钮。建议切「手机」设备 + 「移动 App」主题。</p>
+                </div>
+              </div></div>
+              <div class="col-4"><div class="card card-hover card-click" data-goto="p7" style="height:100%">
+                <div class="card-bd stack">
+                  <div class="row"><span class="stat-icon" data-icon="layers"></span><span class="tag tag-brand">P7</span></div>
+                  <div class="h4">组件规范</div>
+                  <p class="xs">设计令牌与全组件活文档：按钮、表单、标签、反馈、图表，六态可演示。</p>
+                </div>
+              </div></div>
+              <div class="col-4"><div class="card card-hover card-click" data-goto="p8" style="height:100%">
+                <div class="card-bd stack">
+                  <div class="row"><span class="stat-icon" data-icon="sparkles"></span><span class="tag tag-brand">P8</span></div>
+                  <div class="h4">品牌官网</div>
+                  <p class="xs">导航、Hero、特性网格、转化 CTA、页脚。建议切换「品牌官网」暗色主题查看。</p>
+                </div>
+              </div></div>
+            </div>
+
+            <div class="card">
+              <div class="card-hd"><span class="card-title">核心任务流</span><span class="spacer"></span><span class="tag tag-outline">V1.0 积分闭环</span></div>
+              <div class="card-bd">
+                <div class="steps">
+                  <div class="step done"><div class="pt"><span data-icon="check"></span></div><div class="st-name">管理员登录</div></div>
+                  <div class="step done"><div class="pt"><span data-icon="check"></span></div><div class="st-name">配置福利预算</div></div>
+                  <div class="step current"><div class="pt">3</div><div class="st-name">发放积分</div></div>
+                  <div class="step"><div class="pt">4</div><div class="st-name">员工兑换</div></div>
+                  <div class="step"><div class="pt">5</div><div class="st-name">数据复盘</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= P1 · 登录 ================= -->
+      <section class="page" id="p1" data-pid="P1" data-title="登录">
+        <div style="display:flex;height:100%">
+          <div style="flex:1.1;display:none;position:relative;overflow:hidden;background:var(--grad-brand);color:#fff;padding:48px">
+            <div class="stack-lg" style="position:relative;z-index:1;max-width:420px">
+              <div class="row"><span class="stat-icon" style="background:rgba(255,255,255,.18);color:#fff" data-icon="sparkles"></span><span class="h3" style="color:#fff">温情智选</span></div>
+              <h2 class="h1" style="color:#fff;font-size:var(--fs-4xl)">让每一份福利<br>都被认真对待</h2>
+              <p style="opacity:.85;line-height:var(--lh-loose)">AI 驱动的企业员工福利平台。积分发放、智能推荐、合规管理，一站完成。</p>
+              <div class="row">
+                <div class="avatar" style="--a1:rgba(255,255,255,.4);--a2:rgba(255,255,255,.2)">张</div>
+                <div class="avatar" style="--a1:rgba(255,255,255,.35);--a2:rgba(255,255,255,.15)">李</div>
+                <div class="avatar" style="--a1:rgba(255,255,255,.3);--a2:rgba(255,255,255,.1)">王</div>
+                <span class="xs" style="opacity:.8">已有 3,200+ 家企业使用</span>
+              </div>
+            </div>
+          </div>
+          <div style="flex:1;display:flex;align-items:center;justify-content:center;padding:var(--sp-8)">
+            <div class="stack" style="width:min(360px,100%)">
+              <div class="stack-sm">
+                <h2 class="h2">欢迎回来</h2>
+                <p class="sub">登录管理员账号，继续管理企业福利</p>
+              </div>
+              <form data-validate data-success-toast="登录成功，正在进入工作台" style="display:flex;flex-direction:column;gap:var(--sp-4);margin-top:var(--sp-2)">
+                <div class="field">
+                  <label class="field-label">手机号<span class="req">*</span></label>
+                  <div class="input-icon">
+                    <span class="lead" data-icon="phone"></span>
+                    <input class="input" type="text" placeholder="请输入 11 位手机号" data-required data-type="phone" data-msg="请输入正确的手机号">
+                  </div>
+                  <span class="field-msg"></span>
+                </div>
+                <div class="field">
+                  <label class="field-label">密码<span class="req">*</span></label>
+                  <div class="input-icon">
+                    <span class="lead" data-icon="lock"></span>
+                    <input class="input" type="password" placeholder="8-20 位，含字母与数字" data-required data-min="8" data-max="20">
+                    <button type="button" class="btn btn-ghost btn-icon btn-sm trail" data-icon="eye-off" title="显示密码"></button>
+                  </div>
+                  <span class="field-msg"></span>
+                </div>
+                <div class="row-between">
+                  <label class="check"><input type="checkbox" checked><span class="box"></span>记住我</label>
+                  <a class="btn-link" href="javascript:void(0)">忘记密码？</a>
+                </div>
+                <button class="btn btn-primary btn-lg btn-block" type="submit" data-loading="1400" data-loading-done="欢迎回来">登 录</button>
+              </form>
+              <div class="row" style="gap:var(--sp-3)"><span class="divider" style="flex:1"></span><span class="xxl">其他方式</span><span class="divider" style="flex:1"></span></div>
+              <div class="row" style="justify-content:center;gap:var(--sp-3)">
+                <button class="btn btn-secondary btn-icon btn-lg" data-icon="message" title="企业微信登录"></button>
+                <button class="btn btn-secondary btn-icon btn-lg" data-icon="mail" title="邮箱登录"></button>
+                <button class="btn btn-secondary btn-icon btn-lg" data-icon="scan" title="扫码登录"></button>
+              </div>
+              <p class="xs" style="text-align:center">还没有账号？<a class="btn-link" href="javascript:void(0)">申请企业入驻</a></p>
+              <button class="btn btn-ghost btn-sm" data-goto="p0" data-icon="arrow-left" style="align-self:center;margin-top:var(--sp-2)">返回总览</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 侧栏（工作台页面复用结构） ================= -->
+
+      <!-- ================= P2 · 数据看板 ================= -->
+      <section class="page" id="p2" data-pid="P2" data-title="数据看板">
+        <div class="shell">
+          <aside class="sidebar">
+            <div class="side-logo"><span class="mark"><span data-icon="sparkles" class="ico-sm"></span></span><span class="name">温情智选</span></div>
+            <button class="nav-item" data-goto="p0"><span data-icon="home"></span>流程总览</button>
+            <div class="side-group">工作台</div>
+            <button class="nav-item is-active" data-goto="p2"><span data-icon="chart"></span>数据看板</button>
+            <button class="nav-item" data-goto="p3"><span data-icon="gift"></span>积分发放</button>
+            <button class="nav-item" data-goto="p4"><span data-icon="cart"></span>福利商城</button>
+            <div class="side-group">管理</div>
+            <button class="nav-item" data-goto="p5"><span data-icon="alert-triangle"></span>异常与状态</button>
+            <button class="nav-item" data-goto="p7"><span data-icon="layers"></span>组件规范</button>
+            <div class="side-foot">
+              <div class="row">
+                <span class="avatar avatar-sm" style="--a1:#f59e0b;--a2:#ef4444">管</span>
+                <div style="min-width:0"><div class="xs strong" style="color:var(--text-1)">管理员</div><div class="xxl">福利运营组</div></div>
+                <span class="spacer"></span>
+                <button class="btn btn-ghost btn-icon btn-sm" data-icon="log-out" title="退出登录"></button>
+              </div>
+            </div>
+          </aside>
+          <div class="main">
+            <header class="topbar">
+              <button class="btn btn-ghost btn-icon btn-sm topbar-menu-btn" data-sidebar-toggle data-icon="menu"></button>
+              <span class="topbar-title">数据看板</span>
+              <span class="spacer"></span>
+              <div class="input-icon" style="width:220px"><span class="lead" data-icon="search"></span><input class="input" style="height:32px" placeholder="搜索…"></div>
+              <button class="btn btn-ghost btn-icon" data-icon="bell" style="position:relative"><span class="badge badge-num">5</span></button>
+              <button class="btn btn-primary btn-sm" data-modal-open="modal-give" data-icon="plus">发放积分</button>
+            </header>
+            <div class="content">
+              <div class="content-inner stack-lg">
+                <div class="row-wrap">
+                  <div class="crumb"><a href="javascript:void(0)" data-goto="p0">首页</a><span class="sep">/</span><span class="cur">数据看板</span></div>
+                  <span class="spacer"></span>
+                  <div class="seg" data-seg style="display:inline-flex">
+                    <span class="seg-thumb"></span>
+                    <button class="seg-item is-on" type="button">近 7 天</button>
+                    <button class="seg-item" type="button">近 30 天</button>
+                    <button class="seg-item" type="button">本季度</button>
+                  </div>
+                </div>
+
+                <div class="grid stagger">
+                  <div class="col-3 col-sm-12"><div class="stat hover-lift">
+                    <div class="row-between"><span class="stat-label">累计发放积分</span><span class="stat-icon" data-icon="wallet"></span></div>
+                    <div class="stat-value num" data-count-to="1285600">0</div>
+                    <span class="stat-delta up"><span data-icon="trending-up" class="ico-sm"></span>12.4% 环比</span>
+                  </div></div>
+                  <div class="col-3 col-sm-12"><div class="stat hover-lift">
+                    <div class="row-between"><span class="stat-label">本月活跃员工</span><span class="stat-icon" data-icon="users"></span></div>
+                    <div class="stat-value num" data-count-to="8642">0</div>
+                    <span class="stat-delta up"><span data-icon="trending-up" class="ico-sm"></span>5.1% 环比</span>
+                  </div></div>
+                  <div class="col-3 col-sm-12"><div class="stat hover-lift">
+                    <div class="row-between"><span class="stat-label">积分兑换率</span><span class="stat-icon" data-icon="target"></span></div>
+                    <div class="stat-value num" data-count-to="76.8" data-decimals="1" data-suffix="%">0</div>
+                    <span class="stat-delta down"><span data-icon="trending-down" class="ico-sm"></span>1.2% 环比</span>
+                  </div></div>
+                  <div class="col-3 col-sm-12"><div class="stat hover-lift">
+                    <div class="row-between"><span class="stat-label">福利满意度</span><span class="stat-icon" data-icon="thumbs-up"></span></div>
+                    <div class="stat-value num" data-count-to="4.8" data-decimals="1" data-suffix=" / 5">0</div>
+                    <span class="rating" style="margin-top:4px">
+                      <span data-icon="star"></span><span data-icon="star"></span><span data-icon="star"></span><span data-icon="star"></span><span data-icon="star"></span>
+                      <span class="rv">3,214 评价</span>
+                    </span>
+                  </div></div>
+                </div>
+
+                <div class="grid">
+                  <div class="col-8 col-lg-12">
+                    <div class="card">
+                      <div class="card-hd"><div><div class="card-title">积分发放趋势</div><div class="card-sub">近 7 天发放量（万分）</div></div><span class="spacer"></span>
+                        <button class="btn btn-ghost btn-icon btn-sm" data-icon="download" title="导出"></button>
+                      </div>
+                      <div class="card-bd">
+                        <div class="chart-bars">
+                          <div class="chart-bar"><span class="bv">8.2</span><div class="bar" style="height:52%"></div><span class="bl">周一</span></div>
+                          <div class="chart-bar"><span class="bv">9.6</span><div class="bar" style="height:61%"></div><span class="bl">周二</span></div>
+                          <div class="chart-bar"><span class="bv">7.4</span><div class="bar" style="height:47%"></div><span class="bl">周三</span></div>
+                          <div class="chart-bar is-max"><span class="bv">15.1</span><div class="bar" style="height:95%"></div><span class="bl">周四</span></div>
+                          <div class="chart-bar"><span class="bv">11.8</span><div class="bar" style="height:74%"></div><span class="bl">周五</span></div>
+                          <div class="chart-bar"><span class="bv">4.3</span><div class="bar" style="height:27%"></div><span class="bl">周六</span></div>
+                          <div class="chart-bar"><span class="bv">3.9</span><div class="bar" style="height:24%"></div><span class="bl">周日</span></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-4 col-lg-12">
+                    <div class="card" style="height:100%">
+                      <div class="card-hd"><span class="card-title">兑换品类分布</span></div>
+                      <div class="card-bd stack">
+                        <div class="center">
+                          <div class="donut-wrap">
+                            <svg class="donut-track" width="150" height="150" viewBox="0 0 120 120">
+                              <circle class="tr" cx="60" cy="60" r="48"></circle>
+                              <circle class="seg1" cx="60" cy="60" r="48" stroke-dasharray="135 302" stroke-dashoffset="0"></circle>
+                              <circle class="seg1" cx="60" cy="60" r="48" stroke-dasharray="90 302" stroke-dashoffset="-135" style="stroke:var(--accent,#00c2d1)"></circle>
+                              <circle class="seg1" cx="60" cy="60" r="48" stroke-dasharray="45 302" stroke-dashoffset="-225" style="stroke:var(--warning)"></circle>
+                              <circle class="seg1" cx="60" cy="60" r="48" stroke-dasharray="32 302" stroke-dashoffset="-270" style="stroke:var(--info)"></circle>
+                            </svg>
+                            <div class="donut-center"><div class="dv num">42%</div><div class="dl">数码潮品</div></div>
+                          </div>
+                        </div>
+                        <div class="chart-legend" style="justify-content:center">
+                          <span class="lg"><span class="sw" style="background:var(--brand-500)"></span>数码潮品 42%</span>
+                          <span class="lg"><span class="sw" style="background:var(--accent,#00c2d1)"></span>美食饮品 28%</span>
+                          <span class="lg"><span class="sw" style="background:var(--warning)"></span>生活服务 14%</span>
+                          <span class="lg"><span class="sw" style="background:var(--info)"></span>其他 16%</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="grid">
+                  <div class="col-5 col-lg-12">
+                    <div class="card" style="height:100%">
+                      <div class="card-hd"><span class="card-title">部门发放排行</span><span class="spacer"></span><span class="tag tag-outline">本周</span></div>
+                      <div class="card-bd" style="padding-top:var(--sp-2)">
+                        <div class="stack-sm">
+                          <div class="list-item" style="border:0;padding:10px 0">
+                            <span class="tag tag-brand">1</span>
+                            <div class="li-main"><div class="li-title">研发中心</div><div class="progress progress-thin" style="margin-top:6px"><div class="progress-bar" data-progress="92" style="width:0"></div></div></div>
+                            <span class="li-meta num">92.4 万</span>
+                          </div>
+                          <div class="list-item" style="border:0;padding:10px 0">
+                            <span class="tag">2</span>
+                            <div class="li-main"><div class="li-title">市场营销部</div><div class="progress progress-thin" style="margin-top:6px"><div class="progress-bar" data-progress="78" style="width:0"></div></div></div>
+                            <span class="li-meta num">78.1 万</span>
+                          </div>
+                          <div class="list-item" style="border:0;padding:10px 0">
+                            <span class="tag">3</span>
+                            <div class="li-main"><div class="li-title">客户成功部</div><div class="progress progress-thin" style="margin-top:6px"><div class="progress-bar" data-progress="65" style="width:0"></div></div></div>
+                            <span class="li-meta num">65.7 万</span>
+                          </div>
+                          <div class="list-item" style="border:0;padding:10px 0">
+                            <span class="tag">4</span>
+                            <div class="li-main"><div class="li-title">人力资源部</div><div class="progress progress-thin" style="margin-top:6px"><div class="progress-bar" data-progress="51" style="width:0"></div></div></div>
+                            <span class="li-meta num">51.2 万</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-7 col-lg-12">
+                    <div class="card" style="height:100%">
+                      <div class="card-hd"><span class="card-title">最近动态</span><span class="spacer"></span><a class="btn-link" href="javascript:void(0)">查看全部</a></div>
+                      <div class="card-bd">
+                        <div class="timeline">
+                          <div class="tl-item done"><div class="tl-time">10:24</div><div class="tl-title">向研发中心批量发放 5,200 积分</div><div class="tl-desc">操作人：管理员 · 审批已通过</div></div>
+                          <div class="tl-item done"><div class="tl-time">09:57</div><div class="tl-title">「参与半」口腔护理礼盒上架商城</div><div class="tl-desc">供应商：参半官方旗舰店</div></div>
+                          <div class="tl-item"><div class="tl-time">09:30</div><div class="tl-title">中秋福利方案进入审批流</div><div class="tl-desc">审批人：王总 · 待处理</div></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= P3 · 积分发放（表格） ================= -->
+      <section class="page" id="p3" data-pid="P3" data-title="积分发放">
+        <div class="shell">
+          <aside class="sidebar">
+            <div class="side-logo"><span class="mark"><span data-icon="sparkles" class="ico-sm"></span></span><span class="name">温情智选</span></div>
+            <button class="nav-item" data-goto="p0"><span data-icon="home"></span>流程总览</button>
+            <div class="side-group">工作台</div>
+            <button class="nav-item" data-goto="p2"><span data-icon="chart"></span>数据看板</button>
+            <button class="nav-item is-active" data-goto="p3"><span data-icon="gift"></span>积分发放</button>
+            <button class="nav-item" data-goto="p4"><span data-icon="cart"></span>福利商城</button>
+            <div class="side-group">管理</div>
+            <button class="nav-item" data-goto="p5"><span data-icon="alert-triangle"></span>异常与状态</button>
+            <button class="nav-item" data-goto="p7"><span data-icon="layers"></span>组件规范</button>
+          </aside>
+          <div class="main">
+            <header class="topbar">
+              <button class="btn btn-ghost btn-icon btn-sm topbar-menu-btn" data-sidebar-toggle data-icon="menu"></button>
+              <span class="topbar-title">积分发放</span>
+              <span class="spacer"></span>
+              <button class="btn btn-primary btn-sm" data-modal-open="modal-give" data-icon="plus">新建发放</button>
+            </header>
+            <div class="content">
+              <div class="content-inner stack">
+                <div class="table-wrap">
+                  <div class="table-toolbar">
+                    <div class="input-icon" style="width:240px"><span class="lead" data-icon="search"></span><input class="input" style="height:32px" placeholder="搜索姓名 / 工号"></div>
+                    <button class="chip" data-sheet-open="sheet-filter" type="button"><span data-icon="filter" class="ico-sm"></span>筛选<span class="cnt">2</span></button>
+                    <button class="chip" type="button">研发中心<span data-icon="x" class="ico-sm"></span></button>
+                    <span class="spacer"></span>
+                    <button class="btn btn-secondary btn-sm" data-icon="upload">导出</button>
+                    <button class="btn btn-danger-ghost btn-sm" data-toast="已撤销选中的 2 条发放记录" data-toast-type="warn" data-icon="trash">批量撤销</button>
+                  </div>
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th style="width:40px"><label class="check"><input type="checkbox" data-select-all><span class="box"></span></label></th>
+                        <th>员工</th>
+                        <th>部门</th>
+                        <th>福利项目</th>
+                        <th class="num-cell sortable" data-sort>积分<span class="sort-ic" data-icon="chevron-down"></span></th>
+                        <th>状态</th>
+                        <th class="sortable" data-sort>发放时间<span class="sort-ic" data-icon="chevron-down"></span></th>
+                        <th style="width:56px"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><label class="check"><input type="checkbox"><span class="box"></span></label></td>
+                        <td><div class="row"><span class="avatar avatar-sm" style="--a1:#60a5fa;--a2:#3d5afe">陈</span><span class="td-strong">陈晓明</span></div></td>
+                        <td>研发中心</td>
+                        <td>季度绩效奖励</td>
+                        <td class="num-cell td-strong">+2,000</td>
+                        <td><span class="tag tag-success">已到账</span></td>
+                        <td class="muted">2026-09-18 10:24</td>
+                        <td><button class="btn btn-ghost btn-icon btn-sm" data-icon="more-h" data-menu-open="menu-row"></button></td>
+                      </tr>
+                      <tr>
+                        <td><label class="check"><input type="checkbox"><span class="box"></span></label></td>
+                        <td><div class="row"><span class="avatar avatar-sm" style="--a1:#34d399;--a2:#059669">林</span><span class="td-strong">林晚</span></div></td>
+                        <td>市场营销部</td>
+                        <td>生日关怀</td>
+                        <td class="num-cell td-strong">+500</td>
+                        <td><span class="tag tag-success">已到账</span></td>
+                        <td class="muted">2026-09-18 09:12</td>
+                        <td><button class="btn btn-ghost btn-icon btn-sm" data-icon="more-h" data-menu-open="menu-row"></button></td>
+                      </tr>
+                      <tr>
+                        <td><label class="check"><input type="checkbox"><span class="box"></span></label></td>
+                        <td><div class="row"><span class="avatar avatar-sm" style="--a1:#fbbf24;--a2:#d97706">周</span><span class="td-strong">周子航</span></div></td>
+                        <td>客户成功部</td>
+                        <td>项目里程碑</td>
+                        <td class="num-cell td-strong">+3,500</td>
+                        <td><span class="tag tag-warning">审批中</span></td>
+                        <td class="muted">2026-09-17 18:40</td>
+                        <td><button class="btn btn-ghost btn-icon btn-sm" data-icon="more-h" data-menu-open="menu-row"></button></td>
+                      </tr>
+                      <tr>
+                        <td><label class="check"><input type="checkbox"><span class="box"></span></label></td>
+                        <td><div class="row"><span class="avatar avatar-sm" style="--a1:#f472b6;--a2:#db2777">吴</span><span class="td-strong">吴思远</span></div></td>
+                        <td>人力资源部</td>
+                        <td>全员节日福利</td>
+                        <td class="num-cell td-strong">+800</td>
+                        <td><span class="tag tag-danger">已驳回</span></td>
+                        <td class="muted">2026-09-17 14:05</td>
+                        <td><button class="btn btn-ghost btn-icon btn-sm" data-icon="more-h" data-menu-open="menu-row"></button></td>
+                      </tr>
+                      <tr>
+                        <td><label class="check"><input type="checkbox"><span class="box"></span></label></td>
+                        <td><div class="row"><span class="avatar avatar-sm" style="--a1:#a78bfa;--a2:#7c3aed">郑</span><span class="td-strong">郑雨桐</span></div></td>
+                        <td>研发中心</td>
+                        <td>季度绩效奖励</td>
+                        <td class="num-cell td-strong">+2,000</td>
+                        <td><span class="tag tag-success">已到账</span></td>
+                        <td class="muted">2026-09-16 11:32</td>
+                        <td><button class="btn btn-ghost btn-icon btn-sm" data-icon="more-h" data-menu-open="menu-row"></button></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div class="table-foot">
+                    <span class="xs">共 1,284 条 · 已选 0 条</span>
+                    <div class="pagination">
+                      <button class="page-btn" disabled data-icon="chevron-left"></button>
+                      <button class="page-btn is-on" type="button">1</button>
+                      <button class="page-btn" type="button">2</button>
+                      <button class="page-btn" type="button">3</button>
+                      <span class="page-btn" style="border:0;cursor:default">…</span>
+                      <button class="page-btn" type="button">43</button>
+                      <button class="page-btn" data-icon="chevron-right"></button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= P4 · 福利商城 ================= -->
+      <section class="page" id="p4" data-pid="P4" data-title="福利商城">
+        <div class="shell">
+          <aside class="sidebar">
+            <div class="side-logo"><span class="mark"><span data-icon="sparkles" class="ico-sm"></span></span><span class="name">温情智选</span></div>
+            <button class="nav-item" data-goto="p0"><span data-icon="home"></span>流程总览</button>
+            <div class="side-group">工作台</div>
+            <button class="nav-item" data-goto="p2"><span data-icon="chart"></span>数据看板</button>
+            <button class="nav-item" data-goto="p3"><span data-icon="gift"></span>积分发放</button>
+            <button class="nav-item is-active" data-goto="p4"><span data-icon="cart"></span>福利商城</button>
+            <div class="side-group">管理</div>
+            <button class="nav-item" data-goto="p5"><span data-icon="alert-triangle"></span>异常与状态</button>
+            <button class="nav-item" data-goto="p7"><span data-icon="layers"></span>组件规范</button>
+          </aside>
+          <div class="main">
+            <header class="topbar">
+              <button class="btn btn-ghost btn-icon btn-sm topbar-menu-btn" data-sidebar-toggle data-icon="menu"></button>
+              <span class="topbar-title">福利商城</span>
+              <span class="spacer"></span>
+              <div class="row" style="gap:var(--sp-2)">
+                <span class="stat-icon" style="width:30px;height:30px" data-icon="wallet"></span>
+                <span class="num strong">12,560</span><span class="xs">可用积分</span>
+              </div>
+              <button class="btn btn-ghost btn-icon" data-icon="cart" style="position:relative"><span class="badge badge-num">3</span></button>
+            </header>
+            <div class="content">
+              <div class="content-inner stack-lg">
+                <div class="coupon stagger">
+                  <div class="coupon-left"><span class="cv">¥50</span><span class="cl">商城通用券</span></div>
+                  <div class="coupon-right">
+                    <span class="coupon-title">满 299 元可用</span>
+                    <span class="coupon-cond">有效期至 2026-09-30 · 全品类可用</span>
+                    <span class="spacer"></span>
+                    <div class="row">
+                      <span class="xs">距失效</span>
+                      <span class="countdown hot" data-countdown="86400"><span class="cd-cell cd-h">23</span><span class="cd-colon">:</span><span class="cd-cell cd-m">59</span><span class="cd-colon">:</span><span class="cd-cell cd-s">59</span></span>
+                      <span class="spacer"></span>
+                      <button class="btn btn-primary btn-sm" data-loading="900" data-loading-done="领取成功，已放入卡包">立即领取</button>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <div class="row-between" style="margin-bottom:var(--sp-4)">
+                    <div class="row"><span class="h4">限时秒杀</span><span class="countdown" data-countdown="4529"><span class="cd-cell cd-h">01</span><span class="cd-colon">:</span><span class="cd-cell cd-m">15</span><span class="cd-colon">:</span><span class="cd-cell cd-s">29</span></span></div>
+                    <a class="btn-link" href="javascript:void(0)">更多好物 →</a>
+                  </div>
+                  <div class="grid stagger">
+                    <div class="col-3 col-sm-12">
+                      <div class="product-card">
+                        <div class="product-media">
+                          <span class="tag-off m-tag">省 ¥120</span>
+                          <button class="m-fav" data-fav data-icon="heart"></button>
+                          <div class="media-inner ph" style="border-radius:0"><span data-icon="headphones" class="ico-xl"></span></div>
+                        </div>
+                        <div class="product-info">
+                          <span class="product-name clamp-2">无线降噪耳机 Pro · 40h 续航</span>
+                          <div class="rating"><span data-icon="star"></span><span data-icon="star"></span><span data-icon="star"></span><span data-icon="star"></span><span data-icon="star"></span><span class="rv">4.9 · 2.3k</span></div>
+                          <div class="price-row"><span class="price price-lg">1,299</span><span class="price-old">1,419</span><span class="sold">已兑 86%</span></div>
+                          <button class="btn btn-primary btn-sm btn-block" data-loading="1000" data-loading-done="已加入兑换清单">立即兑换</button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-3 col-sm-12">
+                      <div class="product-card">
+                        <div class="product-media">
+                          <span class="tag-off m-tag">新品</span>
+                          <button class="m-fav" data-fav data-icon="heart"></button>
+                          <div class="media-inner ph" style="border-radius:0"><span data-icon="gift" class="ico-xl"></span></div>
+                        </div>
+                        <div class="product-info">
+                          <span class="product-name clamp-2">参半 口腔护理礼盒（节日限定）</span>
+                          <div class="rating"><span data-icon="star"></span><span data-icon="star"></span><span data-icon="star"></span><span data-icon="star"></span><span data-icon="star" class="is-off"></span><span class="rv">4.7 · 861</span></div>
+                          <div class="price-row"><span class="price price-lg">399</span><span class="sold">已兑 42%</span></div>
+                          <button class="btn btn-primary btn-sm btn-block" data-loading="1000" data-loading-done="已加入兑换清单">立即兑换</button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-3 col-sm-12">
+                      <div class="product-card">
+                        <div class="product-media">
+                          <button class="m-fav is-on" data-fav data-icon="heart"></button>
+                          <div class="media-inner ph" style="border-radius:0"><span data-icon="box" class="ico-xl"></span></div>
+                        </div>
+                        <div class="product-info">
+                          <span class="product-name clamp-2">柚家 竹纤维柔纸巾 24 包整箱</span>
+                          <div class="rating"><span data-icon="star"></span><span data-icon="star"></span><span data-icon="star"></span><span data-icon="star"></span><span data-icon="star"></span><span class="rv">5.0 · 5.1k</span></div>
+                          <div class="price-row"><span class="price price-lg">89</span><span class="price-old">108</span><span class="sold">已兑 93%</span></div>
+                          <button class="btn btn-primary btn-sm btn-block" data-toast="库存紧张，已加入候补清单" data-toast-type="warn">候补兑换</button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-3 col-sm-12">
+                      <div class="product-card">
+                        <div class="product-media">
+                          <span class="tag-off m-tag">直降 200</span>
+                          <button class="m-fav" data-fav data-icon="heart"></button>
+                          <div class="media-inner ph" style="border-radius:0"><span data-icon="zap" class="ico-xl"></span></div>
+                        </div>
+                        <div class="product-info">
+                          <span class="product-name clamp-2">智能按摩颈枕 · 升级恒温热敷</span>
+                          <div class="rating"><span data-icon="star"></span><span data-icon="star"></span><span data-icon="star"></span><span data-icon="star"></span><span data-icon="star" class="is-off"></span><span class="rv">4.5 · 392</span></div>
+                          <div class="price-row"><span class="price price-lg">599</span><span class="price-old">799</span><span class="sold">已兑 67%</span></div>
+                          <button class="btn btn-primary btn-sm btn-block" data-loading="1000" data-loading-done="已加入兑换清单">立即兑换</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="grid">
+                  <div class="col-6 col-lg-12">
+                    <div class="card">
+                      <div class="card-hd"><span class="card-title">兑换效率</span></div>
+                      <div class="card-bd stack">
+                        <div class="row-between"><span class="body">数码潮品</span><span class="num strong">86%</span></div>
+                        <div class="progress"><div class="progress-bar" data-progress="86" style="width:0"></div></div>
+                        <div class="row-between"><span class="body">美食饮品</span><span class="num strong">72%</span></div>
+                        <div class="progress"><div class="progress-bar" data-progress="72" style="width:0"></div></div>
+                        <div class="row-between"><span class="body">生活服务</span><span class="num strong">54%</span></div>
+                        <div class="progress"><div class="progress-bar" data-progress="54" style="width:0"></div></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-6 col-lg-12">
+                    <div class="card">
+                      <div class="card-hd"><span class="card-title">7 日兑换趋势</span></div>
+                      <div class="card-bd">
+                        <svg class="sparkline" viewBox="0 0 320 96" width="100%" height="96" preserveAspectRatio="none">
+                          <defs><linearGradient id="spg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--brand-500)" stop-opacity=".22"/><stop offset="1" stop-color="var(--brand-500)" stop-opacity="0"/></linearGradient></defs>
+                          <path class="area" fill="url(#spg)" d="M0,72 L45,60 L90,66 L135,40 L180,48 L225,24 L270,32 L320,12 L320,96 L0,96 Z"></path>
+                          <polyline class="line" points="0,72 45,60 90,66 135,40 180,48 225,24 270,32 320,12"></polyline>
+                          <circle class="dot" cx="320" cy="12" r="3.5"></circle>
+                        </svg>
+                        <div class="chart-legend"><span class="lg">兑换量（单）</span><span class="lg" style="margin-left:auto"><span class="num strong">今日 1,284</span></span></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= P5 · 异常与状态 ================= -->
+      <section class="page" id="p5" data-pid="P5" data-title="异常与状态">
+        <div class="shell">
+          <aside class="sidebar">
+            <div class="side-logo"><span class="mark"><span data-icon="sparkles" class="ico-sm"></span></span><span class="name">温情智选</span></div>
+            <button class="nav-item" data-goto="p0"><span data-icon="home"></span>流程总览</button>
+            <div class="side-group">工作台</div>
+            <button class="nav-item" data-goto="p2"><span data-icon="chart"></span>数据看板</button>
+            <button class="nav-item" data-goto="p3"><span data-icon="gift"></span>积分发放</button>
+            <button class="nav-item" data-goto="p4"><span data-icon="cart"></span>福利商城</button>
+            <div class="side-group">管理</div>
+            <button class="nav-item is-active" data-goto="p5"><span data-icon="alert-triangle"></span>异常与状态</button>
+            <button class="nav-item" data-goto="p7"><span data-icon="layers"></span>组件规范</button>
+          </aside>
+          <div class="main">
+            <header class="topbar">
+              <button class="btn btn-ghost btn-icon btn-sm topbar-menu-btn" data-sidebar-toggle data-icon="menu"></button>
+              <span class="topbar-title">异常与状态</span>
+            </header>
+            <div class="content">
+              <div class="content-inner stack-lg">
+                <div class="grid">
+                  <div class="col-6 col-lg-12"><div class="card" style="height:100%"><div class="card-bd">
+                    <div class="empty">
+                      <svg class="empty-illus" viewBox="0 0 132 96" fill="none">
+                        <rect x="26" y="14" width="80" height="60" rx="8" fill="var(--illus-1)"/>
+                        <rect x="26" y="14" width="80" height="60" rx="8" stroke="var(--illus-2)"/>
+                        <path d="M48 44l10 10 20-22" stroke="var(--illus-3)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="6 8"/>
+                        <circle cx="100" cy="66" r="14" fill="var(--illus-2)"/>
+                        <path d="M94 66h12M100 60v12" stroke="var(--surface)" stroke-width="3" stroke-linecap="round"/>
+                      </svg>
+                      <div class="empty-title">还没有发放记录</div>
+                      <div class="empty-desc">第一次发放前，需要先在「预算管理」中配置本季度福利预算。</div>
+                      <div class="row">
+                        <button class="btn btn-primary" data-icon="plus">立即配置</button>
+                        <button class="btn btn-secondary">查看指引</button>
+                      </div>
+                    </div>
+                  </div></div></div>
+                  <div class="col-6 col-lg-12"><div class="card" style="height:100%"><div class="card-bd stack">
+                    <span class="card-title">骨架屏加载（点击按钮预览）</span>
+                    <div class="row">
+                      <span class="skeleton sk-avatar"></span>
+                      <div class="stack-sm" style="flex:1">
+                        <span class="skeleton sk-line" style="width:44%"></span>
+                        <span class="skeleton sk-line" style="width:78%"></span>
+                      </div>
+                    </div>
+                    <span class="skeleton sk-title"></span>
+                    <span class="skeleton sk-line"></span>
+                    <span class="skeleton sk-line" style="width:88%"></span>
+                    <span class="skeleton sk-block"></span>
+                    <button class="btn btn-secondary btn-sm" data-skeleton="p5" data-skeleton-ms="1800" data-icon="refresh">重新加载整页数据</button>
+                  </div></div></div>
+                </div>
+
+                <div class="grid">
+                  <div class="col-6 col-lg-12"><div class="stack">
+                    <div class="alert alert-info"><span class="a-ic" data-icon="info"></span><div><div class="a-title">提示</div><div class="a-body">积分发放后 24 小时内支持整单撤销，撤销不消耗预算。</div></div></div>
+                    <div class="alert alert-success"><span class="a-ic" data-icon="check-circle"></span><div><div class="a-title">发放成功</div><div class="a-body">2,000 积分已发放至陈晓明账户，员工将在 5 分钟内收到通知。</div></div></div>
+                    <div class="alert alert-warning"><span class="a-ic" data-icon="alert-triangle"></span><div><div class="a-title">预算不足</div><div class="a-body">本季度预算余额 12,400 分，低于本次发放需求 15,000 分。</div></div></div>
+                    <div class="alert alert-danger"><span class="a-ic" data-icon="x-circle"></span><div><div class="a-title">操作失败</div><div class="a-body">供应商接口超时，请稍后重试或联系技术支持。</div></div></div>
+                  </div></div>
+                  <div class="col-6 col-lg-12"><div class="card" style="height:100%"><div class="card-bd stack">
+                    <span class="card-title">权限不足</span>
+                    <div class="empty" style="padding:var(--sp-6) var(--sp-4)">
+                      <svg class="empty-illus" viewBox="0 0 132 96" fill="none" style="width:96px;height:72px">
+                        <rect x="30" y="40" width="72" height="44" rx="10" fill="var(--illus-1)" stroke="var(--illus-2)"/>
+                        <path d="M44 40v-8a22 22 0 0 1 44 0v8" stroke="var(--illus-3)" stroke-width="5" stroke-linecap="round" fill="none"/>
+                        <circle cx="66" cy="60" r="5" fill="var(--illus-3)"/>
+                        <path d="M66 63v8" stroke="var(--illus-3)" stroke-width="4" stroke-linecap="round"/>
+                      </svg>
+                      <div class="empty-title">暂无发放权限</div>
+                      <div class="empty-desc">该操作需要「福利管理员」角色，已向王总发送申请。</div>
+                      <button class="btn btn-secondary btn-sm" data-toast="已重新提交权限申请">重新申请</button>
+                    </div>
+                  </div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= P6 · 移动端 App ================= -->
+      <section class="page" id="p6" data-pid="P6" data-title="移动端 App">
+        <div class="app-hero">
+          <div class="row-between">
+            <div><div class="hero-hi">早上好，陈晓明</div><div class="hero-sub">9 月已获 2,600 福利积分</div></div>
+            <div class="avatar avatar-lg" style="--a1:rgba(255,255,255,.35);--a2:rgba(255,255,255,.18)">陈</div>
+          </div>
+          <div class="hero-card">
+            <div class="row-between">
+              <div><div class="xs" style="opacity:.85">可用积分</div><div class="num" style="font-size:var(--fs-3xl);font-weight:var(--fw-bold);letter-spacing:-.02em">12,560</div></div>
+              <button class="hero-chip" data-toast="积分明细已在路上" data-icon="arrow-right">明细</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="content stack" style="padding-top:var(--sp-4)">
+          <div class="grid" style="grid-template-columns:repeat(4,1fr);gap:var(--sp-2)">
+            <button class="press stack-sm" style="align-items:center;padding:var(--sp-3) 0" data-goto="p4">
+              <span class="stat-icon" data-icon="gift"></span><span class="xs" style="color:var(--text-2)">去兑换</span>
+            </button>
+            <button class="press stack-sm" style="align-items:center;padding:var(--sp-3) 0" data-toast="签到成功 +20 积分">
+              <span class="stat-icon" data-icon="calendar"></span><span class="xs" style="color:var(--text-2)">签到</span>
+            </button>
+            <button class="press stack-sm" style="align-items:center;padding:var(--sp-3) 0" data-toast="已打开任务中心">
+              <span class="stat-icon" data-icon="target"></span><span class="xs" style="color:var(--text-2)">做任务</span>
+            </button>
+            <button class="press stack-sm" style="align-items:center;padding:var(--sp-3) 0" data-toast="卡券包已更新">
+              <span class="stat-icon" data-icon="ticket"></span><span class="xs" style="color:var(--text-2)">卡券包</span>
+            </button>
+          </div>
+
+          <div class="notice-bar"><span data-icon="bell" class="ico-sm"></span><span class="nb-text">中秋福利方案已上线，9 月 30 日前可一键领取节日礼包</span></div>
+
+          <div>
+            <div class="row-between" style="margin-bottom:var(--sp-2)"><span class="h4">限时兑换</span><a class="btn-link xs" href="javascript:void(0)">全部</a></div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-3)">
+              <div class="product-card">
+                <div class="product-media"><div class="media-inner ph" style="border-radius:0"><span data-icon="headphones" class="ico-lg"></span></div></div>
+                <div class="product-info">
+                  <span class="product-name clamp-2">无线降噪耳机 Pro</span>
+                  <div class="price-row"><span class="price">1,299</span></div>
+                </div>
+              </div>
+              <div class="product-card">
+                <div class="product-media"><div class="media-inner ph" style="border-radius:0"><span data-icon="gift" class="ico-lg"></span></div></div>
+                <div class="product-info">
+                  <span class="product-name clamp-2">参半 口腔护理礼盒</span>
+                  <div class="price-row"><span class="price">399</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="cell-group">
+            <div class="cell" data-toast="已打开全部订单">
+              <span class="stat-icon" data-icon="box"></span>
+              <div class="cell-main"><div class="cell-title">我的订单</div><div class="cell-desc">2 个包裹运输中</div></div>
+              <span class="cell-arrow" data-icon="chevron-right"></span>
+            </div>
+            <div class="cell" data-toast="已打开收货地址">
+              <span class="stat-icon" data-icon="map-pin"></span>
+              <div class="cell-main"><div class="cell-title">收货地址</div><div class="cell-desc">北京市 · 朝阳区</div></div>
+              <span class="cell-arrow" data-icon="chevron-right"></span>
+            </div>
+            <div class="cell" data-toast="已打开客服会话">
+              <span class="stat-icon" data-icon="headphones"></span>
+              <div class="cell-main"><div class="cell-title">联系客服</div><div class="cell-desc">工作日 9:00-21:00 在线</div></div>
+              <span class="cell-arrow" data-icon="chevron-right"></span>
+            </div>
+          </div>
+
+          <button class="fab" data-sheet-open="sheet-filter" data-icon="filter" title="筛选"></button>
+        </div>
+
+        <nav class="tabbar">
+          <div class="tabbar-inner">
+            <button class="tabbar-item is-active" data-icon="home">首页</button>
+            <button class="tabbar-item" data-goto="p4" data-icon="grid">商城</button>
+            <button class="tabbar-item" data-icon="plus" data-toast="发布动态（V2.0 社交模块）"><span class="fab-slot"><span data-icon="plus"></span></span></button>
+            <button class="tabbar-item" data-icon="message">消息<span class="badge badge-num">5</span></button>
+            <button class="tabbar-item" data-icon="user">我的</button>
+          </div>
+        </nav>
+      </section>
+
+      <!-- ================= P7 · 组件规范 ================= -->
+      <section class="page" id="p7" data-pid="P7" data-title="组件规范">
+        <div class="shell">
+          <aside class="sidebar">
+            <div class="side-logo"><span class="mark"><span data-icon="sparkles" class="ico-sm"></span></span><span class="name">温情智选</span></div>
+            <button class="nav-item" data-goto="p0"><span data-icon="home"></span>流程总览</button>
+            <div class="side-group">工作台</div>
+            <button class="nav-item" data-goto="p2"><span data-icon="chart"></span>数据看板</button>
+            <button class="nav-item" data-goto="p3"><span data-icon="gift"></span>积分发放</button>
+            <button class="nav-item" data-goto="p4"><span data-icon="cart"></span>福利商城</button>
+            <div class="side-group">管理</div>
+            <button class="nav-item" data-goto="p5"><span data-icon="alert-triangle"></span>异常与状态</button>
+            <button class="nav-item is-active" data-goto="p7"><span data-icon="layers"></span>组件规范</button>
+          </aside>
+          <div class="main">
+            <header class="topbar">
+              <button class="btn btn-ghost btn-icon btn-sm topbar-menu-btn" data-sidebar-toggle data-icon="menu"></button>
+              <span class="topbar-title">组件规范（活文档）</span>
+              <span class="spacer"></span>
+              <div class="tabs" data-tabs>
+                <button class="tab is-on" data-tab="token">令牌</button>
+                <button class="tab" data-tab="comp">组件</button>
+              </div>
+            </header>
+            <div class="content">
+              <div class="content-inner">
+                <div class="tab-panels" id="comp-panels">
+                  <div class="tab-panel is-on" data-panel="token">
+                    <div class="stack-lg">
+                      <div class="card"><div class="card-hd"><span class="card-title">色彩令牌</span><span class="card-sub">切换右上角主题实时对比</span></div><div class="card-bd">
+                        <div class="grid">
+                          <div class="col-3 col-sm-12"><div class="stack-sm"><div class="ph" style="height:64px;background:var(--brand-500);border-radius:var(--radius-md)"></div><span class="xs">--brand-500 主色</span></div></div>
+                          <div class="col-3 col-sm-12"><div class="stack-sm"><div class="ph" style="height:64px;background:var(--grad-brand);border-radius:var(--radius-md)"></div><span class="xs">--grad-brand 渐变</span></div></div>
+                          <div class="col-3 col-sm-12"><div class="stack-sm"><div class="ph" style="height:64px;background:var(--success);border-radius:var(--radius-md)"></div><span class="xs">--success 成功</span></div></div>
+                          <div class="col-3 col-sm-12"><div class="stack-sm"><div class="ph" style="height:64px;background:var(--danger);border-radius:var(--radius-md)"></div><span class="xs">--danger 危险</span></div></div>
+                          <div class="col-3 col-sm-12"><div class="stack-sm"><div class="ph" style="height:64px;background:var(--warning);border-radius:var(--radius-md)"></div><span class="xs">--warning 警告</span></div></div>
+                          <div class="col-3 col-sm-12"><div class="stack-sm"><div class="ph" style="height:64px;background:var(--info);border-radius:var(--radius-md)"></div><span class="xs">--info 信息</span></div></div>
+                          <div class="col-3 col-sm-12"><div class="stack-sm"><div class="ph" style="height:64px;background:var(--surface-3);border-radius:var(--radius-md)"></div><span class="xs">--surface-3 填充</span></div></div>
+                          <div class="col-3 col-sm-12"><div class="stack-sm"><div class="ph" style="height:64px;background:var(--text-1);border-radius:var(--radius-md)"></div><span class="xs">--text-1 标题</span></div></div>
+                        </div>
+                      </div></div>
+                      <div class="card"><div class="card-hd"><span class="card-title">字体与间距</span></div><div class="card-bd stack">
+                        <div class="h1">H1 展示标题 · 30/38px</div>
+                        <div class="h2">H2 页面标题 · 24px</div>
+                        <div class="h3">H3 区块标题 · 20px</div>
+                        <div class="h4">H4 卡片标题 · 17px</div>
+                        <div class="body">正文 14px / 1.6 行高 —— 温情智选让每一份福利都被认真对待。</div>
+                        <div class="sub">辅助文字 13px · --text-3</div>
+                        <div class="xxl">禁用/弱提示 11-12px · --text-4</div>
+                        <div class="num" style="font-size:var(--fs-2xl);font-weight:var(--fw-bold)">数字：12,856,009（等宽表格数字）</div>
+                      </div></div>
+                      <div class="card"><div class="card-hd"><span class="card-title">动效令牌</span></div><div class="card-bd stack-sm">
+                        <div class="xs">时长：--dur-1 120ms（按压/悬停）· --dur-2 180ms（展开）· --dur-3 260ms（弹层/转场）· --dur-4 380ms（抽屉）</div>
+                        <div class="xs">缓动：--ease-out 常规 · --ease-spring 弹性（指示器/开关）· 已适配 prefers-reduced-motion</div>
+                        <div class="row"><button class="btn btn-primary press">按压试试</button><button class="btn btn-secondary" data-toast="这是一条轻提示">轻提示</button><div class="progress" style="width:160px"><div class="progress-bar" data-progress="66" style="width:0"></div></div></div>
+                      </div></div>
+                    </div>
+                  </div>
+                  <div class="tab-panel" data-panel="comp">
+                    <div class="stack-lg">
+                      <div class="card"><div class="card-hd"><span class="card-title">按钮（六态齐全）</span></div><div class="card-bd stack">
+                        <div class="row-wrap">
+                          <button class="btn btn-primary">主要</button>
+                          <button class="btn btn-gradient">渐变</button>
+                          <button class="btn btn-secondary">次要</button>
+                          <button class="btn btn-ghost">幽灵</button>
+                          <button class="btn btn-danger">危险</button>
+                          <button class="btn btn-danger-ghost">危险幽灵</button>
+                          <button class="btn btn-link">文字按钮</button>
+                        </div>
+                        <div class="row-wrap">
+                          <button class="btn btn-primary btn-sm">小号 28</button>
+                          <button class="btn btn-primary">中号 34</button>
+                          <button class="btn btn-primary btn-lg">大号 40</button>
+                          <button class="btn btn-primary btn-xl">特大 48</button>
+                          <button class="btn btn-secondary btn-icon" data-icon="plus" title="图标按钮"></button>
+                          <button class="btn btn-primary" data-loading="1200" data-loading-done="加载完成">点我加载</button>
+                          <button class="btn btn-primary" disabled>禁用</button>
+                        </div>
+                      </div></div>
+                      <div class="card"><div class="card-hd"><span class="card-title">表单控件</span></div><div class="card-bd">
+                        <div class="grid">
+                          <div class="col-4 col-lg-6 col-sm-12"><div class="field"><label class="field-label">输入框<span class="req">*</span></label><input class="input" placeholder="请输入内容"><span class="field-msg"></span></div></div>
+                          <div class="col-4 col-lg-6 col-sm-12"><div class="field"><label class="field-label">下拉选择</label><div class="select-wrap"><select class="select"><option>选项一</option><option>选项二</option><option>选项三</option></select></div></div></div>
+                          <div class="col-4 col-lg-6 col-sm-12"><div class="field"><label class="field-label">错误态</label><input class="input" value="格式错误的内容"><span class="field-msg">该项格式不正确，请检查</span></div></div>
+                          <div class="col-6 col-lg-6 col-sm-12"><div class="stack-sm">
+                            <label class="check"><input type="checkbox" checked><span class="box"></span>多选框（选中）</label>
+                            <label class="check"><input type="checkbox"><span class="box"></span>多选框（未选）</label>
+                            <label class="check radio"><input type="radio" name="r1" checked><span class="box"></span>单选框（选中）</label>
+                          </div></div>
+                          <div class="col-6 col-lg-6 col-sm-12"><div class="stack-sm">
+                            <div class="row"><label class="switch"><input type="checkbox" checked><span class="track"></span><span class="thumb"></span></label><span class="xs">开关（开）</span></div>
+                            <div class="row"><label class="switch"><input type="checkbox"><span class="track"></span><span class="thumb"></span></label><span class="xs">开关（关）</span></div>
+                            <div class="row" style="width:100%"><input type="range" class="slider" min="0" max="100" value="60"><span class="xs">滑杆</span></div>
+                            <div class="stepper"><button type="button" data-icon="minus"></button><span class="val num">1</span><button type="button" data-icon="plus"></button></div>
+                          </div></div>
+                        </div>
+                      </div></div>
+                      <div class="card"><div class="card-hd"><span class="card-title">标签 · 徽标 · 头像 · 筛选片</span></div><div class="card-bd stack">
+                        <div class="row-wrap">
+                          <span class="tag">默认</span><span class="tag tag-brand">品牌</span><span class="tag tag-success">成功</span><span class="tag tag-warning">警告</span><span class="tag tag-danger">失败</span><span class="tag tag-info">信息</span><span class="tag tag-outline">描边</span><span class="tag tag-lg tag-brand">大标签</span>
+                        </div>
+                        <div class="row-wrap">
+                          <span class="avatar" style="--a1:#60a5fa;--a2:#3d5afe">陈</span>
+                          <span class="avatar avatar-lg" style="--a1:#34d399;--a2:#059669">林</span>
+                          <span class="avatar" style="--a1:#f59e0b;--a2:#ef4444">周<span class="vip-mark"><span data-icon="star" class="ico-sm"></span></span></span>
+                          <div class="avatar-group">
+                            <span class="avatar avatar-sm" style="--a1:#60a5fa;--a2:#3d5afe">张</span>
+                            <span class="avatar avatar-sm" style="--a1:#34d399;--a2:#059669">李</span>
+                            <span class="avatar avatar-sm" style="--a1:#fbbf24;--a2:#d97706">王</span>
+                            <span class="avatar avatar-sm avatar-more">+6</span>
+                          </div>
+                        </div>
+                        <div class="row-wrap">
+                          <button class="chip is-on" type="button">全部<span class="cnt">128</span></button>
+                          <button class="chip" type="button">已到账</button>
+                          <button class="chip" type="button">审批中</button>
+                          <button class="chip" type="button">已驳回</button>
+                        </div>
+                      </div></div>
+                      <div class="card"><div class="card-hd"><span class="card-title">键值对 · 步骤条 · 时间线</span></div><div class="card-bd grid">
+                        <div class="col-4 col-lg-12"><dl class="kv">
+                          <dt>发放对象</dt><dd>研发中心 · 全员 86 人</dd>
+                          <dt>积分来源</dt><dd>季度绩效预算</dd>
+                          <dt>审批流</dt><dd>直属上级 → HRBP → 王总</dd>
+                          <dt>备注</dt><dd class="muted">Q3 绩效 A 档额外 +20%</dd>
+                        </dl></div>
+                        <div class="col-8 col-lg-12 stack">
+                          <div class="steps">
+                            <div class="step done"><div class="pt"><span data-icon="check"></span></div><div class="st-name">提交申请</div></div>
+                            <div class="step done"><div class="pt"><span data-icon="check"></span></div><div class="st-name">直属上级</div></div>
+                            <div class="step current"><div class="pt">3</div><div class="st-name">HRBP 审批</div></div>
+                            <div class="step"><div class="pt">4</div><div class="st-name">王总审批</div></div>
+                          </div>
+                          <div class="timeline">
+                            <div class="tl-item done"><div class="tl-time">2026-09-18 10:24</div><div class="tl-title">提交发放申请</div></div>
+                            <div class="tl-item done"><div class="tl-time">2026-09-18 11:02</div><div class="tl-title">直属上级已通过</div><div class="tl-desc">备注：绩效数据已核对</div></div>
+                            <div class="tl-item"><div class="tl-time">待处理</div><div class="tl-title">HRBP 审批中</div></div>
+                          </div>
+                        </div>
+                      </div></div>
+                      <div class="card"><div class="card-hd"><span class="card-title">弹层与浮出</span><span class="card-sub">全部带转场动效</span></div><div class="card-bd row-wrap">
+                        <button class="btn btn-primary" data-modal-open="modal-give" data-icon="plus">居中弹窗</button>
+                        <button class="btn btn-secondary" data-drawer-open="drawer-emp" data-icon="user">右侧抽屉</button>
+                        <button class="btn btn-secondary" data-sheet-open="sheet-filter" data-icon="filter">底部面板</button>
+                        <button class="btn btn-secondary" data-menu-open="menu-row" data-icon="more-h">下拉菜单</button>
+                        <span class="tooltip-host"><button class="btn btn-ghost" data-icon="info"></button><span class="tooltip">悬停出Tooltip</span></span>
+                        <button class="btn btn-ghost" data-toast="操作成功，已同步到全部成员">成功提示</button>
+                        <button class="btn btn-ghost" data-toast="网络异常，请重试" data-toast-type="error">失败提示</button>
+                        <button class="btn btn-ghost" data-toast="预算即将耗尽" data-toast-type="warn">警告提示</button>
+                      </div></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= P8 · 品牌官网 ================= -->
+      <section class="page" id="p8" data-pid="P8" data-title="品牌官网">
+        <nav class="navbar">
+          <div class="brand"><span class="mark side-logo" style="padding:0"><span class="mark"><span data-icon="sparkles" class="ico-sm"></span></span></span>温情智选</div>
+          <div class="links">
+            <a class="is-on" href="javascript:void(0)">产品</a>
+            <a href="javascript:void(0)">解决方案</a>
+            <a href="javascript:void(0)">客户案例</a>
+            <a href="javascript:void(0)">资源中心</a>
+            <a href="javascript:void(0)">关于我们</a>
+          </div>
+          <span class="spacer"></span>
+          <button class="btn btn-ghost btn-sm" data-goto="p0" data-icon="arrow-left">原型总览</button>
+          <button class="btn btn-gradient btn-sm" data-toast="已预约产品演示">预约演示</button>
+        </nav>
+
+        <header class="hero">
+          <div class="content-inner stack">
+            <span class="hero-eyebrow"><span data-icon="sparkles" class="ico-sm"></span>V3.0 · AI 福利推荐引擎已发布</span>
+            <h1 class="hero-title">让每一份<span class="gradient-text">福利</span>，都被认真对待</h1>
+            <p class="hero-sub">温情智选是 AI 驱动的企业员工福利平台。积分闭环、智能推荐、合规管理，帮助 1000-10000 人规模企业把福利预算花进员工心里。</p>
+            <div class="hero-cta">
+              <button class="btn btn-gradient btn-xl" data-toast="已提交试用申请">免费试用 30 天<span data-icon="arrow-right"></span></button>
+              <button class="btn btn-secondary btn-xl" data-icon="play">观看演示</button>
+            </div>
+            <div class="stats">
+              <div class="hstat"><div class="hv num" data-count-to="3200" data-suffix="+">0</div><div class="hl">服务企业</div></div>
+              <div class="hstat"><div class="hv num" data-count-to="186" data-suffix="万">0</div><div class="hl">覆盖员工</div></div>
+              <div class="hstat"><div class="hv num" data-count-to="96.2" data-decimals="1" data-suffix="%">0</div><div class="hl">续约率</div></div>
+              <div class="hstat"><div class="hv num" data-count-to="42" data-suffix="s">0</div><div class="hl">平均兑换耗时</div></div>
+            </div>
+          </div>
+        </header>
+
+        <div class="section">
+          <div class="content-inner">
+            <div class="section-hd">
+              <div><div class="section-title">一个平台，三种温度</div><div class="section-sub">从发放到兑换，从数据到洞察，覆盖员工福利全生命周期。</div></div>
+              <button class="btn btn-secondary" data-icon="arrow-right">查看全部能力</button>
+            </div>
+            <div class="grid stagger">
+              <div class="col-4 col-lg-6 col-sm-12"><div class="feature" style="height:100%"><div class="f-ic" data-icon="wallet"></div><div class="f-title">积分闭环</div><div class="f-desc">预算、发放、兑换、核销全链路数字化，支持按部门/职级/绩效差异化配置，账实相符、审计友好。</div></div></div>
+              <div class="col-4 col-lg-6 col-sm-12"><div class="feature" style="height:100%"><div class="f-ic" data-icon="sparkles"></div><div class="f-title">AI 智能推荐</div><div class="f-desc">基于职级、兴趣与兑换行为建模，为每位员工生成「懂你」的福利货架，兑换率平均提升 38%。</div></div></div>
+              <div class="col-4 col-lg-6 col-sm-12"><div class="feature" style="height:100%"><div class="f-ic" data-icon="shield"></div><div class="f-title">合规与安全</div><div class="f-desc">个税计算、发票合规、供应商准入三重保障；等保三级与数据加密，HR 与财务都放心。</div></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" style="padding-top:0">
+          <div class="content-inner">
+            <div class="glass glass-strong" style="padding:var(--sp-9) var(--sp-8);display:flex;align-items:center;gap:var(--sp-8);flex-wrap:wrap">
+              <div style="flex:1;min-width:260px">
+                <div class="h2">准备好了吗？</div>
+                <p class="sub" style="margin-top:8px">留下联系方式，产品顾问将在 1 个工作日内与你联系。</p>
+              </div>
+              <form data-validate data-success-toast="提交成功，顾问稍后联系你" style="display:flex;gap:var(--sp-2);flex:1;min-width:280px;flex-wrap:wrap">
+                <div class="field" style="flex:1;min-width:180px">
+                  <input class="input" placeholder="工作手机号" data-required data-type="phone" data-msg="请输入正确的手机号">
+                  <span class="field-msg"></span>
+                </div>
+                <button class="btn btn-gradient btn-lg" type="submit" data-loading="1200" data-loading-done="已收到">预约演示</button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <footer class="footer">
+          <div class="content-inner">
+            <div class="footer-links">
+              <div class="footer-col"><div class="fc-title">产品</div><a href="javascript:void(0)">积分平台</a><a href="javascript:void(0)">福利商城</a><a href="javascript:void(0)">AI 推荐</a><a href="javascript:void(0)">健康关怀</a></div>
+              <div class="footer-col"><div class="fc-title">解决方案</div><a href="javascript:void(0)">互联网企业</a><a href="javascript:void(0)">制造业</a><a href="javascript:void(0)">零售连锁</a><a href="javascript:void(0)">国企事业单位</a></div>
+              <div class="footer-col"><div class="fc-title">资源</div><a href="javascript:void(0)">帮助中心</a><a href="javascript:void(0)">API 文档</a><a href="javascript:void(0)">福利白皮书</a><a href="javascript:void(0)">博客</a></div>
+              <div class="footer-col"><div class="fc-title">公司</div><a href="javascript:void(0)">关于我们</a><a href="javascript:void(0)">加入我们</a><a href="javascript:void(0)">联系我们</a><a href="javascript:void(0)">合作伙伴</a></div>
+            </div>
+            <div class="footer-base"><span>© 2026 温情智选 · 让每一份福利都被认真对待</span><span>京ICP备 00000000号 · 等保三级</span></div>
+          </div>
+        </footer>
+      </section>
+
+      </div><!-- /app -->
+    </div>
+  </div>
+</div>
+
+<!-- ================= 浮层 ================= -->
+<div class="modal" id="modal-give">
+  <div class="modal-hd"><span class="modal-title">新建积分发放</span><span class="spacer"></span><button class="btn btn-ghost btn-icon btn-sm" data-close data-icon="x"></button></div>
+  <form data-validate data-success-toast="发放申请已提交审批" style="display:flex;flex-direction:column;flex:1;min-height:0">
+    <div class="modal-bd stack">
+      <div class="field">
+        <label class="field-label">员工手机号<span class="req">*</span></label>
+        <input class="input" placeholder="请输入 11 位手机号" data-required data-type="phone" data-msg="请输入正确的手机号">
+        <span class="field-hint">支持批量：多个号码用逗号分隔（V1.1）</span>
+        <span class="field-msg"></span>
+      </div>
+      <div class="grid">
+        <div class="col-6 col-sm-12"><div class="field">
+          <label class="field-label">发放积分<span class="req">*</span></label>
+          <input class="input num" placeholder="0" data-required data-type="number" data-msg="请输入数字积分">
+          <span class="field-msg"></span>
+        </div></div>
+        <div class="col-6 col-sm-12"><div class="field">
+          <label class="field-label">福利项目</label>
+          <div class="select-wrap"><select class="select"><option>季度绩效奖励</option><option>生日关怀</option><option>项目里程碑</option><option>全员节日福利</option></select></div>
+        </div></div>
+      </div>
+      <div class="field">
+        <label class="field-label">发放说明</label>
+        <textarea class="textarea" placeholder="将在员工通知中展示（选填）" data-max="100"></textarea>
+        <span class="field-msg"></span>
+      </div>
+      <div class="row"><label class="switch"><input type="checkbox" checked><span class="track"></span><span class="thumb"></span></label><span class="body">需要审批（直属上级 → HRBP）</span></div>
+      <div class="alert alert-info" style="padding:10px var(--sp-3)"><span class="a-ic" data-icon="info"></span><div class="a-body" style="font-size:var(--fs-xs)">本季度剩余预算 12,400 分，本次发放将实时冻结。</div></div>
+    </div>
+    <div class="modal-ft">
+      <button class="btn btn-secondary btn-auto" type="button" data-close>取消</button>
+      <button class="btn btn-primary btn-auto" type="submit" data-loading="1200" data-loading-done="已提交审批">提交审批</button>
+    </div>
+  </form>
+</div>
+
+<div class="drawer drawer-right" id="drawer-emp">
+  <div class="drawer-hd">
+    <span class="avatar avatar-lg" style="--a1:#60a5fa;--a2:#3d5afe">陈</span>
+    <div style="flex:1;min-width:0"><div class="modal-title">陈晓明</div><div class="xs">研发中心 · 高级工程师 · 工号 2048</div></div>
+    <button class="btn btn-ghost btn-icon btn-sm" data-close data-icon="x"></button>
+  </div>
+  <div class="drawer-bd stack-lg">
+    <div class="row-wrap">
+      <span class="tag tag-brand">V4 贵宾</span>
+      <span class="tag tag-success">积分正常</span>
+      <span class="tag tag-outline">2023-02 入职</span>
+    </div>
+    <div class="grid">
+      <div class="col-6"><div class="stat" style="padding:var(--sp-3)"><div class="stat-label">可用积分</div><div class="stat-value num" style="font-size:var(--fs-xl)">12,560</div></div></div>
+      <div class="col-6"><div class="stat" style="padding:var(--sp-3)"><div class="stat-label">累计兑换</div><div class="stat-value num" style="font-size:var(--fs-xl)">8,200</div></div></div>
+    </div>
+    <div class="card card-flat"><div class="card-bd"><dl class="kv">
+      <dt>手机号</dt><dd>138****6688</dd>
+      <dt>部门</dt><dd>研发中心 / 平台组</dd>
+      <dt>直属上级</dt><dd>王铁柱</dd>
+      <dt>最近兑换</dt><dd>参半 口腔护理礼盒 · 09-12</dd>
+    </dl></div></div>
+    <div>
+      <div class="title" style="margin-bottom:var(--sp-3)">积分流水</div>
+      <div class="timeline">
+        <div class="tl-item done"><div class="tl-time">09-18 10:24</div><div class="tl-title">+2,000 季度绩效奖励</div></div>
+        <div class="tl-item done"><div class="tl-time">09-12 20:11</div><div class="tl-title">-399 兑换参半礼盒</div></div>
+        <div class="tl-item"><div class="tl-time">09-01 09:00</div><div class="tl-title">+500 生日关怀</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="drawer-ft">
+    <button class="btn btn-secondary" data-close>关闭</button>
+    <button class="btn btn-primary" data-goto="p3" data-icon="gift">查看发放记录</button>
+  </div>
+</div>
+
+<div class="sheet" id="sheet-filter">
+  <div class="sheet-grip"></div>
+  <div class="sheet-bd stack-lg">
+    <div class="row-between"><span class="h4">筛选</span><button class="btn btn-ghost btn-icon btn-sm" data-close data-icon="x"></button></div>
+    <div class="stack-sm">
+      <span class="field-label">状态</span>
+      <div class="row-wrap">
+        <button class="chip is-on" type="button">全部</button>
+        <button class="chip" type="button">已到账</button>
+        <button class="chip" type="button">审批中</button>
+        <button class="chip" type="button">已驳回</button>
+      </div>
+    </div>
+    <div class="stack-sm">
+      <span class="field-label">积分区间</span>
+      <input type="range" class="slider" min="0" max="5000" value="2000">
+      <div class="row-between"><span class="xs">0</span><span class="xs">5,000+</span></div>
+    </div>
+    <div class="row"><label class="switch"><input type="checkbox"><span class="track"></span><span class="thumb"></span></label><span class="body">仅看需要我审批的</span></div>
+    <div class="row">
+      <button class="btn btn-secondary" style="flex:1" data-close>重置</button>
+      <button class="btn btn-primary" style="flex:2" data-close data-loading="600" data-loading-done="筛选已应用">确定</button>
+    </div>
+  </div>
+</div>
+
+<div class="menu" id="menu-row">
+  <button class="menu-item" data-icon="eye" data-drawer-open="drawer-emp">查看详情</button>
+  <button class="menu-item" data-icon="edit" data-toast="已进入编辑模式">编辑</button>
+  <button class="menu-item" data-icon="refresh" data-toast="已重新同步状态">同步状态</button>
+  <div class="menu-divider"></div>
+  <button class="menu-item danger" data-icon="trash" data-close data-toast="已撤销该笔发放（演示）" data-toast-type="warn">撤销发放</button>
+</div>
+
+<script src="hifi.js"></script>
+</body>
+</html>
