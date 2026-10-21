@@ -1,6 +1,6 @@
 ---
 name: new-project
-description: 新建项目脚手架。为指定技术栈生成完整的 Claude Code 多 Agent 团队配置，包含 24 个专职 Agent（5 阶段生命周期）、10 个斜杠命令、2 个护栏 hooks、路径范围 rules 自动加载、开发规范。生成 .claude/ 目录、CLAUDE.md、docs/00-项目文档，以及可配置的生成器脚本（后端 dotnet|python，前端 vue|uniapp）。当用户需要从零开始搭建一个多 Agent 协作项目时使用。
+description: 新建项目脚手架。为指定技术栈生成完整的 Claude Code 多 Agent 团队配置，包含 24 个专职 Agent（5 阶段生命周期）、11 个斜杠命令、2 个护栏 hooks、路径范围 rules 自动加载、开发规范。生成 .claude/ 目录、CLAUDE.md、docs/00-项目文档，以及可配置的生成器脚本（后端 dotnet|python，前端 vue|uniapp）。当用户需要从零开始搭建一个多 Agent 协作项目时使用。
 ---
 
 # Claude Code Multi-Agent Team Scaffold
@@ -32,6 +32,7 @@ Generate a complete Claude Code multi-agent team covering the full software-engi
 ├── .gitignore
 ├── init-agent-team.py         # self-contained generator
 ├── docs/00-项目文档/          # 12 business doc templates
+├── docs/00-项目文档/archive/  # 归档的已完成记录（按年月组织）
 ├── docs/README.md             # 文档管理规范（命名/编号原则）
 └── src/
     └── backend/
@@ -132,6 +133,7 @@ Rules:
 - [ ] `/product-discovery` starts the workflow
 - [ ] 需求评审团队 Agent 已包含（req-* 共 8 个）
 - [ ] 功能测试与 Bug 修复命令可用（`/gen-test-cases`、`/fix-bug`）
+- [ ] 文档归档压缩命令可用（`/doc-archive`，防止 00-项目文档 无限膨胀）
 
 ## Skill layout
 
@@ -153,7 +155,8 @@ new-project/
 │       ├── api/            ← ApiResult/PageResult/GlobalExceptionFilter 等（{{CodeName}} 占位）
 │       └── web/            ← request.ts/router/layouts/types 等（{{PROJECT_NAME}} 占位）
 └── scripts/
-    └── scaffold.py         ← 复制模板 + CLI 生成代码工程 + 替换占位符
+    ├── scaffold.py         ← 复制模板 + CLI 生成代码工程 + 替换占位符
+    └── doc-archive.py      ← 项目文档归档压缩工具（处理 00-项目文档 膨胀问题）
 ```
 
 ## References

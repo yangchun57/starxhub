@@ -107,6 +107,9 @@ Claude Code 自动读取 CLAUDE.md 和 .claude/agents/，团队就绪。
 
 # ⑥ 配置 CI/部署
 /deploy 给 CI 加上测试覆盖率
+
+# ⑦ 文档膨胀了：归档压缩 00-项目文档
+/doc-archive
 ```
 
 ### 第 6 步：关联远程仓库（可选）
@@ -316,6 +319,43 @@ push 后 CI（.github/workflows/ci.yml）自动运行：后端 build+test、前�
 
 ---
 
+## 10. `/doc-archive` — 项目文档归档压缩
+
+**触发时机**：`docs/00-项目文档/` 下的工作文件（backlog.md、change-log.md、task-plan.md、lessons-learned.md）膨胀到数百上千行，需要压缩归档。
+
+**四步流程**：
+
+1. **扫描文档状态**（主 Agent）→ 读取 4 类工作文件，统计行数和可归档条目数，输出扫描报告
+2. **预览归档方案**（主 Agent）→ 运行 `python scripts/doc-archive.py . --dry-run`，展示将要归档的内容，**停下等拍板**
+3. **执行归档**（主 Agent）→ 用户确认后运行 `python scripts/doc-archive.py . --backup --force`，将已完成/已归档条目移至 `archive/YYYY-MM/` 子目录
+4. **提交**（主 Agent）→ `git add docs/00-项目文档/ && git commit -m "docs: 归档压缩项目文档"`
+
+**用法示例**：
+```
+/doc-archive
+```
+
+**归档规则**：
+
+| 文档 | 归档条件 | 保留策略 |
+|------|---------|---------|
+| backlog.md | "已完成"表格中的条目 | 保留最近 7 天 |
+| change-log.md | 状态为"已归档"或"已完成"的 CR 条目 | 保留最近 7 天 |
+| task-plan.md | "已完成"区段的 checkbox 条目 | 保留最近 7 天 |
+| lessons-learned.md | 状态为"已沉淀"或"已归档"的 LL 条目 | 保留最近 7 天 |
+
+**脚本参数**（可直接调用）：
+```bash
+python scripts/doc-archive.py . --dry-run          # 预览
+python scripts/doc-archive.py . --backup            # 备份后执行
+python scripts/doc-archive.py . --retention-days 14 # 保留最近 14 天
+python scripts/doc-archive.py . --threshold 500     # 只处理超过 500 行的文件
+```
+
+**注意**：归档不是删除——条目移到 `archive/` 子目录，原文件保留摘要指针。支持幂等运行，重复执行不会重复归档。
+
+---
+
 ## 一句话串起整个生命周期
 
 ```
@@ -327,6 +367,7 @@ push 后 CI（.github/workflows/ci.yml）自动运行：后端 build+test、前�
     → /fix-bug（修 Bug + 沉淀教训）
     → /retro（整改后沉淀经验，反哺规范和注意事项）
     → /deploy（配置 CI/容器化/部署）
+    → /doc-archive（文档膨胀了，归档压缩）
 ```
 
-9 个命令各管一段，配合 21 个 SubAgent（含需求评审团队与测试修复角色）、阶段化提交、版本化数据库迁移和 Swagger 类型生成，构成一个能自我进化的闭环。
+10 个命令各管一段，配合 21 个 SubAgent（含需求评审团队与测试修复角色）、阶段化提交、版本化数据库迁移和 Swagger 类型生成，构成一个能自我进化的闭环。
