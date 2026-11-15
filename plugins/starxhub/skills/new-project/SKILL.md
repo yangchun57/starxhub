@@ -1,6 +1,6 @@
 ---
 name: new-project
-description: 新建项目脚手架。为指定技术栈生成完整的 Claude Code 多 Agent 团队配置，包含 24 个专职 Agent（5 阶段生命周期）、11 个斜杠命令、2 个护栏 hooks、路径范围 rules 自动加载、开发规范。生成 .claude/ 目录、CLAUDE.md、docs/00-项目文档，以及可配置的生成器脚本（后端 dotnet|python，前端 vue|uniapp）。当用户需要从零开始搭建一个多 Agent 协作项目时使用。
+description: 新建项目脚手架。为指定技术栈生成完整的 Claude Code 多 Agent 团队配置，包含 24 个专职 Agent（5 阶段生命周期）、11 个斜杠命令、2 个护栏 hooks、路径范围 rules 自动加载、开发规范。生成 .claude/ 目录、CLAUDE.md、docs/00-项目文档，以及可配置的生成器脚本（后端 dotnet|python|java-spring，前端 vue|uniapp|startech）。当用户需要从零开始搭建一个多 Agent 协作项目时使用。
 ---
 
 # Claude Code Multi-Agent Team Scaffold
@@ -86,10 +86,11 @@ req-coordinator                     （协调者）
 
 ## Scaffolding workflow
 
-1. Ask the user for: project name, one-line description, target directory, and tech stack — backend `dotnet` (default) or `python`, frontend `vue` (default) or `uniapp`. If a stack is not specified, the generator prompts interactively; never silently pick.
-2. Run the generator: `python scripts/scaffold.py <target-dir> --name "名称" --desc "描述" --code-name "CodeName" [--backend dotnet|python] [--frontend vue|uniapp] [--standards <规范源目录>]`
+1. Ask the user for: project name, one-line description, target directory, and tech stack — backend `dotnet` (default) / `python` / `java-spring`, frontend `vue` (default) / `uniapp` / `startech`. If a stack is not specified, the generator prompts interactively; never silently pick.
+2. Run the generator: `python scripts/scaffold.py <target-dir> --name "名称" --desc "描述" --code-name "CodeName" [--backend dotnet|python|java-spring] [--frontend vue|uniapp|startech] [--standards <规范源目录>]`
+   - `--frontend startech` 走 `init_web_startech()`：直接渲染 `templates/code/web-startech/`（不调 create-vite、不装 UI 库），再 `npm install` 与 `node showcase/sync-styles.mjs` 补齐预览站 CSS 副本。
 3. The script generates: .claude/（agents/commands/hooks/settings）、CLAUDE.md、docs/ 整目录（00-项目文档 md 工作文件模板 + README 三轨格式规范 + common.css + md2html.py 转换器 + _模板与规范 裸HTML模板与图标速查），src/backend 代码工程（dotnet new .NET 8 分层 API 含集成测试基类 + npm create vite Vue 3 web 含 prettier），外加 sql/migrations 迁移目录、gen:api 类型生成、.editorconfig、本地优先质量门禁 `scripts/ci.sh`（fmt+build+test+前端构建，按栈渲染）与 `.githooks/pre-push` 钩子（`git push` 前自动跑、init 时已设 `core.hooksPath`），CI workflow + Dockerfile x2 + docker-compose + dependabot（远端 CI 复用同一 ci.sh 作兜底）。CLAUDE.md 内置分支约定（trunk-based：main 干净可构建 + feat/change 分支）。docs 三轨格式约定：README/Agent 工作文件=md，01/02 交付物=HTML（裸HTML 引 common.css，用 md2html.py 转换）。包含 8 个需求评审 Agent（req-*），形成完整的需求评审团队；另含 functional-tester / bug-fixer 两个测试修复 Agent（对应 /gen-test-cases、/fix-bug 命令）。
-4. `--standards` 指向自定义规范源目录时，脚本覆盖 `.claude/standards/`；未提供时使用内置的 10 份默认规范（含按主题拆分的 `topics/` 索引——Agent 优先读 topics/INDEX.md 定位主题，禁止无目的整读大规范）。规范更新后可重跑 `python scripts/split-standards.py <standards目录>` 重新生成 topics。
+4. `--standards` 指向自定义规范源目录时，脚本覆盖 `.claude/standards/`；未提供时按技术栈从内置规范集挑选源文档（含《星辰前端开发规范》，顶层共 8 份源文档）复制到项目，并重跑 `split-standards.py` 生成 `topics/` 主题索引——Agent 优先读 topics/INDEX.md 定位主题，禁止无目的整读大规范。规范更新后可重跑 `python scripts/split-standards.py <standards目录>` 重新生成 topics。
 5. 脚本自动 `git init` 并创建初始提交（`chore: 初始化项目脚手架`）；git 未安装或未配置 user.name/email 时只 git init、跳过提交。
 6. Remind the user: fill CLAUDE.md TODO placeholders, add `git remote add origin <url>`, then run `claude` at the project ROOT (not a subdirectory).
 
@@ -148,13 +149,16 @@ new-project/
 │   ├── .gitignore
 │   ├── .claude/            ← agents/commands/hooks/rules/settings + standards
 │   │   ├── agents/         ← 24 个 Agent 模板（含 8 个需求评审 + 2 个方案门禁 + 2 个测试修复 + 1 个高保真原型）
-│   │   ├── rules/          ← 13 个路径范围规则（_always 3 + _backend 6 + _frontend 4，按技术栈选择）
+│   │   ├── rules/          ← 15 个路径范围规则模板（_always 3 + _backend 6 + _frontend 6，按技术栈选择并去掉变体后缀）
 │   │   └── skills/         ← 内置 Skill（hifi-prototype 高保真原型设计系统）
 │   ├── docs/00-项目文档/   ← 12 个文档模板
 │   ├── docs/README.md      ← 文档管理规范
 │   └── code/               ← 自定义基础设施（CLI 生成骨架后写入）
 │       ├── api/            ← ApiResult/PageResult/GlobalExceptionFilter 等（{{CodeName}} 占位）
-│       └── web/            ← request.ts/router/layouts/types 等（{{PROJECT_NAME}} 占位）
+│       ├── web/            ← request.ts/router/layouts/types 等（{{PROJECT_NAME}} 占位）
+│       ├── web-uniapp/     ← uni-app 基础设施
+│       ├── web-startech/   ← 星辰设计系统完整工程（三层 CSS + 四层组件 + 9 视图 + showcase）
+│       └── deploy/         ← CI / Dockerfile 变体（含 Dockerfile.web.startech）
 └── scripts/
     ├── scaffold.py         ← 复制模板 + CLI 生成代码工程 + 替换占位符
     └── doc-archive.py      ← 项目文档归档压缩工具（处理 00-项目文档 膨胀问题）

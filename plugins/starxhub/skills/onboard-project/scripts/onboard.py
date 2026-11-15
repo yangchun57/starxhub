@@ -50,10 +50,9 @@ def copy_claude_config(project_root: str, detection: dict) -> None:
         src = os.path.join(TEMPLATE_DIR, ".claude", subdir)
         dst = os.path.join(target_claude, subdir)
         if os.path.exists(src):
-            if os.path.exists(dst):
-                shutil.rmtree(dst)
-            shutil.copytree(src, dst)
-            print(f"✓ 复制 {subdir}/")
+            # 不删除目标已有目录：存量项目自定义的 agents/standards 必须保留，只覆盖同名文件
+            shutil.copytree(src, dst, dirs_exist_ok=True)
+            print(f"✓ 复制 {subdir}/（保留目标已有文件）")
         else:
             print(f"⚠ 模板目录不存在: {subdir}/")
 
@@ -65,8 +64,31 @@ def copy_claude_config(project_root: str, detection: dict) -> None:
         print("✓ 复制 settings.json")
 
 
-def generate_rules(project_root: str, detection: dict) -> None:
-    """根据探测结果生成 rules"""
+def _copy_variant_rules(src_dir: str, suffix: str, rules_dir: str, label: str) -> int:
+    """复制 <name><suffix>.md 变体规则并去掉后缀。
+
+    模板实际布局是扁平文件（如 _frontend/frontend-pages.vue.md），
+    不是按技术栈分的子目录——旧实现找 _frontend/vue/ 会静默跳过全部规则。
+    """
+    if not os.path.isdir(src_dir):
+        print(f"⚠ 规则模板目录不存在: {src_dir}")
+        return 0
+    count = 0
+    for fn in sorted(os.listdir(src_dir)):
+        if not fn.endswith(suffix + ".md"):
+            continue
+        dst_name = fn[:-(len(suffix) + 3)] + ".md"
+        shutil.copy2(os.path.join(src_dir, fn), os.path.join(rules_dir, dst_name))
+        print(f"✓ 生成{label}规则: {dst_name}")
+        count += 1
+    if count == 0:
+        print(f"⚠ 未找到{label}规则变体（suffix={suffix}），跳过")
+    return count
+
+
+def generate_rules(project_root: str, detection: dict,
+                   backend_override: str = "", frontend_override: str = "") -> None:
+    """根据探测结果生成 rules；命令行显式指定的技术栈优先。"""
     rules_dir = os.path.join(project_root, ".claude", "rules")
     os.makedirs(rules_dir, exist_ok=True)
 
@@ -81,58 +103,31 @@ def generate_rules(project_root: str, detection: dict) -> None:
             shutil.copy2(src, dst)
             print(f"✓ 生成通用规则: {rule_file}")
 
-    # 根据技术栈生成后端规则
+    # 根据技术栈生成后端规则（扁平变体文件 backend-api.<variant>.md）
     backend = detection.get("stack", {}).get("backend", {})
-    backend_lang = backend.get("language", "")
-
-    if backend_lang == "dotnet":
-        backend_rules_dir = os.path.join(TEMPLATE_DIR, ".claude", "rules", "_backend", "dotnet")
-        if os.path.exists(backend_rules_dir):
-            for rule_file in os.listdir(backend_rules_dir):
-                src = os.path.join(backend_rules_dir, rule_file)
-                # 去掉 .dotnet 后缀
-                dst_name = rule_file.replace(".dotnet", "")
-                dst = os.path.join(rules_dir, dst_name)
-                shutil.copy2(src, dst)
-                print(f"✓ 生成后端规则: {dst_name}")
-
-    elif backend_lang == "python":
-        backend_rules_dir = os.path.join(TEMPLATE_DIR, ".claude", "rules", "_backend", "python")
-        if os.path.exists(backend_rules_dir):
-            for rule_file in os.listdir(backend_rules_dir):
-                src = os.path.join(backend_rules_dir, rule_file)
-                dst_name = rule_file.replace(".python", "")
-                dst = os.path.join(rules_dir, dst_name)
-                shutil.copy2(src, dst)
-                print(f"✓ 生成后端规则: {dst_name}")
-
+    backend_lang = backend_override or backend.get("language", "")
+    backend_suffix = {
+        "dotnet": ".dotnet",
+        "python": ".python",
+        "java-spring": ".java-spring",
+    }.get(backend_lang)
+    if backend_suffix:
+        _copy_variant_rules(os.path.join(TEMPLATE_DIR, ".claude", "rules", "_backend"),
+                            backend_suffix, rules_dir, "后端")
     else:
         print(f"⚠ 未识别的后端技术栈: {backend_lang}，跳过后端规则生成")
 
-    # 根据技术栈生成前端规则
+    # 根据技术栈生成前端规则（扁平变体文件 frontend-pages.<variant>.md）
     frontend = detection.get("stack", {}).get("frontend", {})
-    frontend_framework = frontend.get("framework", "")
-
-    if frontend_framework == "vue3":
-        frontend_rules_dir = os.path.join(TEMPLATE_DIR, ".claude", "rules", "_frontend", "vue")
-        if os.path.exists(frontend_rules_dir):
-            for rule_file in os.listdir(frontend_rules_dir):
-                src = os.path.join(frontend_rules_dir, rule_file)
-                dst_name = rule_file.replace(".vue", "")
-                dst = os.path.join(rules_dir, dst_name)
-                shutil.copy2(src, dst)
-                print(f"✓ 生成前端规则: {dst_name}")
-
-    elif frontend_framework == "uniapp":
-        frontend_rules_dir = os.path.join(TEMPLATE_DIR, ".claude", "rules", "_frontend", "uniapp")
-        if os.path.exists(frontend_rules_dir):
-            for rule_file in os.listdir(frontend_rules_dir):
-                src = os.path.join(frontend_rules_dir, rule_file)
-                dst_name = rule_file.replace(".uniapp", "")
-                dst = os.path.join(rules_dir, dst_name)
-                shutil.copy2(src, dst)
-                print(f"✓ 生成前端规则: {dst_name}")
-
+    frontend_framework = frontend_override or frontend.get("framework", "")
+    frontend_suffix = {
+        "vue3": ".vue", "vue": ".vue",
+        "uniapp": ".uniapp",
+        "startech": ".startech",
+    }.get(frontend_framework)
+    if frontend_suffix:
+        _copy_variant_rules(os.path.join(TEMPLATE_DIR, ".claude", "rules", "_frontend"),
+                            frontend_suffix, rules_dir, "前端")
     else:
         print(f"⚠ 未识别的前端技术栈: {frontend_framework}，跳过前端规则生成")
 
@@ -202,8 +197,8 @@ def generate_claude_md(project_root: str, detection: dict) -> None:
 def main():
     parser = argparse.ArgumentParser(description="项目接入脚本：将已有项目纳入多 Agent 工作流")
     parser.add_argument("project_root", help="目标项目根目录")
-    parser.add_argument("--backend", choices=["dotnet", "python"], help="后端技术栈（可选，默认自动探测）")
-    parser.add_argument("--frontend", choices=["vue", "uniapp"], help="前端技术栈（可选，默认自动探测）")
+    parser.add_argument("--backend", choices=["dotnet", "python", "java-spring"], help="后端技术栈（可选，默认自动探测）")
+    parser.add_argument("--frontend", choices=["vue", "uniapp", "startech"], help="前端技术栈（可选，默认自动探测）")
     args = parser.parse_args()
 
     project_root = os.path.abspath(args.project_root)
@@ -228,7 +223,7 @@ def main():
 
     # Step 3: 生成 rules
     print("Step 3: 生成 rules...")
-    generate_rules(project_root, detection)
+    generate_rules(project_root, detection, args.backend or "", args.frontend or "")
     print()
 
     # Step 4: 生成 CLAUDE.md

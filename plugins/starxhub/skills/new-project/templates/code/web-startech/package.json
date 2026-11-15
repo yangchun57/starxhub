@@ -1,0 +1,24 @@
+{
+  "name": "{{codeName}}",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "{{PROJECT_NAME}}· 专用前端开发框架",
+  "scripts": {
+    "dev": "vite --host",
+    "build": "vue-tsc --noEmit && vite build",
+    "typecheck": "vue-tsc --noEmit",
+    "preview": "vite preview --host",
+    "sync:showcase": "node showcase/sync-styles.mjs"
+  },
+  "dependencies": {
+    "vue": "^3.5.13",
+    "vue-router": "^4.5.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.2.1",
+    "typescript": "~5.7.2",
+    "vite": "^6.0.5",
+    "vue-tsc": "^2.2.0"
+  }
+}

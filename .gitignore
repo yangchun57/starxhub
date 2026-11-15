@@ -11,3 +11,6 @@ obj/
 *.user
 .env
 .workbuddy/
+
+# 本地 Flutter 工程（含约 907MB 构建产物），不属于本插件仓库
+src/

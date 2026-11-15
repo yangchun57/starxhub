@@ -127,8 +127,19 @@ class ProjectDetector:
 
         content = pkg_json.read_text(encoding="utf-8", errors="ignore")
 
-        # Vue 3
-        if '"vue"' in content and '"version": "3' in content:
+        # 星辰 starTech 设计系统：零 UI 库，特征是 src/styles 三层 CSS + 自研 hx- 组件
+        styles_dir = pkg_json.parent / "src" / "styles"
+        if (styles_dir / "tokens.css").exists() and (styles_dir / "components.css").exists():
+            self.result["stack"]["frontend"] = {
+                "framework": "startech",
+                "ui_lib": None,
+                "build_tool": "vite" if '"vite"' in content else "unknown",
+            }
+            self._locate_frontend(pkg_json.parent)
+            return
+
+        # Vue 3（原判断额外要求 package.json 里出现 "version": "3"，实际几乎不可能命中）
+        if '"vue"' in content:
             ui_lib = "element-plus" if '"element-plus"' in content else "ant-design-vue" if '"ant-design-vue"' in content else None
             self.result["stack"]["frontend"] = {
                 "framework": "vue3",
@@ -279,7 +290,7 @@ class ProjectDetector:
         frontend = self.result["stack"].get("frontend", {})
 
         # Level 1: 完全匹配（已知技术栈）
-        if backend.get("language") in ["python", "dotnet"] and frontend.get("framework") in ["vue3", "uniapp"]:
+        if backend.get("language") in ["python", "dotnet"] and frontend.get("framework") in ["vue3", "uniapp", "startech"]:
             self.result["stack_match"]["level"] = 1
         # Level 2: 部分匹配（能识别分层，但技术栈不在预定义内）
         elif backend.get("language") or frontend.get("framework"):
@@ -294,7 +305,7 @@ class ProjectDetector:
         }
         self.result["stack_match"]["frontend"] = {
             "detected": frontend.get("framework", "unknown"),
-            "supported": frontend.get("framework") in ["vue3", "uniapp"],
+            "supported": frontend.get("framework") in ["vue3", "uniapp", "startech"],
         }
 
 

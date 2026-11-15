@@ -1,0 +1,15 @@
+# 前端 Web 多阶段构建（Vite 构建 + Nginx 托管）——星辰 starTech 栈
+# 构建上下文：仓库根目录（docker build -f src/backend/web/Dockerfile.web .）
+# 说明：starTech 模板不入库 package-lock.json（包名由 {{codeName}} 渲染），
+#       因此用 npm install 而非 npm ci；本地与 CI 由 scripts/ci.sh 自行判断 lock 是否存在。
+
+FROM node:20-alpine AS build
+WORKDIR /app
+COPY src/backend/web/package.json ./
+RUN npm install
+COPY src/backend/web/ .
+RUN npm run build
+
+FROM nginx:alpine AS runtime
+COPY --from=build /app/dist /usr/share/nginx/html
+EXPOSE 80

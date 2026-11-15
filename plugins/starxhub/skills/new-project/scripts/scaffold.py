@@ -105,6 +105,28 @@ BACKENDS = {
             "{{BACKEND_STANDARDS_FILE}}": ".claude/standards/Python后台开发规范_v0.1.md",
         },
     },
+    "java-spring": {
+        "label": "Java 17+ + Spring Boot 3 + MyBatis-Plus + MySQL + JWT",
+        "standards": ["Java后台开发规范.md"],
+        "rules": {
+            "backend-api.java-spring.md": "backend-api.md",
+            "backend-domain.java-spring.md": "backend-domain.md",
+            "backend-infra.java-spring.md": "backend-infra.md",
+        },
+        "tokens": {
+            "{{BACKEND_STACK}}": "Java 17+ + Spring Boot 3.2 + MyBatis-Plus 3.5 + MySQL 8.0 + Spring Security + JWT + Lombok + MapStruct + Maven",
+            "{{BACKEND_SHORT}}": "Java (Spring Boot)",
+            "{{ORM}}": "MyBatis-Plus",
+            "{{ENVELOPE}}": "R<T> / Page<T>（统一响应封装）",
+            "{{BACKEND_ORIGIN}}": "http://127.0.0.1:8080",
+            "{{FIELD_MAPPING}}": "数据库 snake_case → 后端 Java camelCase（`@TableField` 映射）→ 前端 camelCase",
+            "{{BACKEND_BUILD}}": "cd src/backend/api && mvn compile",
+            "{{BACKEND_TEST}}": "cd src/backend/api && mvn test",
+            "{{BACKEND_LINT}}": "mvn checkstyle:check",
+            "{{TEST_FRAMEWORK}}": "JUnit 5 + Mockito + SpringBootTest（MockBean mock DB）",
+            "{{BACKEND_STANDARDS_FILE}}": ".claude/standards/Java后台开发规范.md",
+        },
+    },
 }
 
 FRONTS = {
@@ -136,10 +158,24 @@ FRONTS = {
             "{{FRONTEND_STANDARDS_FILE}}": ".claude/standards/uni-app开发规范_v1.0.md",
         },
     },
+    "startech": {
+        "label": "星辰 starTech 设计系统（Vue 3.5 + Vite 6 + TS 5.7，零 UI 库，自研 hx- 组件）",
+        "standards": ["星辰前端开发规范.md"],
+        "rules": {
+            "frontend-pages.startech.md": "frontend-pages.md",
+            "frontend-state.startech.md": "frontend-state.md",
+        },
+        "tokens": {
+            "{{FRONTEND_STACK}}": "Vue 3.5 + Vite 6 + TypeScript 5.7 + vue-router 4（hash 路由）；零 UI 库依赖，自研 hx- 三层 CSS + 四层组件（layout/base/biz/charts）",
+            "{{FRONTEND_SHORT}}": "starTech 设计系统",
+            "{{UI_LIB}}": "无（自研 Hx* 组件，base/ 与 charts/ 可整体替换）",
+            "{{FRONTEND_STANDARDS_FILE}}": ".claude/standards/星辰前端开发规范.md",
+        },
+    },
 }
 
 ALWAYS_STANDARDS = ["通用开发规范.md"]
-TEXT_EXT = (".py", ".ts", ".vue", ".js", ".json", ".scss", ".css", ".md", ".ini", ".txt", ".example")
+TEXT_EXT = (".py", ".ts", ".vue", ".js", ".mjs", ".json", ".scss", ".css", ".html", ".md", ".ini", ".txt", ".example")
 
 # ============ 本地质量门禁（scripts/ci.sh）：fmt + build + test + 前端构建 ============
 CI_BACKEND_CMDS = {
@@ -161,6 +197,11 @@ CI_FRONTEND_CMDS = {
     "uniapp": 'cd "$ROOT/src/backend/web"\n'
               '[ -f package-lock.json ] && npm ci || npm install\n'
               'echo "  · 前端构建（H5）"; npm run build:h5 || npm run build',
+    "startech": 'cd "$ROOT/src/backend/web"\n'
+                '[ -f package-lock.json ] && npm ci || npm install\n'
+                'echo "  · 类型检查"; npm run typecheck\n'
+                'echo "  · 前端构建"; npm run build\n'
+                'echo "  · 预览样式同步"; npm run sync:showcase',
 }
 
 
@@ -388,7 +429,7 @@ def copy_rules(target, backend, frontend, mapping):
 def init_api_dotnet(target, code_name):
     api_dir = os.path.join(target, "src", "backend", "api")
     os.makedirs(api_dir, exist_ok=True)
-    run(["dotnet", "new", "sln", "-n", code_name], api_dir, "创建解决方案")
+    run(["dotnet", "new", "sln", "-n", code_name], api_dir, "创建解决方案（.NET 10+ 默认 .slnx 格式）")
     run(["dotnet", "new", "classlib", "-n", f"{code_name}.Common", "-f", "net8.0"], api_dir, "创建 Common/Model/Service 类库")
     run(["dotnet", "new", "classlib", "-n", f"{code_name}.Model", "-f", "net8.0"], api_dir)
     run(["dotnet", "new", "classlib", "-n", f"{code_name}.Service", "-f", "net8.0"], api_dir)
@@ -492,6 +533,22 @@ def init_web_uniapp(target, code_name, name, desc, mapping):
     print(f"  [OK] uni-app 工程生成（H5 + 微信小程序 基础设施已就位）")
 
 
+def init_web_startech(target, code_name, name, desc, mapping):
+    """星辰 starTech 设计系统前端：模板自带完整工程，无需 create-vite / 无需 UI 库。"""
+    web_dir = os.path.join(target, "src", "backend", "web")
+    os.makedirs(web_dir, exist_ok=True)
+    tpl = os.path.join(TEMPLATE_DIR, "code", "web-startech")
+    copy_tree_render(tpl, web_dir, mapping)
+    print("  [OK] 写入 starTech 工程骨架（src/styles 三层 CSS + 四层组件 + 9 视图 + showcase）")
+    run(["npm", "install"], web_dir, "安装 starTech 前端依赖（可能较慢）")
+    # showcase/ 的三份 CSS 是生成物，单一事实来源始终是 src/styles/
+    if run(["node", "showcase/sync-styles.mjs"], web_dir, "同步 showcase 预览样式"):
+        print("  [OK] showcase/ 三份 CSS 已生成（后续改令牌请执行 npm run sync:showcase）")
+    else:
+        print("  [提示] 样式同步失败，可在项目内执行 npm run sync:showcase 补齐")
+    print(f"  [OK] Web 工程生成完成（星辰 starTech 设计系统，零 UI 库依赖）")
+
+
 # ============ 部署 CI / Docker（按栈变体） ============
 def _variant(dep_dir, base, suffix):
     """优先取 <base>.<suffix> 变体文件，不存在则回退 <base>（base 可含子目录）。"""
@@ -544,7 +601,7 @@ def main():
     parser.add_argument("--desc", default="", help="项目一句话描述")
     parser.add_argument("--code-name", default="App", help="代码工程名（英文 PascalCase，默认 App）")
     parser.add_argument("--backend", default=None, choices=list(BACKENDS.keys()), help="后端技术栈：dotnet|python")
-    parser.add_argument("--frontend", default=None, choices=list(FRONTS.keys()), help="前端技术栈：vue|uniapp")
+    parser.add_argument("--frontend", default=None, choices=list(FRONTS.keys()), help="前端技术栈：vue|uniapp|startech")
     parser.add_argument("--standards", default="", help="自定义开发规范源目录（可选），覆盖 .claude/standards/")
     args = parser.parse_args()
 
@@ -590,8 +647,10 @@ def main():
         init_api_python(target, code_name, mapping)
     if frontend == "vue":
         init_web_vue(target, code_name, name, desc)
-    else:
+    elif frontend == "uniapp":
         init_web_uniapp(target, code_name, name, desc, mapping)
+    else:
+        init_web_startech(target, code_name, name, desc, mapping)
     init_deploy(target, code_name, backend, frontend)
 
     # 本地优先质量门禁（scripts/ci.sh + git pre-push）
@@ -603,7 +662,8 @@ def main():
         for fn in files:
             if fn.endswith(".md"):
                 txt = open(os.path.join(root, fn), encoding="utf-8").read()
-                if "{{" in txt:
+                # 只检查脚手架自身的占位符；Vue 模板插值 {{ row.xxx }} 属正常内容，不应误报
+                if any(tok in txt for tok in mapping):
                     leftovers.append(os.path.relpath(os.path.join(root, fn), target))
     if leftovers:
         print("  [警告] 以下文件仍有未渲染占位符 {{...}}，请检查 token 定义：")

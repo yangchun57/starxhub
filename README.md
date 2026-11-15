@@ -46,8 +46,12 @@
 |------|------|------|
 | 后端 | `dotnet` | .NET 8 + ASP.NET Core Web API + SqlSugar + MySQL |
 | 后端 | `python` | Python 3.10+ + FastAPI + SQLAlchemy 2.0 + Pydantic v2 |
+| 后端 | `java-spring` | Java 17+ + Spring Boot 3 + MyBatis-Plus + MySQL |
 | 前端 | `vue` | Vue 3 + Element Plus + Pinia + Vite + TypeScript |
 | 前端 | `uniapp` | uni-app + Vue 3 + Pinia + TypeScript（H5 + 微信小程序） |
+| 前端 | `startech` | 星辰 starTech 设计系统：Vue 3.5 + Vite 6 + TS 5.7，**零 UI 库**，自研 `hx-` 三层 CSS + 四层组件 |
+
+`startech` 与前两套不同：模板自带完整可运行工程（9 个视图 + 21 个组件 + 三层 CSS + showcase 预览站），不调用 `create-vite`、不安装任何 UI 库；规范正文 782 行 / 21 章随项目落到 `.claude/standards/星辰前端开发规范.md`，并按 `## ` 自动拆成 `topics/` 主题索引。生成后 `npm install && npm run dev` 即可运行，改令牌后需 `npm run sync:showcase`。
 
 未指定技术栈时，脚手架会**交互式询问**，绝不静默默认。
 
@@ -71,8 +75,11 @@ claude plugin install starxhub@starxhub
 # 新建项目
 /new-project /path/to/project --name "电商系统" --backend dotnet --frontend vue
 
+# 使用星辰 starTech 设计系统前端（零 UI 库、自带完整工程）
+/new-project /path/to/project --name "运营后台" --backend dotnet --frontend startech
+
 # 接入已有项目
-/onboard-project /path/to/existing-project
+/onboard-project /path/to/existing-project --frontend startech
 ```
 
 或直接运行脚本：
@@ -115,6 +122,14 @@ architect 交卷 → plan-risk-analyst 扫描（R1~R7 失效点）→ plan-gatek
 
 每个 rule 文件 < 50 行精华规则，通过 `paths` glob 匹配自动触发。完整规范保留在 `.claude/standards/` 供深层阅读。
 
+按前端栈选择不同变体（`templates/.claude/rules/_frontend/` 内为扁平文件，生成时去掉后缀）：
+
+| 前端栈 | 页面规则 | 状态 / 样式规则 |
+|--------|----------|-----------------|
+| `vue` | `frontend-pages.vue.md` | `frontend-state.vue.md` |
+| `uniapp` | `frontend-pages.uniapp.md` | `frontend-state.uniapp.md` |
+| `startech` | `frontend-pages.startech.md`（SFC 禁写 `<style>`、浮层 Teleport、hash 路由等） | `frontend-state.startech.md`（三层 CSS、令牌同步、`ApiResult<T>` 契约等） |
+
 ## 目录结构
 
 ```
@@ -134,10 +149,14 @@ starxhub/                              # 仓库根 = 插件市场
         │       │   ├── agents/        # 24 个 Agent 定义
         │       │   ├── commands/      # 10 个斜杠命令
         │       │   ├── hooks/         # 护栏钩子脚本
-        │       │   ├── rules/         # 路径范围规则
-        │       │   ├── standards/     # 完整规范文档
+        │       │   ├── rules/         # 路径范围规则（_always / _backend / _frontend 扁平变体）
+        │       │   ├── standards/     # 完整规范文档（含 星辰前端开发规范.md + topics/ 索引）
         │       │   └── settings.json  # 权限配置
         │       ├── code/              # 代码工程模板
+        │       │   ├── web/           # Vue 3 + Element Plus 骨架
+        │       │   ├── web-uniapp/    # uni-app 骨架
+        │       │   ├── web-startech/  # 星辰设计系统完整工程（src/ + showcase/）
+        │       │   └── deploy/        # CI / Dockerfile（含 Dockerfile.web.startech）
         │       └── docs/              # 项目文档模板
         └── onboard-project/          # 接入已有项目
             ├── SKILL.md
@@ -153,6 +172,17 @@ starxhub/                              # 仓库根 = 插件市场
 - **hook 脚本**：用 `$CLAUDE_PROJECT_DIR` 定位目标工程
 
 ## 更新日志
+
+### v2.3.0 — 新增 startech 前端设计系统栈
+
+- 新增第三套前端 profile `startech`（Vue 3.5 + Vite 6 + TS 5.7，零 UI 库），与 `vue` / `uniapp` 并列，现有两套行为不变
+- 纳入《星辰（starTech）前端开发设计规范》v1.1 全量正文（782 行 / 21 章），按 `## ` 拆入 `topics/` 主题索引
+- 新增两份路径范围 rules：`frontend-pages.startech.md`、`frontend-state.startech.md`
+- 新增完整工程模板 `templates/code/web-startech/`：三层 CSS、四层组件（25 个）、9 个视图、router/types/mock/composables、showcase 预览站；品牌文案占位符化
+- 新增 `Dockerfile.web.startech`（用 `npm install`，模板不入库 lock）与 `CI_FRONTEND_CMDS["startech"]`（typecheck + build + sync:showcase）
+- 修复 `onboard-project`：rules 模板路径失配（扁平变体文件 vs 子目录）导致前后端规则静默不生成；不再删除目标项目已有 `standards/`；`--backend/--frontend` 覆盖参数真正生效；`detect_stack` 支持识别 startech 并放宽 Vue 3 判定
+- 模板 `topics/INDEX.md` 新增《星辰前端开发规范》主题索引并生成 21 个主题分片；仓库内原有的 3 个「有分片、无顶层源文档」的孤儿主题保持原样（模板 topics 不参与项目生成，留待后续单独补源）
+- `plugin.json` 与 `marketplace.json` 版本统一为 2.3.0
 
 ### v2.1.0 — 品牌升级：starxhub（星枢）
 
