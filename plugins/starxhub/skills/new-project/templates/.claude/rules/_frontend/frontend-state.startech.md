@@ -4,9 +4,11 @@ paths:
   - "src/types/**/*.ts"
   - "src/mock/**/*.ts"
   - "src/composables/**/*.ts"
+  - "src/api/**/*.ts"
   - "src/backend/web/src/styles/**/*.css"
   - "src/backend/web/src/types/**/*.ts"
   - "src/backend/web/src/mock/**/*.ts"
+  - "src/backend/web/src/api/**/*.ts"
   - "showcase/**/*.mjs"
 ---
 
@@ -17,7 +19,7 @@ paths:
 1. **三层 CSS 加载顺序不可调换**：`tokens.css`（只放变量）→ `common.css`（reset / 骨架 / 栅格 / 工具类）→ `components.css`（全部 `hx-` 组件类）。
 2. **单一事实来源**：`showcase/` 下的 `tokens.css` / `common.css` / `components.css` 是生成物，由 `npm run sync:showcase` 从 `src/styles/` 复制，**禁止手改**。
 3. 主题切换：`document.documentElement.dataset.theme = 'light' | 'dark'`，localStorage key 固定 `hx-theme`；`useTheme` 模块加载时立即 `apply()` 防首屏闪白。Dark 只覆盖表面 / 文本 / 柔和底令牌，语义色与尺寸不变。
-4. 数据契约：所有响应包成 `ApiResult<T>`（`code === 0` 为成功），列表用 `PageResult<T>`；接后端时只替换 `mock/index.ts` 或 `useRequest` 的 loader。
+4. 数据契约：所有响应包成 `ApiResult<T>`（`code === 0` 为成功），列表用 `PageResult<T>`；**三种后端统一由 `src/api/http.ts` 适配**，接真接口只换 `useRequest` 的 loader → `() => http.get<T>('/orders')`，禁止在视图里手写 fetch/axios。
 5. **`useRequest` 必须用 `shallowRef<T | undefined>(initial)`**，禁止 `ref<T>`：深层响应式解包会破坏 DTO 嵌套类型（规范 §17 踩坑 6）。
 6. 装饰 SVG 加 `aria-hidden="true"`，纯图标按钮带 `title`；状态不能只靠颜色区分，必须带文字；动效尊重 `prefers-reduced-motion: reduce`。
 
@@ -30,9 +32,19 @@ paths:
 - 键盘全链路：Tab → 下拉 → ↑↓ → Enter → Esc；9 个路由逐一打开无空白。
 - 规范 §3 令牌表与 `tokens.css` 一致（改过令牌必须同步）。
 
-## 与后端的契约提示
+## 与后端的契约提示（已由适配层解决）
 
-`ApiResult<T> code === 0` 是前端既定契约。接入 python 后端（RESTful + `BusinessException`）或 .NET8 后端（`ApiResult<T>` / `PageResult<T>`）时，在 `mock/index.ts` 或网关层做适配；前端类型定义不随后端改写。
+`ApiResult<T> code === 0` 是前端既定契约，**不随后端改写**。脚手架按 `--backend` 把
+`src/api/http.ts` 的 `envelope` 渲染为 `dotnet` / `python` / `java-spring`：
+
+| 后端 | 原始响应 | 适配动作 |
+|---|---|---|
+| dotnet | `{code,data,message}` | 直通信封 |
+| java-spring | `R<T>`：`{code,data,message\|msg}` | `msg` → `message` |
+| python | RESTful 裸 DTO / `Page{items,total,page,size}` + `detail` | 2xx 包成 `code:0`；`size`→`pageSize`、`records`→`items`；4xx/5xx 取 `detail` |
+
+**禁止**为迁就前端去改后端的 `R<T>` 或 `BusinessException`，也禁止改 `useRequest` 签名。
+`vite.config.ts` 的 `/api` 代理目标由同一后端栈 token 注入，不需要手改端口。
 
 ## 详细规范
 

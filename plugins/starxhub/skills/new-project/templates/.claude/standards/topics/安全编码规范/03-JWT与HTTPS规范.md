@@ -1,10 +1,11 @@
-# 安全编码规范 · JWT 与 HTTPS 规范
+# 安全编码规范 · JWT与HTTPS规范
 
-> 对应问题：H-3（JWT 密钥未校验长度）、H-4（缺少 HTTPS 强制）
+> 拆分自《安全编码规范》第 3 节。需要全量上下文时读原文件。
 
-## JWT 密钥校验
 
-### 强制规则：启动时校验密钥长度
+#### JWT 密钥校验
+
+##### 强制规则：启动时校验密钥长度
 
 ```csharp
 // Program.cs
@@ -36,17 +37,17 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 ```
 
-### 密钥生成建议
+##### 密钥生成建议
 
 ```bash
-# 生成 256 位随机密钥（32 字符 Base64）
+### 生成 256 位随机密钥（32 字符 Base64）
 openssl rand -base64 32
 
-# 或 64 字符十六进制
+### 或 64 字符十六进制
 openssl rand -hex 32
 ```
 
-### 配置示例
+##### 配置示例
 
 ```json
 // appsettings.json（开发环境，仅用于本地调试）
@@ -70,9 +71,9 @@ openssl rand -hex 32
 }
 ```
 
-## HTTPS 强制
+#### HTTPS 强制
 
-### 强制规则：生产环境必须强制 HTTPS
+##### 强制规则：生产环境必须强制 HTTPS
 
 ```csharp
 // Program.cs
@@ -96,7 +97,7 @@ builder.WebHost.ConfigureKestrel(options =>
 });
 ```
 
-### 开发环境例外
+##### 开发环境例外
 
 ```csharp
 // 开发环境允许 HTTP（但应提示）
@@ -112,10 +113,11 @@ else
 }
 ```
 
-## 检查清单
+#### 检查清单
 
 - [ ] JWT 密钥长度 ≥ 32 字符（256 位）
 - [ ] 启动时校验密钥有效性，无效则拒绝启动
 - [ ] 生产环境配置 `UseHttpsRedirection()`
 - [ ] 生产环境 JWT 有效期 ≤ 2 小时
 - [ ] 密钥从环境变量或密钥管理服务读取，不硬编码
+

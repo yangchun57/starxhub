@@ -1,10 +1,11 @@
-# 前端工程健壮性规范 · TypeScript 类型文件规范
+# 前端工程健壮性规范 · TypeScript类型文件规范
 
-> 对应问题：C-4（前端 `.d.ts` 包含运行时代码）
+> 拆分自《前端工程健壮性规范》第 2 节。需要全量上下文时读原文件。
 
-## 强制规则
 
-### 1. `.d.ts` 文件只能包含类型声明
+#### 强制规则
+
+##### 1. `.d.ts` 文件只能包含类型声明
 
 ```typescript
 // ✅ 正确：vite-env.d.ts 只声明类型
@@ -42,7 +43,7 @@ export enum Status {  // 错误！enum 是运行时代码
 }
 ```
 
-### 2. 运行时代码必须放在 `.ts` 文件
+##### 2. 运行时代码必须放在 `.ts` 文件
 
 ```typescript
 // ✅ 正确：constants.ts（运行时代码）
@@ -66,7 +67,7 @@ export interface User {
 }
 ```
 
-### 3. 文件命名规范
+##### 3. 文件命名规范
 
 ```
 types/
@@ -77,7 +78,7 @@ types/
 └── utils.ts          # 运行时工具函数
 ```
 
-### 4. 使用 `const` 枚举替代 `enum`（可选）
+##### 4. 使用 `const` 枚举替代 `enum`（可选）
 
 如果确实需要在 `.d.ts` 中定义枚举-like 的值，使用 `const` 对象：
 
@@ -94,19 +95,20 @@ export type Status = typeof Status[keyof typeof Status]
 const status: Status = Status.Active
 ```
 
-## 检查方法
+#### 检查方法
 
 ```bash
-# 查找 .d.ts 中的运行时代码
+### 查找 .d.ts 中的运行时代码
 grep -r "export const\|export function\|export enum" --include="*.d.ts" .
 
-# 应该只看到类型声明
-# 如果看到运行时代码，需要重命名为 .ts
+### 应该只看到类型声明
+### 如果看到运行时代码，需要重命名为 .ts
 ```
 
-## 检查清单
+#### 检查清单
 
 - [ ] `.d.ts` 文件只包含 `interface`、`type`、`declare`
 - [ ] 运行时常量放在 `.ts` 文件
 - [ ] 运行时函数放在 `.ts` 文件
 - [ ] `enum` 放在 `.ts` 文件（或使用 `const` 对象替代）
+

@@ -12,5 +12,6 @@ obj/
 .env
 .workbuddy/
 
-# 本地 Flutter 工程（含约 907MB 构建产物），不属于本插件仓库
-src/
+# 仅忽略仓库根目录下的本地 Flutter 工程（含约 907MB 构建产物）。
+# 必须锚定到根目录：写成 "src/" 会连 templates/code/*/src/ 模板源码一起忽略。
+/src/

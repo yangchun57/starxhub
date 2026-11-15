@@ -1,0 +1,203 @@
+/* ============================================================
+ * 基础层：reset / 排版 / 布局骨架 / 栅格 / 工具类
+ * 只做通用能力，不含任何具体组件样式（组件见 components.css）
+ * ============================================================ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--hx-page-bg);
+  color: var(--hx-text-primary);
+  font-family: var(--hx-font-sans);
+  font-size: var(--hx-fs-body);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4, h5, h6, p, figure {
+  margin: 0;
+}
+
+ul, ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  border: 0;
+  background: none;
+}
+
+svg {
+  display: block;
+}
+
+::selection {
+  background: var(--hx-brand-soft);
+  color: var(--hx-brand);
+}
+
+/* ---------- 滚动条 ---------- */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--hx-border);
+  border-radius: var(--hx-radius-pill);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--hx-text-muted);
+}
+
+/* ---------- 字阶工具类 ---------- */
+.hx-display { font-size: var(--hx-fs-display); font-weight: 700; }
+.hx-title   { font-size: var(--hx-fs-title);   font-weight: 700; }
+.hx-section { font-size: var(--hx-fs-section); font-weight: 600; }
+.hx-body    { font-size: var(--hx-fs-body); }
+.hx-sm      { font-size: var(--hx-fs-sm); }
+.hx-xs      { font-size: var(--hx-fs-xs); }
+.hx-num     { font-family: var(--hx-font-num); font-variant-numeric: tabular-nums; }
+.hx-metric  { font-family: var(--hx-font-num); font-size: var(--hx-fs-metric); font-weight: 700; letter-spacing: -0.5px; }
+.hx-muted   { color: var(--hx-text-muted); }
+.hx-secondary { color: var(--hx-text-secondary); }
+.hx-brand-text { color: var(--hx-brand); }
+.hx-semibold { font-weight: 600; }
+
+/* ---------- 页面骨架 ---------- */
+/* 外壳锁定视口高度：侧栏与顶栏不随页面滚动，只有 .hx-content 独立滚动。
+   dvh 优先，兼容移动端浏览器地址栏收缩；不支持时回退 vh。 */
+.hx-app {
+  display: flex;
+  height: 100vh;
+  height: 100dvh;
+  min-height: 0;
+  width: 100%;
+  overflow: hidden;
+}
+
+.hx-main {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--hx-page-bg);
+}
+
+.hx-content {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--hx-gap-section);
+  padding: var(--hx-gap-wide);
+  overflow: auto;
+  /* 暗色下系统默认滚动条会是刺眼的白条，统一走描边令牌 */
+  scrollbar-color: var(--hx-border) transparent;
+}
+/* 关键：flex 列容器默认会压缩子项来适应固定高度，卡片又是 overflow:hidden，
+   长内容会被直接裁掉且连滚动条都不出现。子项按自然高度排布，超出交给本容器滚动。 */
+.hx-content > * { flex-shrink: 0; }
+
+/* ---------- 通用行列 / 栅格 ---------- */
+.hx-row {
+  display: flex;
+  gap: var(--hx-gap-tight);
+  align-items: center;
+}
+.hx-row-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--hx-gap-tight);
+}
+.hx-col {
+  display: flex;
+  flex-direction: column;
+}
+.hx-spacer { flex: 1 1 auto; min-width: 0; }
+
+.hx-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--hx-gap-section);
+}
+.hx-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--hx-gap-section);
+}
+/* KPI 行：设计稿是 1440 基准下的 4 列，工程里改成自适应 */
+.hx-grid-kpi {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+.hx-grid-main {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: var(--hx-gap-section);
+  align-items: start;
+}
+
+/* ---------- 响应式 ---------- */
+@media (max-width: 1180px) {
+  .hx-grid-main { grid-template-columns: minmax(0, 1fr); }
+  .hx-grid-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 860px) {
+  :root { --hx-sidebar-w: 68px; }
+  .hx-content { padding: 16px; }
+  .hx-grid-2, .hx-grid-3 { grid-template-columns: minmax(0, 1fr); }
+  .hx-hide-narrow { display: none !important; }
+}
+@media (max-width: 560px) {
+  .hx-grid-kpi { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* ---------- 动效 ---------- */
+@keyframes hx-fade-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.hx-fade-in { animation: hx-fade-in 220ms var(--hx-ease) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

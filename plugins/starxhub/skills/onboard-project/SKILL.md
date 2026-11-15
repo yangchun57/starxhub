@@ -106,7 +106,7 @@ git commit -m "refactor: 迁移前端代码到 src/web/"
 运行 onboard.py 脚本，自动完成以下操作：
 
 ```bash
-python scripts/onboard.py <project-root> [--backend dotnet|python] [--frontend vue|uniapp]
+python scripts/onboard.py <project-root> [--backend dotnet|python|java-spring] [--frontend vue|uniapp|startech]
 ```
 
 脚本会：

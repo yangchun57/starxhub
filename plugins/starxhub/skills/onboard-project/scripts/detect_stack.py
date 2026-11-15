@@ -86,6 +86,20 @@ class ProjectDetector:
             self._locate_dotnet_backend(csproj_files)
             return
 
+        # Java + Spring Boot（Maven / Gradle，兼容 pom.xml 位于 src/backend/api 的脚手架布局）
+        pom_files = list(self.root.rglob("pom.xml"))[:1]
+        gradle_files = (list(self.root.rglob("build.gradle")) + list(self.root.rglob("build.gradle.kts")))[:1]
+        build_files = pom_files + gradle_files
+        if build_files:
+            content = "".join(p.read_text(encoding="utf-8", errors="ignore") for p in build_files).lower()
+            if "spring-boot" in content or "springframework" in content:
+                self.result["stack"]["backend"] = {
+                    "language": "java-spring",
+                    "framework": "spring-boot",
+                    "orm": "mybatis-plus" if "mybatis" in content else "jpa" if "jpa" in content else None,
+                }
+                return
+
         # Go
         if (self.root / "go.mod").exists():
             content = (self.root / "go.mod").read_text(encoding="utf-8", errors="ignore")
@@ -290,7 +304,7 @@ class ProjectDetector:
         frontend = self.result["stack"].get("frontend", {})
 
         # Level 1: 完全匹配（已知技术栈）
-        if backend.get("language") in ["python", "dotnet"] and frontend.get("framework") in ["vue3", "uniapp", "startech"]:
+        if backend.get("language") in ["python", "dotnet", "java-spring"] and frontend.get("framework") in ["vue3", "uniapp", "startech"]:
             self.result["stack_match"]["level"] = 1
         # Level 2: 部分匹配（能识别分层，但技术栈不在预定义内）
         elif backend.get("language") or frontend.get("framework"):
@@ -301,7 +315,7 @@ class ProjectDetector:
 
         self.result["stack_match"]["backend"] = {
             "detected": f"{backend.get('language', 'unknown')}-{backend.get('framework', 'unknown')}",
-            "supported": backend.get("language") in ["python", "dotnet"],
+            "supported": backend.get("language") in ["python", "dotnet", "java-spring"],
         }
         self.result["stack_match"]["frontend"] = {
             "detected": frontend.get("framework", "unknown"),

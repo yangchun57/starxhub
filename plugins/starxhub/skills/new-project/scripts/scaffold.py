@@ -132,7 +132,7 @@ BACKENDS = {
 FRONTS = {
     "vue": {
         "label": "Vue 3 + Element Plus + Pinia + Vite + TS",
-        "standards": ["前端开发规范.md"],
+        "standards": ["前端开发规范.md", "前端工程健壮性规范.md"],
         "rules": {
             "frontend-pages.vue.md": "frontend-pages.md",
             "frontend-state.vue.md": "frontend-state.md",
@@ -146,7 +146,7 @@ FRONTS = {
     },
     "uniapp": {
         "label": "uni-app + Vue 3 + Pinia + TS（H5 + 微信小程序）",
-        "standards": ["uni-app开发规范_v1.0.md", "移动端开发规范_v1.0.md"],
+        "standards": ["uni-app开发规范_v1.0.md", "移动端开发规范_v1.0.md", "前端工程健壮性规范.md"],
         "rules": {
             "frontend-pages.uniapp.md": "frontend-pages.md",
             "frontend-state.uniapp.md": "frontend-state.md",
@@ -160,7 +160,7 @@ FRONTS = {
     },
     "startech": {
         "label": "星辰 starTech 设计系统（Vue 3.5 + Vite 6 + TS 5.7，零 UI 库，自研 hx- 组件）",
-        "standards": ["星辰前端开发规范.md"],
+        "standards": ["星辰前端开发规范.md", "前端工程健壮性规范.md"],
         "rules": {
             "frontend-pages.startech.md": "frontend-pages.md",
             "frontend-state.startech.md": "frontend-state.md",
@@ -174,8 +174,9 @@ FRONTS = {
     },
 }
 
-ALWAYS_STANDARDS = ["通用开发规范.md"]
-TEXT_EXT = (".py", ".ts", ".vue", ".js", ".mjs", ".json", ".scss", ".css", ".html", ".md", ".ini", ".txt", ".example")
+ALWAYS_STANDARDS = ["通用开发规范.md", "安全编码规范.md", "并发与资源管理规范.md"]
+TEXT_EXT = (".py", ".ts", ".vue", ".js", ".mjs", ".json", ".scss", ".css", ".html", ".md", ".ini", ".txt",
+            ".example", ".java", ".xml", ".yml", ".yaml", ".properties", ".sql", ".gradle")
 
 # ============ 本地质量门禁（scripts/ci.sh）：fmt + build + test + 前端构建 ============
 CI_BACKEND_CMDS = {
@@ -188,6 +189,9 @@ CI_BACKEND_CMDS = {
               'command -v ruff >/dev/null && { echo "  · ruff"; ruff check .; }\n'
               'command -v black >/dev/null && { echo "  · black"; black --check .; }\n'
               'echo "  · pytest"; pytest -q',
+    "java-spring": 'cd "$ROOT/src/backend/api"\n'
+                   'echo "  · Maven 编译"; mvn -q -B compile\n'
+                   'echo "  · Maven 测试"; mvn -q -B test',
 }
 CI_FRONTEND_CMDS = {
     "vue": 'cd "$ROOT/src/backend/web"\n'
@@ -263,17 +267,21 @@ def write(path, content):
 
 
 def copy_tree_render(src_dir, dst_dir, mapping):
-    """递归拷贝模板目录，文本文件按 mapping 渲染占位符；跳过 __pycache__/.pyc。"""
+    """递归拷贝模板目录；文件内容与相对路径都按 mapping 渲染占位符，跳过 __pycache__/.pyc。
+
+    路径渲染用于 Java 这类「包名即目录」的模板（如 {{javaPackagePath}}/common/R.java）。
+    """
     for base, dirs, files in os.walk(src_dir):
         dirs[:] = [d for d in dirs if d != "__pycache__"]
         rel = os.path.relpath(base, src_dir)
-        target_base = dst_dir if rel == "." else os.path.join(dst_dir, rel)
+        rel_out = render_text(rel, mapping)
+        target_base = dst_dir if rel_out == "." else os.path.join(dst_dir, rel_out)
         os.makedirs(target_base, exist_ok=True)
         for fn in files:
             if fn.endswith(".pyc"):
                 continue
             src = os.path.join(base, fn)
-            dst = os.path.join(target_base, fn)
+            dst = os.path.join(target_base, render_text(fn, mapping))
             if fn.endswith(TEXT_EXT):
                 try:
                     write(dst, render(src, mapping))
@@ -477,6 +485,18 @@ def init_api_python(target, code_name, mapping):
     print(f"  [OK] API 工程 {code_name} 生成完成（FastAPI + SQLAlchemy + 租户基础设施）")
 
 
+def init_api_java_spring(target, code_name, mapping):
+    """按 Java 后台开发规范生成 Spring Boot 3 工程（R<T>/异常/租户插件/JWT/Security）。"""
+    api = os.path.join(target, "src", "backend", "api")
+    tpl = os.path.join(TEMPLATE_DIR, "code", "api-java")
+    copy_tree_render(tpl, api, mapping)
+    for d in ["service", "mapper", "entity", "dto/request", "dto/response", "converter"]:
+        os.makedirs(os.path.join(api, "src", "main", "java",
+                                 mapping["{{javaPackagePath}}"], *d.split("/")), exist_ok=True)
+    os.makedirs(os.path.join(api, "src", "main", "resources", "mapper"), exist_ok=True)
+    print(f"  [OK] API 工程 {code_name} 生成完成（Spring Boot 3 + MyBatis-Plus + 租户插件）")
+
+
 # ============ 前端工程 ============
 def init_web_vue(target, code_name, name, desc):
     web_dir = os.path.join(target, "src", "backend", "web")
@@ -575,7 +595,9 @@ def init_deploy(target, code_name, backend, frontend):
     os.makedirs(os.path.join(target, "src", "backend", "web"), exist_ok=True)
     shutil.copy2(docker_web_src, os.path.join(target, "src", "backend", "web", "Dockerfile.web"))
 
-    shutil.copy2(os.path.join(dep, "docker-compose.yml"), os.path.join(target, "docker-compose.yml"))
+    # compose 也按后端栈选变体（默认文件是 .NET 连接串，Java/Python 项目不能直接用）
+    compose_src = _variant(dep, "docker-compose.yml", backend)
+    shutil.copy2(compose_src, os.path.join(target, "docker-compose.yml"))
     shutil.copy2(os.path.join(dep, "dependabot.yml"), os.path.join(target, ".github", "dependabot.yml"))
     print("  [OK] 部署文件生成（CI + Dockerfile x2 + compose + dependabot）")
 
@@ -600,7 +622,7 @@ def main():
     parser.add_argument("--name", default="新项目", help="项目名称（中文显示名）")
     parser.add_argument("--desc", default="", help="项目一句话描述")
     parser.add_argument("--code-name", default="App", help="代码工程名（英文 PascalCase，默认 App）")
-    parser.add_argument("--backend", default=None, choices=list(BACKENDS.keys()), help="后端技术栈：dotnet|python")
+    parser.add_argument("--backend", default=None, choices=list(BACKENDS.keys()), help="后端技术栈：dotnet|python|java-spring")
     parser.add_argument("--frontend", default=None, choices=list(FRONTS.keys()), help="前端技术栈：vue|uniapp|startech")
     parser.add_argument("--standards", default="", help="自定义开发规范源目录（可选），覆盖 .claude/standards/")
     args = parser.parse_args()
@@ -614,6 +636,16 @@ def main():
     frontend = args.frontend or ask_choice(args.frontend, "前端技术栈 frontend", FRONTS, "vue")
 
     mapping = {"{{PROJECT_NAME}}": name, "{{PROJECT_DESC}}": desc, "{{codeName}}": to_kebab(code_name), "{{CodeName}}": code_name}
+    # Java 包名：合法小写标识符；路径 token 用于「包名即目录」的 api-java 模板
+    java_leaf = re.sub(r"[^a-z0-9]", "", to_kebab(code_name).replace("-", ""))
+    if not java_leaf or not java_leaf[0].isalpha():
+        java_leaf = "app" + java_leaf
+    mapping["{{javaPackage}}"] = f"com.example.{java_leaf}"
+    mapping["{{javaPackagePath}}"] = os.path.join("com", "example", java_leaf)
+    # starTech 前端 http.ts 按后端形态选择响应适配策略
+    mapping["{{BACKEND_ENVELOPE}}"] = {
+        "dotnet": "dotnet", "python": "python", "java-spring": "java-spring",
+    }[backend]
     mapping.update(BACKENDS[backend]["tokens"])
     mapping.update(FRONTS[frontend]["tokens"])
 
@@ -643,8 +675,10 @@ def main():
     print("\n[代码工程]")
     if backend == "dotnet":
         init_api_dotnet(target, code_name)
-    else:
+    elif backend == "python":
         init_api_python(target, code_name, mapping)
+    else:
+        init_api_java_spring(target, code_name, mapping)
     if frontend == "vue":
         init_web_vue(target, code_name, name, desc)
     elif frontend == "uniapp":

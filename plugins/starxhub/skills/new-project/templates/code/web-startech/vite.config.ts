@@ -3,7 +3,7 @@ import vue from '@vitejs/plugin-vue'
 import { fileURLToPath, URL } from 'node:url'
 
 export default defineConfig({
-  // 相对路径：dist 可直接扔进 .NET8 wwwroot 的任意子目录，无需改资源前缀
+  // 相对路径：dist 可直接静态托管到任意子目录，无需改资源前缀
   base: './',
   plugins: [vue()],
   resolve: {
@@ -13,10 +13,10 @@ export default defineConfig({
   },
   server: {
     port: 5173,
-    // 对接 .NET8 后端时把下面的目标改成你的 API 根地址
+    // 代理目标由脚手架按 --backend 注入（dotnet 5157 / python 8000 / java-spring 8080）
     proxy: {
       '/api': {
-        target: 'http://localhost:5000',
+        target: '{{BACKEND_ORIGIN}}',
         changeOrigin: true,
       },
     },

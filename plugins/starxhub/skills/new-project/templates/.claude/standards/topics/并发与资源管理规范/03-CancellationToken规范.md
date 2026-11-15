@@ -1,10 +1,11 @@
-# 并发与资源管理规范 · CancellationToken 规范
+# 并发与资源管理规范 · CancellationToken规范
 
-> 对应问题：M-13（Async 方法缺少 CancellationToken）
+> 拆分自《并发与资源管理规范》第 3 节。需要全量上下文时读原文件。
 
-## 强制规则
 
-### 1. 所有 Async 方法必须传递 CancellationToken
+#### 强制规则
+
+##### 1. 所有 Async 方法必须传递 CancellationToken
 
 ```csharp
 // ❌ 错误：缺少 CancellationToken
@@ -28,7 +29,7 @@ public interface IRegistrationService
 }
 ```
 
-### 2. Service 实现必须传递 CancellationToken
+##### 2. Service 实现必须传递 CancellationToken
 
 ```csharp
 public class RegistrationService : IRegistrationService
@@ -62,7 +63,7 @@ public class RegistrationService : IRegistrationService
 }
 ```
 
-### 3. Controller 传递 HttpContext.RequestAborted
+##### 3. Controller 传递 HttpContext.RequestAborted
 
 ```csharp
 [ApiController]
@@ -99,7 +100,7 @@ public class RegistrationController : ControllerBase
 }
 ```
 
-### 4. 前端请求取消
+##### 4. 前端请求取消
 
 ```typescript
 // ✅ 正确：组件卸载时取消请求
@@ -129,9 +130,10 @@ const loadData = async () => {
 }
 ```
 
-## 检查清单
+#### 检查清单
 
 - [ ] 所有 Async 方法签名包含 `CancellationToken cancellationToken = default`
 - [ ] ORM 查询方法传递 cancellationToken
 - [ ] Controller 传递 `HttpContext.RequestAborted`
 - [ ] 前端长耗时请求支持 AbortController 取消
+

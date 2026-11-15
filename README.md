@@ -173,12 +173,26 @@ starxhub/                              # 仓库根 = 插件市场
 
 ## 更新日志
 
+### v2.4.0 — 补全 java-spring 栈、前后端契约与孤儿规范源文档
+
+- **`java-spring` 后端栈真正可用**：此前 `--backend java-spring` 会因 `CI_BACKEND_CMDS` 缺键直接崩溃，且 `main()` 的 `if dotnet else python` 会给 Java 项目生成一套 Python 工程。本版补齐：
+  - 《Java后台开发规范》12 章全量正文 + `topics/` 主题索引
+  - 三份路径范围 rules：`backend-api/domain/infra.java-spring.md`
+  - `templates/code/api-java/` 19 个文件的 Spring Boot 3 骨架（`R<T>` / `PageResult<T>` / 全局异常 / MyBatis-Plus 租户与分页插件 / JWT + 无状态 Security / 健康检查 / JUnit 5 用例）
+  - `CI_BACKEND_CMDS["java-spring"]`、`init_api_java_spring()`，以及 `Dockerfile.api` / `ci.yml` / `docker-compose.yml` 三个 java-spring 变体
+  - `detect_stack.py` 识别 Spring Boot（pom / gradle），`onboard.py` 支持 `--backend java-spring`
+- **前后端数据契约对齐**：新增 `src/api/http.ts`（零依赖原生 fetch），把 dotnet 信封、java-spring `R<T>`、python RESTful 裸 DTO 统一收敛成前端 `ApiResult<T>`，并归一化 `size → pageSize`、`records → items`；`envelope` 与 Vite `/api` 代理目标由脚手架按 `--backend` 注入。后端模板与 `useRequest` 签名均未改动。
+- **补齐 3 份孤儿规范源文档**：《安全编码规范》《并发与资源管理规范》《前端工程健壮性规范》由手工 topics 分片回并（分片正文标题整体降两级，防止重跑拆分被误切），章节与 15 个分片文件名一一对应；注册到 `ALWAYS_STANDARDS` 与三套前端 profile，重跑 `split-standards.py` 不再切碎或丢数据。
+- 模板渲染器支持 `.java/.xml/.yml` 等后缀与**路径占位符**（`{{javaPackagePath}}` 实现「包名即目录」）；`docker-compose.yml` 改为按后端栈选变体（原文件是 .NET 专用连接串）。
+- **修复 v2.3.0 的推送回归**：`.gitignore` 的 `src/` 未锚定仓库根目录，导致 `templates/code/web-startech/src/`（43 个文件）被误忽略、没有进入上一版提交，克隆后生成的项目会缺整个前端源码。本版改为 `/src/`（只忽略根目录的本地 Flutter 工程），并补齐全部模板源码与 `api-java/src/`。
+- `plugin.json` 与 `marketplace.json` 版本统一为 2.4.0。
+
 ### v2.3.0 — 新增 startech 前端设计系统栈
 
 - 新增第三套前端 profile `startech`（Vue 3.5 + Vite 6 + TS 5.7，零 UI 库），与 `vue` / `uniapp` 并列，现有两套行为不变
 - 纳入《星辰（starTech）前端开发设计规范》v1.1 全量正文（782 行 / 21 章），按 `## ` 拆入 `topics/` 主题索引
 - 新增两份路径范围 rules：`frontend-pages.startech.md`、`frontend-state.startech.md`
-- 新增完整工程模板 `templates/code/web-startech/`：三层 CSS、四层组件（25 个）、9 个视图、router/types/mock/composables、showcase 预览站；品牌文案占位符化
+- 新增完整工程模板 `templates/code/web-startech/`：三层 CSS、四层组件（21 个）、9 个视图、router/types/mock/composables、showcase 预览站；品牌文案占位符化
 - 新增 `Dockerfile.web.startech`（用 `npm install`，模板不入库 lock）与 `CI_FRONTEND_CMDS["startech"]`（typecheck + build + sync:showcase）
 - 修复 `onboard-project`：rules 模板路径失配（扁平变体文件 vs 子目录）导致前后端规则静默不生成；不再删除目标项目已有 `standards/`；`--backend/--frontend` 覆盖参数真正生效；`detect_stack` 支持识别 startech 并放宽 Vue 3 判定
 - 模板 `topics/INDEX.md` 新增《星辰前端开发规范》主题索引并生成 21 个主题分片；仓库内原有的 3 个「有分片、无顶层源文档」的孤儿主题保持原样（模板 topics 不参与项目生成，留待后续单独补源）

@@ -110,6 +110,7 @@ def generate_rules(project_root: str, detection: dict,
         "dotnet": ".dotnet",
         "python": ".python",
         "java-spring": ".java-spring",
+        "java": ".java-spring",
     }.get(backend_lang)
     if backend_suffix:
         _copy_variant_rules(os.path.join(TEMPLATE_DIR, ".claude", "rules", "_backend"),

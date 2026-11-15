@@ -1,0 +1,127 @@
+/* ============================================================
+ * {{PROJECT_NAME}}· 设计令牌（Design Tokens）
+ * 来源：Ardot 设计稿变量集 / Light 模式（工程侧统一命名为 {{PROJECT_NAME}} Admin）
+ * 规则：组件与页面里禁止出现字面量色值，一律 var(--hx-*)
+ * ============================================================ */
+
+:root {
+  /* ---------- 表面 / 背景 ---------- */
+  --hx-page-bg: #f5f7fa;
+  --hx-surface: #ffffff;
+  --hx-surface-subtle: #f7f9fc;
+  --hx-surface-wash: #f5f8ff;
+  --hx-sidebar: #14243c;
+  --hx-sidebar-raised: #1e3355;
+  --hx-sidebar-track: #2c4569;
+  --hx-sidebar-line: #223753;
+
+  /* ---------- 文本 ---------- */
+  --hx-text-primary: #1b2537;
+  --hx-text-body: #33415a;
+  --hx-text-secondary: #7a879b;
+  --hx-text-muted: #a6b0c0;
+  --hx-text-on-dark: #ffffff;
+  --hx-text-on-dark-2: #a9bcd8;
+  --hx-text-on-dark-3: #7e93b4;
+  --hx-icon-on-dark: #8fa6c6;
+
+  /* ---------- 描边 ---------- */
+  --hx-border: #e8ecf2;
+  --hx-border-soft: #eef1f6;
+  --hx-border-input: #e8ecf2;
+
+  /* ---------- 品牌 / 语义色 ---------- */
+  --hx-brand: #2f6df6;
+  --hx-brand-hover: #1f5ae0;
+  --hx-brand-soft: #e8f0ff;
+  --hx-brand-wash: #f5f8ff;
+  --hx-brand-on-dark: #7fa8ff;
+
+  --hx-success: #12866e;
+  --hx-success-soft: #e6f7f1;
+  --hx-success-bright: #1fa88a;
+  --hx-warning: #c7771f;
+  --hx-warning-soft: #fff2e3;
+  --hx-warning-bright: #ee9433;
+  --hx-danger: #d2646a;
+  --hx-danger-soft: #fdecee;
+  --hx-danger-bright: #e4676c;
+  --hx-danger-dot: #f2726f;
+  --hx-info: #5a6b85;
+  --hx-info-soft: #eef2f8;
+
+  /* ---------- 图表色板（顺序固定，勿随意调换） ---------- */
+  --hx-chart-1: #2f6df6;
+  --hx-chart-2: #23b794;
+  --hx-chart-3: #f5a33f;
+  --hx-chart-4: #8fa6c6;
+  --hx-chart-grid: #eef1f6;
+  --hx-chart-compare: #c9d4e8;
+  --hx-accent-yellow: #ffc86b;
+  --hx-accent-mint: #4fc3a1;
+
+  /* ---------- 圆角 ---------- */
+  --hx-radius-card: 14px;
+  --hx-radius-panel: 12px;
+  --hx-radius-control: 9px;
+  --hx-radius-tag: 6px;
+  --hx-radius-pill: 999px;
+
+  /* ---------- 间距 / 尺寸 ---------- */
+  --hx-gap-section: 18px;
+  --hx-gap-tight: 10px;
+  --hx-gap-wide: 24px;
+  --hx-sidebar-w: 236px;
+  --hx-topbar-h: 72px;
+  --hx-control-h: 36px;
+  --hx-control-h-lg: 40px;
+
+  /* ---------- 字体 ---------- */
+  --hx-font-sans: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", system-ui, -apple-system, sans-serif;
+  --hx-font-num: "Geist", "Inter", "SF Pro Display", system-ui, sans-serif;
+
+  /* ---------- 字阶 ---------- */
+  --hx-fs-display: 24px;
+  --hx-fs-title: 19px;
+  --hx-fs-section: 14px;
+  --hx-fs-body: 12px;
+  --hx-fs-sm: 11px;
+  --hx-fs-xs: 10px;
+  --hx-fs-metric: 25px;
+
+  /* ---------- 阴影 / 动效 ---------- */
+  --hx-shadow-card: 0 1px 2px rgba(27, 37, 55, 0.04);
+  --hx-shadow-pop: 0 12px 32px rgba(27, 37, 55, 0.14);
+  --hx-ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --hx-dur: 160ms;
+}
+
+/* ============================================================
+ * 暗色模式示意：只覆盖表面与文本，语义色保持同一套色相
+ * 用法：document.documentElement.dataset.theme = 'dark'
+ * ============================================================ */
+[data-theme="dark"] {
+  --hx-page-bg: #101a2b;
+  --hx-surface: #18263d;
+  --hx-surface-subtle: #1e3355;
+  --hx-surface-wash: #1b2c49;
+  --hx-sidebar: #0c1626;
+  --hx-sidebar-raised: #1a2b47;
+  --hx-sidebar-track: #2c4569;
+  --hx-sidebar-line: #223753;
+  --hx-text-primary: #eef3fb;
+  --hx-text-body: #cbd7e8;
+  --hx-text-secondary: #8fa6c6;
+  --hx-text-muted: #667fa3;
+  --hx-border: #263a58;
+  --hx-border-soft: #223753;
+  --hx-border-input: #2c4569;
+  --hx-brand-soft: #1c3563;
+  --hx-brand-wash: #1b2c49;
+  --hx-success-soft: #143d35;
+  --hx-warning-soft: #402d18;
+  --hx-danger-soft: #40232c;
+  --hx-info-soft: #223753;
+  --hx-chart-grid: #263a58;
+  --hx-shadow-card: 0 1px 2px rgba(0, 0, 0, 0.2);
+}

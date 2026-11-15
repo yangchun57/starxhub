@@ -90,7 +90,7 @@ req-coordinator                     （协调者）
 2. Run the generator: `python scripts/scaffold.py <target-dir> --name "名称" --desc "描述" --code-name "CodeName" [--backend dotnet|python|java-spring] [--frontend vue|uniapp|startech] [--standards <规范源目录>]`
    - `--frontend startech` 走 `init_web_startech()`：直接渲染 `templates/code/web-startech/`（不调 create-vite、不装 UI 库），再 `npm install` 与 `node showcase/sync-styles.mjs` 补齐预览站 CSS 副本。
 3. The script generates: .claude/（agents/commands/hooks/settings）、CLAUDE.md、docs/ 整目录（00-项目文档 md 工作文件模板 + README 三轨格式规范 + common.css + md2html.py 转换器 + _模板与规范 裸HTML模板与图标速查），src/backend 代码工程（dotnet new .NET 8 分层 API 含集成测试基类 + npm create vite Vue 3 web 含 prettier），外加 sql/migrations 迁移目录、gen:api 类型生成、.editorconfig、本地优先质量门禁 `scripts/ci.sh`（fmt+build+test+前端构建，按栈渲染）与 `.githooks/pre-push` 钩子（`git push` 前自动跑、init 时已设 `core.hooksPath`），CI workflow + Dockerfile x2 + docker-compose + dependabot（远端 CI 复用同一 ci.sh 作兜底）。CLAUDE.md 内置分支约定（trunk-based：main 干净可构建 + feat/change 分支）。docs 三轨格式约定：README/Agent 工作文件=md，01/02 交付物=HTML（裸HTML 引 common.css，用 md2html.py 转换）。包含 8 个需求评审 Agent（req-*），形成完整的需求评审团队；另含 functional-tester / bug-fixer 两个测试修复 Agent（对应 /gen-test-cases、/fix-bug 命令）。
-4. `--standards` 指向自定义规范源目录时，脚本覆盖 `.claude/standards/`；未提供时按技术栈从内置规范集挑选源文档（含《星辰前端开发规范》，顶层共 8 份源文档）复制到项目，并重跑 `split-standards.py` 生成 `topics/` 主题索引——Agent 优先读 topics/INDEX.md 定位主题，禁止无目的整读大规范。规范更新后可重跑 `python scripts/split-standards.py <standards目录>` 重新生成 topics。
+4. `--standards` 指向自定义规范源目录时，脚本覆盖 `.claude/standards/`；未提供时按技术栈从内置规范集挑选源文档（顶层共 12 份：含《星辰前端开发规范》《Java后台开发规范》及安全编码 / 并发与资源管理 / 前端工程健壮性三份质量规范）复制到项目，并重跑 `split-standards.py` 生成 `topics/` 主题索引——Agent 优先读 topics/INDEX.md 定位主题，禁止无目的整读大规范。规范更新后可重跑 `python scripts/split-standards.py <standards目录>` 重新生成 topics。
 5. 脚本自动 `git init` 并创建初始提交（`chore: 初始化项目脚手架`）；git 未安装或未配置 user.name/email 时只 git init、跳过提交。
 6. Remind the user: fill CLAUDE.md TODO placeholders, add `git remote add origin <url>`, then run `claude` at the project ROOT (not a subdirectory).
 
@@ -149,7 +149,7 @@ new-project/
 │   ├── .gitignore
 │   ├── .claude/            ← agents/commands/hooks/rules/settings + standards
 │   │   ├── agents/         ← 24 个 Agent 模板（含 8 个需求评审 + 2 个方案门禁 + 2 个测试修复 + 1 个高保真原型）
-│   │   ├── rules/          ← 15 个路径范围规则模板（_always 3 + _backend 6 + _frontend 6，按技术栈选择并去掉变体后缀）
+│   │   ├── rules/          ← 18 个路径范围规则模板（_always 3 + _backend 9 + _frontend 6，按技术栈选择并去掉变体后缀）
 │   │   └── skills/         ← 内置 Skill（hifi-prototype 高保真原型设计系统）
 │   ├── docs/00-项目文档/   ← 12 个文档模板
 │   ├── docs/README.md      ← 文档管理规范
