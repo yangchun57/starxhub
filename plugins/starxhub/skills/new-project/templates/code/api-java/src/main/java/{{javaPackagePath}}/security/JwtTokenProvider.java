@@ -14,7 +14,7 @@ import java.util.Base64;
  */
 @Component
 public class JwtTokenProvider {
-    private static final String HEADER = "{"alg":"HS256","typ":"JWT"}";
+    private static final String HEADER = "{\"alg\":\"HS256\",\"typ\":\"JWT\"}";
     private final String secret;
 
     public JwtTokenProvider(@Value("${jwt.secret:}") String secret) {
@@ -38,7 +38,7 @@ public class JwtTokenProvider {
             return null;
         }
         String payload = new String(Base64.getUrlDecoder().decode(parts[1]), StandardCharsets.UTF_8);
-        int i = payload.indexOf(""sub":"");
+        int i = payload.indexOf("\"sub\":\"");
         if (i < 0) {
             return null;
         }
