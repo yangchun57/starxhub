@@ -15,6 +15,7 @@ Generate a complete Claude Code multi-agent team covering the full software-engi
 - `docs/00-项目文档/` holds business-specific content: requirements, architecture, task plans
 - `CLAUDE.md` is the connection point (接线点): project overview + red lines + doc index
 - Agent definitions MUST NOT contain business nouns or rules — those live in CLAUDE.md. Agents reference "遵守 CLAUDE.md 的最高优先级约束" instead of duplicating rules.
+- **多租户是 opt-in 红线（默认关闭）**: tenant isolation is NOT a default. Only with `--multi-tenant` does the generator inject tenant red lines (CLAUDE.md/rules/agents/commands/standards), the tenant guard hook, and tenant infrastructure code. Single-tenant is the default and must stay clean of tenant constraints. Templates use `#@@TENANT_ONLY_*` / `#@@SINGLE_ONLY_*` conditional blocks resolved at render time.
 
 ## Directory structure to create
 
@@ -86,8 +87,10 @@ req-coordinator                     （协调者）
 
 ## Scaffolding workflow
 
-1. Ask the user for: project name, one-line description, target directory, and tech stack — backend `dotnet` (default) / `python` / `java-spring`, frontend `vue` (default) / `uniapp` / `startech`. If a stack is not specified, the generator prompts interactively; never silently pick.
-2. Run the generator: `python scripts/scaffold.py <target-dir> --name "名称" --desc "描述" --code-name "CodeName" [--backend dotnet|python|java-spring] [--frontend vue|uniapp|startech] [--standards <规范源目录>]`
+1. Ask the user for: project name, one-line description, target directory, and tech stack — backend `dotnet` (default) / `python` / `java-spring`, frontend `vue` (default) / `uniapp` / `startech`. If a stack is not specified, the generator prompts interactively; never silently pick. Also ask explicitly: **"是否需要多租户隔离？"** — multi-tenant is a red-line design and is OFF by default; only pass `--multi-tenant` when the user confirms they need tenant isolation. Do NOT enable it just because a project "looks like a SaaS".
+2. Run the generator: `python scripts/scaffold.py <target-dir> --name "名称" --desc "描述" --code-name "CodeName" [--backend dotnet|python|java-spring] [--frontend vue|uniapp|startech] [--standards <规范源目录>] [--multi-tenant]`
+   - `--multi-tenant` 省略则生成单租户项目：不注入租户红线到 CLAUDE.md/rules/agents/commands/standards，不生成租户守卫 hook 与租户基础设施代码（Python `context.py`、`TenantMixin`；Java `TenantContext`/租户拦截器；前端租户登录字段等），分页/JWT/迁移等通用设施照常生成。传入则完整启用上述租户能力。
+   - 交互终端下脚本也会二次确认（默认否），非交互终端默认单租户。
    - `--frontend startech` 走 `init_web_startech()`：直接渲染 `templates/code/web-startech/`（不调 create-vite、不装 UI 库），再 `npm install` 与 `node showcase/sync-styles.mjs` 补齐预览站 CSS 副本。
 3. The script generates: .claude/（agents/commands/hooks/settings）、CLAUDE.md、docs/ 整目录（00-项目文档 md 工作文件模板 + README 三轨格式规范 + common.css + md2html.py 转换器 + _模板与规范 裸HTML模板与图标速查），src/backend 代码工程（dotnet new .NET 8 分层 API 含集成测试基类 + npm create vite Vue 3 web 含 prettier），外加 sql/migrations 迁移目录、gen:api 类型生成、.editorconfig、本地优先质量门禁 `scripts/ci.sh`（fmt+build+test+前端构建，按栈渲染）与 `.githooks/pre-push` 钩子（`git push` 前自动跑、init 时已设 `core.hooksPath`），CI workflow + Dockerfile x2 + docker-compose + dependabot（远端 CI 复用同一 ci.sh 作兜底）。CLAUDE.md 内置分支约定（trunk-based：main 干净可构建 + feat/change 分支）。docs 三轨格式约定：README/Agent 工作文件=md，01/02 交付物=HTML（裸HTML 引 common.css，用 md2html.py 转换）。包含 8 个需求评审 Agent（req-*），形成完整的需求评审团队；另含 functional-tester / bug-fixer 两个测试修复 Agent（对应 /gen-test-cases、/fix-bug 命令）。
 4. `--standards` 指向自定义规范源目录时，脚本覆盖 `.claude/standards/`；未提供时按技术栈从内置规范集挑选源文档（顶层共 12 份：含《星辰前端开发规范》《Java后台开发规范》及安全编码 / 并发与资源管理 / 前端工程健壮性三份质量规范）复制到项目，并重跑 `split-standards.py` 生成 `topics/` 主题索引——Agent 优先读 topics/INDEX.md 定位主题，禁止无目的整读大规范。规范更新后可重跑 `python scripts/split-standards.py <standards目录>` 重新生成 topics。

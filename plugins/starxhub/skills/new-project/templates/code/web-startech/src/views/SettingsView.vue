@@ -45,7 +45,7 @@
               <div class="hx-alert">所有颜色、圆角与间距均来自 tokens.css，切换主题无需改动组件代码。</div>
             </template>
 
-            <template v-else-if="group === '权限与租户'">
+            <template v-else-if="group === '权限#@@TENANT_ONLY_START与租户#@@TENANT_ONLY_END'">
               <div v-for="p in permissions" :key="p.label" class="hx-row-between" style="padding: 10px 0; border-bottom: 1px solid var(--hx-border-soft)">
                 <div class="hx-col">
                   <span class="hx-body hx-semibold">{{ p.label }}</span>
@@ -82,13 +82,15 @@ import HxSelect from '@/components/base/HxSelect.vue'
 import { useTheme } from '@/composables/useTheme'
 
 const { toggle } = useTheme()
-const groups = ['基本信息', '外观偏好', '权限与租户', '通知配置']
+const groups = ['基本信息', '外观偏好', '权限#@@TENANT_ONLY_START与租户#@@TENANT_ONLY_END', '通知配置']
 const group = ref('基本信息')
 const themeMode = ref('跟随设计令牌 · 浅色')
 const saving = ref(false)
 const palette = ['var(--hx-chart-1)', 'var(--hx-chart-2)', 'var(--hx-chart-3)', 'var(--hx-danger-bright)', 'var(--hx-sidebar)']
 const permissions = reactive([
+#@@TENANT_ONLY_START
   { label: '多租户数据隔离', desc: '按组织 ID 隔离全部业务数据', on: true },
+#@@TENANT_ONLY_END
   { label: '角色权限控制', desc: '基于 RBAC 控制菜单与操作', on: true },
   { label: '操作审计日志', desc: '记录关键操作与登录行为', on: true },
   { label: '开放 API 访问', desc: '允许第三方系统调用开放接口', on: false },

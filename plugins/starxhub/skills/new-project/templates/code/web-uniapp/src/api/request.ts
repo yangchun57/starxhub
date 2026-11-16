@@ -33,12 +33,17 @@ function currentQuery(): string {
 export function redirectToLogin(): void {
   // #ifdef H5
   if (isWechatBrowser()) {
+    //@@TENANT_ONLY_START
     const tenantId = uni.getStorageSync("tenant_id") || "default";
     location.href =
       "/api/auth/wechat-h5-login?redirect=" +
       encodeURIComponent(location.href) +
       "&tenant=" +
       tenantId;
+    //@@TENANT_ONLY_END
+    //@@SINGLE_ONLY_START
+    location.href = "/api/auth/wechat-h5-login?redirect=" + encodeURIComponent(location.href);
+    //@@SINGLE_ONLY_END
   } else {
     uni.reLaunch({ url: "/pages/auth/login" + currentQuery() });
   }

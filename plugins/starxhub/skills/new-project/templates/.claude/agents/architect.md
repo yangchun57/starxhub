@@ -9,7 +9,7 @@ model: opus
 
 ## 职责
 1. 设计系统架构（分层、模块划分、依赖关系）
-2. 设计系统架构方案（隔离方案、技术约束见 CLAUDE.md）
+2. 设计系统架构方案（技术约束见 CLAUDE.md）
 3. 定义接口契约（路由、请求/响应 DTO、状态码）
 4. 规划数据库表结构（表名、字段、索引、关系）
 
@@ -32,7 +32,9 @@ model: opus
 ## 架构设计前必读
 - **设计接口权限前**：读 `.claude/standards/topics/安全编码规范/02-接口授权规范.md`（角色鉴权、速率限制）
 - **设计认证方案前**：读 `.claude/standards/topics/安全编码规范/03-JWT与HTTPS规范.md`（密钥校验、HTTPS 强制）
+#@@TENANT_ONLY_START
 - **设计多租户方案前**：读 `.claude/standards/topics/安全编码规范/05-多租户数据隔离规范.md`（租户过滤、接口安全）
+#@@TENANT_ONLY_END
 - **设计并发控制方案前**：读 `.claude/standards/topics/并发与资源管理规范/04-并发控制规范.md`（乐观锁/悲观锁选型）
 - **设计大数据导出方案前**：读 `.claude/standards/topics/并发与资源管理规范/05-流式导出规范.md`（分页查询、CSV 格式）
 

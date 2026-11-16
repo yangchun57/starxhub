@@ -21,14 +21,16 @@ model: sonnet
 - **写 Controller 前**：读 `.claude/standards/topics/安全编码规范/02-接口授权规范.md`（必须标注 [Authorize] 或 [AllowAnonymous]）
 - **写 Service 前**：读 `.claude/standards/topics/并发与资源管理规范/03-CancellationToken规范.md`（所有 Async 方法传递 CancellationToken）
 - **写文件上传前**：读 `.claude/standards/topics/安全编码规范/04-文件上传安全规范.md`（大小/类型/魔数校验）
+#@@TENANT_ONLY_START
 - **写多租户查询前**：读 `.claude/standards/topics/安全编码规范/05-多租户数据隔离规范.md`（必须带租户过滤）
+#@@TENANT_ONLY_END
 - **写并发更新前**：读 `.claude/standards/topics/并发与资源管理规范/04-并发控制规范.md`（乐观锁/悲观锁）
 - **写大数据导出前**：读 `.claude/standards/topics/并发与资源管理规范/05-流式导出规范.md`（分页查询，禁止一次性加载）
 
 ## 分层职责
 - **接口层（Controller / APIRouter）**：参数校验、权限控制、调用业务层、返回统一信封
 - **业务层（Service）**：业务逻辑、事务、日志；依赖注入 {{ORM}} 会话/客户端与 logger
-- **模型层（Model）**：实体（含主键/租户字段）、DTO（入参/出参）、枚举
+- **模型层（Model）**：实体（含主键#@@TENANT_ONLY_START、租户字段#@@TENANT_ONLY_END）、DTO（入参/出参）、枚举
 - **通用层（Common）**：统一响应信封、分页、鉴权 helper、业务异常、导入导出等基础设施
 
 具体的实体声明方式、注解/装饰器、命名后缀等以 `{{BACKEND_STANDARDS_FILE}}` 和 CLAUDE.md 为准（不同栈写法不同，勿臆套其他栈语法）。

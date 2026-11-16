@@ -8,26 +8,30 @@
 app/
   main.py           装配入口（日志/CORS/异常处理/总路由/启动建表）
   config.py         pydantic-settings 全局配置与路径常量
-  database.py       engine / SessionLocal / get_db + before_flush 自动填充 tenant_id
+  database.py       engine / SessionLocal / get_db#@@TENANT_ONLY_START + before_flush 自动填充 tenant_id#@@TENANT_ONLY_END
   core/
+#@@TENANT_ONLY_START
     context.py      请求级租户上下文（contextvar）
+#@@TENANT_ONLY_END
     security.py     JWT 签发/校验、密码哈希
     deps.py         get_current_user / require_role / require_admin
     exceptions.py   BusinessException + 全局异常处理器
-    query.py        secure_select（租户过滤）+ paginate（Page 信封）
-  models/           SQLAlchemy 实体（Base / TimestampMixin / TenantMixin）
+    query.py        secure_select（#@@TENANT_ONLY_START租户过滤#@@TENANT_ONLY_END安全查询）+ paginate（Page 信封）
+  models/           SQLAlchemy 实体（Base / TimestampMixin#@@TENANT_ONLY_START / TenantMixin#@@TENANT_ONLY_END）
   schemas/          Pydantic DTO（Page / PageQuery / CamelModel）
   api/              路由，按业务域拆分，__init__ 聚合总路由
   services/         业务逻辑（禁止依赖 FastAPI Request/Response）
 tests/              pytest（conftest 内存库 + TestClient）
 ```
 
+#@@TENANT_ONLY_START
 ## 多租户红线（对齐 CLAUDE.md）
 
 - 业务实体继承 `TenantMixin`（自带 `tenant_id` 列）；`database` 的 `before_flush` 用租户上下文自动写入。
 - 查询必须经 `app.core.query.secure_select(Model)` 追加租户过滤（SQLAlchemy 没有 SqlSugar 式隐式全局过滤器，靠显式 helper 兜底）。
 - 需鉴权的路由挂 `dependencies=[Depends(get_current_user)]`；`get_current_user` 解析 JWT 后把 `tenant_id` 写入上下文。
 
+#@@TENANT_ONLY_END
 ## 约定（Python 后台开发规范）
 
 - 业务错误 `raise BusinessException(...)`（HTTPException 子类），用 HTTP 状态码表达，禁止 200 + 自定义错误码。

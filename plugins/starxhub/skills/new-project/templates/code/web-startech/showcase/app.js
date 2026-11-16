@@ -375,7 +375,7 @@
       ['数据看板','/analytics','趋势对比 + 转化漏斗 + 渠道构成 + 区域业绩','chart'],
       ['营销活动','/campaign','投放概览 + 活动列表 + 活动日历','campaign'],
       ['消息通知','/messages','未读筛选 + 消息卡片 + 全部标记已读','bell'],
-      ['系统设置','/settings','基本信息 / 外观 / 权限租户 / 通知配置 四组表单','settings'],
+      ['系统设置','/settings','基本信息、外观、权限#@@TENANT_ONLY_START租户#@@TENANT_ONLY_END、通知配置 四组表单','settings'],
       ['组件库','/components','全量组件展示 + 设计令牌 + 接入规范（本页）','layers']
     ]
     return '<div class="hx-page-head"><div><h1 class="hx-page-title">页面清单</h1>' +

@@ -1,10 +1,15 @@
-"""租户安全查询与分页助手（SQLAlchemy 无隐式全局过滤器，需显式过滤）。"""
+"""查询安全封装与分页助手（secure_select + paginate）。"""
 from typing import TypeVar
 
 from sqlalchemy import Select, func, select
 
+#@@TENANT_ONLY_START
 from app.core.context import get_current_tenant
 from app.models.base import Base, TenantMixin
+#@@TENANT_ONLY_END
+#@@SINGLE_ONLY_START
+from app.models.base import Base
+#@@SINGLE_ONLY_END
 from app.schemas.common import Page
 
 M = TypeVar("M", bound=Base)
@@ -12,10 +17,12 @@ M = TypeVar("M", bound=Base)
 
 def secure_select(model):
     stmt = select(model)
+    #@@TENANT_ONLY_START
     if issubclass(model, TenantMixin):
         tenant = get_current_tenant()
         if tenant is not None:
             stmt = stmt.where(model.tenant_id == tenant)
+    #@@TENANT_ONLY_END
     return stmt
 
 

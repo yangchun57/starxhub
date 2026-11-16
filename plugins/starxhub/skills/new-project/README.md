@@ -41,6 +41,9 @@ python ~/.qwenworkcn/skills/claude-code-multi-agent-scaffold/scripts/scaffold.py
 | `--backend` | 后端技术栈：`dotnet`（.NET 8+SqlSugar）或 `python`（FastAPI+SQLAlchemy） | 交互式询问，默认 dotnet |
 | `--frontend` | 前端技术栈：`vue`（Vue3+Element Plus）或 `uniapp`（uni-app H5+小程序） | 交互式询问，默认 vue |
 | `--standards` | 自定义开发规范源目录（覆盖内置规范；缺省按所选栈加载对应规范子集） | 内置规范 |
+| `--multi-tenant` | 启用多租户隔离**红线设计**（默认关闭；仅在明确需要多租户时传） | 关闭（单租户） |
+
+> **多租户默认关闭**：传 `--multi-tenant` 才会注入租户红线（CLAUDE.md / rules / agents / commands / standards）、`tenant_guard` 钩子与租户基础设施代码（Python `context.py`/`TenantMixin`；Java `TenantContext`/租户拦截器；前端租户登录字段）。单租户模式下分页、JWT、迁移等通用设施照常生成，项目里不会残留任何租户约束。交互终端下脚手架还会二次确认（默认否），非交互一律单租户。
 
 > 技术栈可配置：命令行传了就用；**没传且处于交互终端时会逐项列选项让你选**，绝不静默。非交互（CI/脚本）下未传则报错要求显式指定。所选栈会渲染进 Agent 定义与 CLAUDE.md，并只加载对应的开发规范（后端 .NET/Python、前端 Vue/uni-app + 通用），CI 与 Dockerfile 也随之切换变体。
 

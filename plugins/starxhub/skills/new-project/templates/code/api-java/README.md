@@ -16,8 +16,8 @@ mvn spring-boot:run
 | 包 | 职责 |
 |---|---|
 | `common` | `R<T>` / `PageResult<T>` / `ErrorCode` / `BusinessException` / `GlobalExceptionHandler` |
-| `config` | MyBatis-Plus 插件（租户 + 分页）、Jackson、Security |
-| `security` | JWT 签发校验、过滤器、租户上下文 |
+| `config` | MyBatis-Plus 插件（#@@TENANT_ONLY_START租户 + #@@TENANT_ONLY_END分页）、Jackson、Security |
+| `security` | JWT 签发校验、过滤器#@@TENANT_ONLY_START、租户上下文#@@TENANT_ONLY_END |
 | `controller` | 仅 HTTP 语义，一律返回 `R<T>` |
 | `service` / `mapper` / `entity` / `dto` | 业务编排 / 持久层 / 实体 / 出入参 |
 

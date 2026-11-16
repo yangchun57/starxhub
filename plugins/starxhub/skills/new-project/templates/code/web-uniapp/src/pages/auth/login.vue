@@ -1,6 +1,8 @@
 <template>
   <view class="login-page">
+#@@TENANT_ONLY_START
     <input v-model="form.tenantCode" class="input" placeholder="租户编码" />
+#@@TENANT_ONLY_END
     <input v-model="form.username" class="input" placeholder="用户名" />
     <input v-model="form.password" class="input" password placeholder="密码" />
     <button class="btn" :loading="loading" @click="onLogin">登录</button>
@@ -10,12 +12,16 @@
 <script setup lang="ts">
 import { reactive, ref } from "vue";
 import { useUserStore } from "../../stores/user";
+#@@TENANT_ONLY_START
 import { parseUrlTenant } from "../../utils/wechat";
+#@@TENANT_ONLY_END
 
 const userStore = useUserStore();
 const loading = ref(false);
 const form = reactive({
+#@@TENANT_ONLY_START
   tenantCode: parseUrlTenant(),
+#@@TENANT_ONLY_END
   username: "",
   password: "",
 });
@@ -23,7 +29,12 @@ const form = reactive({
 async function onLogin() {
   loading.value = true;
   try {
+    //@@TENANT_ONLY_START
     await userStore.usernameLogin(form.username, form.password, form.tenantCode);
+    //@@TENANT_ONLY_END
+    //@@SINGLE_ONLY_START
+    await userStore.usernameLogin(form.username, form.password);
+    //@@SINGLE_ONLY_END
     uni.switchTab({ url: "/pages/home/index" });
   } catch {
     // 错误已由 request 拦截器统一 toast，此处不重复提示

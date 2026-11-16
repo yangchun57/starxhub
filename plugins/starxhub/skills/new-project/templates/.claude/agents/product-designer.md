@@ -79,7 +79,7 @@ model: opus
 
 ## 必须遵守
 1. 技术栈遵循前端规范（{{FRONTEND_STACK}}），参考 `{{FRONTEND_STANDARDS_FILE}}`
-2. 遵守 CLAUDE.md 的最高优先级约束，所有页面都要考虑隔离和角色权限
+2. 遵守 CLAUDE.md 的最高优先级约束，所有页面都要考虑角色权限#@@TENANT_ONLY_START和隔离#@@TENANT_ONLY_END
 3. 设计要覆盖异常态（空态、加载态、错误态、无权限态）
 
 ## 禁止事项

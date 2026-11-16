@@ -1,5 +1,5 @@
 ---
-description: AI 代码审查。按 .claude/rules/ 中定义的规范自动扫描代码，检查多租户红线、API 规范、分层边界、安全漏洞、性能反模式等，输出分级问题清单并给出修复建议。
+description: AI 代码审查。按 .claude/rules/ 中定义的规范自动扫描代码，检查#@@TENANT_ONLY_START多租户红线、#@@TENANT_ONLY_ENDAPI 规范、分层边界、安全漏洞、性能反模式等，输出分级问题清单并给出修复建议。
 ---
 
 # AI 代码审查
@@ -37,9 +37,11 @@ description: AI 代码审查。按 .claude/rules/ 中定义的规范自动扫描
 
 ## 审查维度
 
+#@@TENANT_ONLY_START
 ### 1. 多租户红线（Blocker）
 - SQL 查询无 tenant_id 过滤
 - 跨租户数据访问风险
+#@@TENANT_ONLY_END
 
 ### 2. 安全漏洞（Blocker）
 - SQL 注入风险
@@ -80,13 +82,17 @@ description: AI 代码审查。按 .claude/rules/ 中定义的规范自动扫描
 **发现问题**：XX 个（Blocker: X, Major: X, Minor: X）
 
 ### 关键问题
+#@@TENANT_ONLY_START
 1. [Blocker] 多租户红线：SQL 查询无 tenant_id 过滤（UserService.cs:42）
+#@@TENANT_ONLY_END
 2. [Blocker] 安全漏洞：SQL 注入风险（OrderController.cs:67）
 3. [Major] 分层边界：Controller 直接访问 DB（ProductController.cs:23）
 
 ### 修复建议
 **P0 - 立即修复**
+#@@TENANT_ONLY_START
 1. 修复多租户红线问题（2 处）
+#@@TENANT_ONLY_END
 2. 修复 SQL 注入漏洞（1 处）
 
 **P1 - 本周修复**

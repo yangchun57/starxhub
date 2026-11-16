@@ -23,7 +23,7 @@ description: 方案放行门禁（风险扫描 + 三重校验），编码前的�
 
 传递：方案产物路径清单、对应需求产物路径。
 
-要求它按 R1→R7 顺序扫描，重点关注**多租户红线（R4）** 与 **AI 易漏的异常边界（R6）**。
+要求它按 R1→R7 顺序扫描，重点关注#@@TENANT_ONLY_START**多租户红线（R4）** 与 #@@TENANT_ONLY_END**AI 易漏的异常边界（R6）**。
 
 ## 第三步：启动 plan-gatekeeper SubAgent
 
@@ -41,7 +41,9 @@ description: 方案放行门禁（风险扫描 + 三重校验），编码前的�
 | **CONDITIONAL PASS** | 逐条列出放行条件，**逐条确认后才放行**；条件未确认完不得进入编码 |
 | **REJECT** | **停止流程，禁止进入编码阶段**。把阻塞项 + 修复任务清单交给 architect，要求修订后重新执行 `/plan-gate` |
 
+#@@TENANT_ONLY_START
 任一结论下，若发现**多租户红线相关阻塞项**，一律按 REJECT 处理，**不允许降级为 CONDITIONAL**。
+#@@TENANT_ONLY_END
 
 ## 输出格式
 

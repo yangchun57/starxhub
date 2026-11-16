@@ -12,6 +12,7 @@ export const useUserStore = defineStore("user", () => {
     uni.setStorageSync("access_token", result.accessToken);
     uni.setStorageSync("refresh_token", result.refreshToken);
     uni.setStorageSync("user_info", JSON.stringify(result.user));
+#@@TENANT_ONLY_START
     uni.setStorageSync("tenant_id", result.user.tenantId);
   }
 
@@ -20,6 +21,16 @@ export const useUserStore = defineStore("user", () => {
     setLoginResult(res);
     return res;
   }
+#@@TENANT_ONLY_END
+#@@SINGLE_ONLY_START
+  }
+
+  async function usernameLogin(username: string, password: string) {
+    const res = await loginApi(username, password);
+    setLoginResult(res);
+    return res;
+  }
+#@@SINGLE_ONLY_END
 
   function logout() {
     token.value = "";

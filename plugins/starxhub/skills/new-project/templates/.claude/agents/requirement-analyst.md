@@ -62,7 +62,7 @@ model: opus
 4. 写回 `docs/00-项目文档/requirements.md`
 
 ## 必须遵守
-1. 遵守 CLAUDE.md 的最高优先级约束：所有功能需求都要考虑隔离、权限控制
+1. 遵守 CLAUDE.md 的最高优先级约束：所有功能需求都要考虑权限控制#@@TENANT_ONLY_START、隔离#@@TENANT_ONLY_END
 2. 验收标准必须可验证、可测试，禁止模糊表述（如"体验好"）
 3. 用户故事遵循 INVEST 原则（独立、可协商、有价值、可估算、小粒度、可测试）
 4. 需要联网调研时（行业背景、市场趋势、竞品现状），使用 AnySearch Skill 获取信息

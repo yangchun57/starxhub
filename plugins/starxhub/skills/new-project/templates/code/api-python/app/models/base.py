@@ -21,7 +21,9 @@ class TimestampMixin:
     updated_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now(), onupdate=func.now(), nullable=False)
 
 
+#@@TENANT_ONLY_START
 class TenantMixin:
     """多租户红线：业务表继承本 Mixin，携带 tenant_id，写入自动填充、查询用 secure_select 过滤。"""
 
     tenant_id: Mapped[int] = mapped_column(BigInteger, nullable=False, index=True)
+#@@TENANT_ONLY_END

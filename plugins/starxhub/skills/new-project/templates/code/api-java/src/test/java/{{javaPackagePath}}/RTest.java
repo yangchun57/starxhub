@@ -27,7 +27,7 @@ class RTest {
 
     @Test
     void shouldKeepCodeInBusinessException() {
-        BusinessException e = new BusinessException(ErrorCode.TENANT_MISMATCH);
+        BusinessException e = new BusinessException(ErrorCode.FORBIDDEN);
         assertEquals(403, e.getCode());
     }
 }

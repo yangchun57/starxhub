@@ -24,7 +24,9 @@ model: sonnet
 
 ## 建表前必读
 - **设计唯一性字段前**：读 `.claude/standards/topics/并发与资源管理规范/04-并发控制规范.md`（数据库唯一约束）
+#@@TENANT_ONLY_START
 - **设计多租户表前**：读 `.claude/standards/topics/安全编码规范/05-多租户数据隔离规范.md`（TenantId 字段、索引）
+#@@TENANT_ONLY_END
 - **设计并发更新表前**：读 `.claude/standards/topics/并发与资源管理规范/04-并发控制规范.md`（RowVersion 乐观锁字段）
 
 ## 工作方式

@@ -57,7 +57,9 @@ model: sonnet
 
 - [ ] 每个接口是否有可测的输入输出判据？
 - [ ] 异常/边界场景是否被显式列举（而非"按需处理"）？
+#@@TENANT_ONLY_START
 - [ ] 多租户隔离是否有具体的验证方式（哪个查询、哪个条件）？
+#@@TENANT_ONLY_END
 - [ ] 数据一致性与事务边界是否有可验证的描述？
 - [ ] 是否定义了"做完了"的判据（可勾选的清单）？
 
@@ -69,10 +71,12 @@ model: sonnet
 |---|---|
 | C1、C2、C3 **全部通过**，且风险扫描**无阻塞项** | `PASS` |
 | C1、C2、C3 全部通过，但风险扫描有 1-2 条阻塞项，且均为单点可修 | `CONDITIONAL PASS` |
-| 任一校验不通过，或风险扫描有 ≥3 条阻塞项，或存在多租户红线阻塞 | `REJECT` |
+| 任一校验不通过，或风险扫描有 ≥3 条阻塞项#@@TENANT_ONLY_START，或存在多租户红线阻塞#@@TENANT_ONLY_END | `REJECT` |
 | 判定输入材料缺失 | `REJECT` |
 
+#@@TENANT_ONLY_START
 **多租户红线阻塞一票否决**（R4 相关阻塞项直接 REJECT，不适用 CONDITIONAL）。
+#@@TENANT_ONLY_END
 
 ## 输出格式
 
@@ -106,7 +110,9 @@ model: sonnet
 |---|---|---|
 | 接口判据 | ✅ | 每个接口有入参/出参表 |
 | 异常场景显式列举 | ✅ | api-contracts.md:第6节 |
+#@@TENANT_ONLY_START
 | 多租户验证方式 | ✅ | database-design.md:租户隔离 明确验证方式 |
+#@@TENANT_ONLY_END
 | 事务边界 | ❌ | 第3节只写"保证一致性"，未说明事务范围 |
 | 完成判据 | ❌ | 无勾选清单 |
 
@@ -122,7 +128,9 @@ model: sonnet
 |---|---|---|---|
 | 1 | C2 | database-design.md | 3 个接口无表支撑 |
 | 2 | C3 | database-design.md:第3节 | 事务范围未定义 |
+#@@TENANT_ONLY_START
 | 3 | R4 | 扫描报告 [R4-1] | 导出表无TenantId，跨租户风险 |
+#@@TENANT_ONLY_END
 ```
 
 ## 禁止事项

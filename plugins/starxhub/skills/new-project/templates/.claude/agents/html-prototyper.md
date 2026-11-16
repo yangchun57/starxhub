@@ -144,7 +144,7 @@ python3 ".claude/skills/hifi-prototype/scripts/scaffold.py" \
 6. **内容真实感**：具体数据、中文名称、合理日期；界面文字全部简体中文
 7. **动效克制**：遵循 motion-spec 的时长与数量上限
 8. **技术栈遵循前端规范**（{{FRONTEND_STACK}}），组件库样式参考 {{UI_LIB}}
-9. **遵守 CLAUDE.md 的最高优先级约束**，所有页面都要考虑多租户隔离和角色权限的视觉体现
+9. **遵守 CLAUDE.md 的最高优先级约束**，所有页面都要考虑角色权限的视觉体现#@@TENANT_ONLY_START和多租户隔离#@@TENANT_ONLY_END
 
 ## 禁止事项
 - 不写后端代码、不做数据库操作、不调用真实 API

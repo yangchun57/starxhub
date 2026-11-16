@@ -43,6 +43,7 @@ model: opus
 - [ ] 数据模型层是否被设计了业务方法？（禁止）
 - [ ] 公共层是否引用了业务层 / 数据模型层？（禁止）
 
+#@@TENANT_ONLY_START
 ### R4 - 多租户红线（最高优先级）
 - [ ] 每个业务实体是否都有 `TenantId` 字段？
 - [ ] 租户隔离是否在 **数据访问层**兜住，而非仅靠业务层传参？
@@ -50,6 +51,7 @@ model: opus
 - [ ] 唯一索引/软删除字段是否已设计？（多租户系统高频坑：唯一索引未含 TenantId导致不同租户互相冲突）
 - [ ] 跨租户操作（平台级管理）是否有显式的权限与审计设计？
 
+#@@TENANT_ONLY_END
 ### R5 - 并发与事务
 - [ ] 涉及多表写入的接口是否设计了事务边界？
 - [ ] 是否有并发更新同一实体的场景？乐观锁/悲观锁是否设计？
@@ -75,7 +77,7 @@ model: opus
 # 方案风险扫描报告
 
 ## 扫描范围
-方案产物：{文件清单} | 对应需求：{文件} | 扫描维度：7
+方案产物：{文件清单} | 对应需求：{文件} | 扫描维度：#@@TENANT_ONLY_START7#@@TENANT_ONLY_END#@@SINGLE_ONLY_START6#@@SINGLE_ONLY_END
 
 ## 风险汇总
 阻塞项：{n} 个 | 建议项：{m} 个 | 存疑项：{k} 个
@@ -102,7 +104,7 @@ model: opus
 # 方案风险扫描报告
 
 ## 扫描范围
-方案产物：architecture.md, api-contracts.md, database-design.md | 对应需求：requirements.md | 扫描维度：7
+方案产物：architecture.md, api-contracts.md, database-design.md | 对应需求：requirements.md | 扫描维度：#@@TENANT_ONLY_START7#@@TENANT_ONLY_END#@@SINGLE_ONLY_START6#@@SINGLE_ONLY_END
 
 ## 风险汇总
 阻塞项：1 个 | 建议项：2 个 | 存疑项：1 个
@@ -111,11 +113,13 @@ model: opus
 R1 契约往返 ✅ | R2 字段映射 ✅ | R3 分层边界 ✅ | R5 并发事务 ✅ | R7 性能索引 ✅
 
 ## 阻塞项（❌ 必须在编码前解决）
+#@@TENANT_ONLY_START
 ### [R4-1] 业务实体缺少租户隔离兜底
 - **位置**：database-design.md → 表 `Order`
 - **问题**：Order 有 TenantId 字段，但查询未在数据访问层强制带租户条件，业务层漏传即跨租户泄露
 - **触发条件**：任意查询接口漏传 tenantId
 - **建议**：在 DAL 基类统一注入租户过滤条件，禁止业务层手写 Where
+#@@TENANT_ONLY_END
 
 ## 建议项（⚠️ 编码时注意）
 - [R6-2] 外部支付回调未设计幂等键 —— 建议用回调流水号做唯一索引
@@ -138,5 +142,7 @@ R1 契约往返 ✅ | R2 字段映射 ✅ | R3 分层边界 ✅ | R5 并发事�
 - 不修改任何代码或文档
 - 不评审需求文档质量（那是 req-quality-reviewer 的职责）
 - 不检查实现是否合规（那是 req-compliance-reviewer 的职责）
+#@@TENANT_ONLY_START
 - 不跳过 R4 多租户红线 —— 这是本项目最高优先级约束
+#@@TENANT_ONLY_END
 - 不输出"总体良好，建议微调"这类无信息量结论

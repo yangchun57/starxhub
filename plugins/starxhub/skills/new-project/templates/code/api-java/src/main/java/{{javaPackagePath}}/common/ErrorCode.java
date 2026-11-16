@@ -6,7 +6,9 @@ public enum ErrorCode {
     UNAUTHORIZED(401, "未登录或令牌失效"),
     FORBIDDEN(403, "无权访问该资源"),
     NOT_FOUND(404, "资源不存在"),
+#@@TENANT_ONLY_START
     TENANT_MISMATCH(403, "资源不属于当前租户"),
+#@@TENANT_ONLY_END
     CONFLICT(409, "资源状态冲突"),
     INTERNAL_ERROR(500, "服务内部错误");
 

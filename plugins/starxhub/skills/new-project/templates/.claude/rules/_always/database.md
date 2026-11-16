@@ -4,6 +4,7 @@ trigger: always
 
 # 数据库规范
 
+#@@TENANT_ONLY_START
 ## 多租户隔离（红线）
 
 ### 铁律
@@ -31,6 +32,7 @@ CREATE INDEX idx_status_tenant ON orders(status, tenant_id);
 -- 缺少 tenant_id 过滤，会查所有租户数据
 SELECT * FROM orders WHERE status = 'pending';
 ```
+#@@TENANT_ONLY_END
 
 ## 迁移管理
 
@@ -45,20 +47,26 @@ SELECT * FROM orders WHERE status = 'pending';
 -- V001__create_users_table.sql
 CREATE TABLE IF NOT EXISTS users (
     id BIGINT PRIMARY KEY,
+#@@TENANT_ONLY_START
     tenant_id BIGINT NOT NULL,
+#@@TENANT_ONLY_END
     username VARCHAR(50) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+#@@TENANT_ONLY_START
 CREATE INDEX IF NOT EXISTS idx_users_tenant ON users(tenant_id);
+#@@TENANT_ONLY_END
 ```
 
 ### ❌ 错误示例
 ```sql
 -- ❌ 没有 IF NOT EXISTS，重复执行会报错
 CREATE TABLE users (
-    id BIGINT PRIMARY KEY,
-    tenant_id BIGINT NOT NULL
+    id BIGINT PRIMARY KEY
+#@@TENANT_ONLY_START
+    , tenant_id BIGINT NOT NULL
+#@@TENANT_ONLY_END
 );
 
 -- ❌ 修改已执行的迁移（禁止）
@@ -87,7 +95,9 @@ CREATE TABLE users (
 ```csharp
 // SqlSugar 分页查询
 var users = await _db.Queryable<User>()
+#@@TENANT_ONLY_START
     .Where(it => it.TenantId == tenantId)
+#@@TENANT_ONLY_END
     .ToPageListAsync(pageIndex, pageSize);
 ```
 
@@ -95,40 +105,55 @@ var users = await _db.Queryable<User>()
 ```csharp
 // ❌ 没有分页，可能返回上万条
 var users = await _db.Queryable<User>()
+#@@TENANT_ONLY_START
     .Where(it => it.TenantId == tenantId)
+#@@TENANT_ONLY_END
     .ToListAsync();
 
 // ❌ 拼接原生 SQL（除非复杂报表）
-var users = _db.Ado.SqlQuery<User>("SELECT * FROM users WHERE tenant_id = @id", new { id = tenantId });
+var users = _db.Ado.SqlQuery<User>("SELECT * FROM users WHERE 1=1");
 ```
 
 ## 索引规范
 
 ### 规则
+#@@TENANT_ONLY_START
 - `tenant_id` 必须作为联合索引的第一列
+#@@TENANT_ONLY_END
 - 单表索引数量不超过 5 个
 - 避免在低基数列上建索引（如 `status`）
 
 ### ✅ 正确
 ```sql
--- 复合索引，tenant_id 在前
+-- 复合索引，高频过滤列在前
+#@@TENANT_ONLY_START
 CREATE INDEX idx_tenant_status ON orders(tenant_id, status);
+#@@TENANT_ONLY_END
+#@@SINGLE_ONLY_START
+CREATE INDEX idx_status_created ON orders(status, created_at);
+#@@SINGLE_ONLY_END
 ```
 
 ### ❌ 错误
 ```sql
+#@@TENANT_ONLY_START
 -- tenant_id 不在第一列
 CREATE INDEX idx_status_tenant ON orders(status, tenant_id);
+#@@TENANT_ONLY_END
 ```
 
 ## 边界情况
 
 ### 例外场景
+#@@TENANT_ONLY_START
 - 配置表（< 1000 行）可省略 `tenant_id`
+#@@TENANT_ONLY_END
 - 报表查询可全表扫描，但需 DBA 审核
 
+#@@TENANT_ONLY_START
 ### 优先级裁决
 当性能与多租户隔离冲突时，**优先保证隔离**。
+#@@TENANT_ONLY_END
 
 ## 详细规范
 如需更多细节，参考 @.claude/standards/通用开发规范.md#数据库规范

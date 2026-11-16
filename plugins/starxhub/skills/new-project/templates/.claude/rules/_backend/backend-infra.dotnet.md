@@ -134,6 +134,7 @@ public class Order
 }
 ```
 
+#@@TENANT_ONLY_START
 ## 多租户隔离（红线）
 
 ### 铁律
@@ -179,6 +180,7 @@ var orders = await _db.Queryable<Order>()
     .ToListAsync();
 ```
 
+#@@TENANT_ONLY_END
 ## 迁移管理
 
 ### 规范
@@ -190,7 +192,9 @@ var orders = await _db.Queryable<Order>()
 -- V001__create_users_table.sql
 CREATE TABLE IF NOT EXISTS users (
     id BIGINT PRIMARY KEY,
+    #@@TENANT_ONLY_START
     tenant_id BIGINT NOT NULL,
+    #@@TENANT_ONLY_END
     username VARCHAR(50) NOT NULL,
     email VARCHAR(100) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -198,8 +202,10 @@ CREATE TABLE IF NOT EXISTS users (
     is_deleted TINYINT(1) DEFAULT 0
 );
 
+#@@TENANT_ONLY_START
 CREATE INDEX IF NOT EXISTS idx_users_tenant ON users(tenant_id);
 CREATE INDEX IF NOT EXISTS idx_users_tenant_username ON users(tenant_id, username);
+#@@TENANT_ONLY_END
 
 -- V002__add_user_status.sql
 ALTER TABLE users ADD COLUMN IF NOT EXISTS status INT DEFAULT 1;
@@ -209,8 +215,8 @@ ALTER TABLE users ADD COLUMN IF NOT EXISTS status INT DEFAULT 1;
 ```sql
 -- ❌ 没有 IF NOT EXISTS，重复执行会报错
 CREATE TABLE users (
-    id BIGINT PRIMARY KEY,
-    tenant_id BIGINT NOT NULL
+    id BIGINT PRIMARY KEY#@@TENANT_ONLY_START,
+    tenant_id BIGINT NOT NULL#@@TENANT_ONLY_END
 );
 
 -- ❌ 修改已执行的迁移
@@ -262,7 +268,9 @@ public class UserService
 - 字典表/配置表可省略软删除字段
 
 ### 优先级裁决
+#@@TENANT_ONLY_START
 当查询性能与租户过滤器冲突时，**优先保证租户隔离**，通过索引优化性能。
+#@@TENANT_ONLY_END
 
 ## 详细规范
 如需更多细节，参考：

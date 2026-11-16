@@ -8,10 +8,17 @@ Claude Code 多 Agent 项目脚手架生成器（混合式 · 可配置技术栈
 
 用法：
     python scaffold.py <目标目录> [--name 项目名] [--desc 描述] [--code-name 代码名] \
-        [--backend dotnet|python] [--frontend vue|uniapp] [--standards 规范源目录]
+        [--backend dotnet|python|java-spring] [--frontend vue|uniapp|startech] \
+        [--standards 规范源目录] [--multi-tenant]
+
+多租户（红线设计）默认关闭：仅当用户明确需要时才传 --multi-tenant；
+未传时交互终端会询问（默认否），非交互终端一律按单租户生成。
 
 示例：
+    # 普通单租户项目（默认）
     python scaffold.py D:/projects/ecommerce --name "电商系统" --code-name "Ecommerce" --backend python --frontend uniapp
+    # 明确需要多租户隔离时
+    python scaffold.py D:/projects/saas --name "SaaS 平台" --code-name "Saas" --backend dotnet --frontend vue --multi-tenant
 """
 
 import argparse
@@ -25,6 +32,46 @@ import sys
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 TEMPLATE_DIR = os.path.join(SCRIPT_DIR, "..", "templates")
 SPLIT_SCRIPT = os.path.join(SCRIPT_DIR, "split-standards.py")
+
+# ============ 多租户开关（默认关闭，opt-in）============
+# 多租户是"红线设计"，只应在用户明确要求时启用。模板中用条件标记包裹租户专属内容：
+#   #@@TENANT_ONLY_START ... #@@TENANT_ONLY_END   仅多租户模式保留
+#   #@@SINGLE_ONLY_START ... #@@SINGLE_ONLY_END   仅单租户模式保留
+# 标记行在两种模式下都会被移除（不留注释残渣）。settings.json 等非文本标记场景在代码中特判。
+MULTI_TENANT = False
+
+# 标记既可独占一行（块级），也可嵌在行内（如「主键[标记]租户字段[标记]」）。
+# 前缀兼容 #@@（markdown/py/ts/vue）与 //@@（java/ts 的代码注释风格）两种写法。
+# 统一用非贪婪匹配：START 后紧跟的可选换行会被吃掉，END 后紧跟的可选换行也会被吃掉，
+# 因此块级展开后不会多出空行；行内则原样保留中间文本。
+_P = r"(?:#|//)@@"  # 标记前缀（两种写法兼容）
+
+
+def _block(kind):
+    return re.compile(
+        r"[ \t]*" + _P + kind + r"_START[ \t]*\r?\n?(.*?)[ \t]*" + _P + kind + r"_END[ \t]*\r?\n?",
+        re.DOTALL,
+    )
+
+
+_TENANT_BLOCK_RE = _block("TENANT_ONLY")
+_SINGLE_BLOCK_RE = _block("SINGLE_ONLY")
+
+# 整文件仅多租户模式需要的模板（按文件名匹配，源目录内唯一）
+TENANT_ONLY_BASENAMES = {"context.py", "tenant_guard.py", "TenantContext.java", "TenantProperties.java"}
+
+
+def apply_tenant_gates(content):
+    """按 MULTI_TENANT 状态裁剪模板内容中的租户条件块，并清除全部标记。"""
+    if MULTI_TENANT:
+        # 保留 TENANT_ONLY 内容（去掉标记），整段删除 SINGLE_ONLY
+        content = _TENANT_BLOCK_RE.sub(lambda m: m.group(1), content)
+        content = _SINGLE_BLOCK_RE.sub("", content)
+    else:
+        # 整段删除 TENANT_ONLY，保留 SINGLE_ONLY 内容（去掉标记）
+        content = _TENANT_BLOCK_RE.sub("", content)
+        content = _SINGLE_BLOCK_RE.sub(lambda m: m.group(1), content)
+    return content
 
 # ============ 技术栈 Profile ============
 # 每个 profile 提供：渲染 token + 需要的 standards 文件（不含 always 的通用开发规范）。
@@ -246,7 +293,30 @@ def write_ci_scripts(target, backend, frontend):
 
 # ============ 通用工具 ============
 def copy_tree(src, dst):
-    shutil.copytree(src, dst, dirs_exist_ok=True, ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
+    """递归复制目录；文本文件统一走 write() 以应用租户门禁，并跳过租户专属文件。"""
+    for base, dirs, files in os.walk(src):
+        dirs[:] = [d for d in dirs if d != "__pycache__"]
+        rel = os.path.relpath(base, src)
+        target_base = dst if rel == "." else os.path.join(dst, rel)
+        os.makedirs(target_base, exist_ok=True)
+        for fn in files:
+            if fn.endswith(".pyc"):
+                continue
+            if fn in TENANT_ONLY_BASENAMES and not MULTI_TENANT:
+                continue
+            s = os.path.join(base, fn)
+            d = os.path.join(target_base, fn)
+            if fn.endswith(TEXT_EXT):
+                try:
+                    with open(s, encoding="utf-8") as f:
+                        write(d, f.read())
+                    src_mode = os.stat(s).st_mode & 0o777
+                    if src_mode & 0o111:  # 仅当源文件可执行时保住执行位（hook 脚本）
+                        os.chmod(d, src_mode)
+                    continue
+                except (UnicodeDecodeError, OSError):
+                    pass
+            shutil.copy2(s, d)
 
 
 def render_text(content, mapping):
@@ -263,7 +333,7 @@ def render(src_path, mapping):
 def write(path, content):
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, "w", encoding="utf-8", newline="\n") as f:
-        f.write(content)
+        f.write(apply_tenant_gates(content))
 
 
 def copy_tree_render(src_dir, dst_dir, mapping):
@@ -280,6 +350,8 @@ def copy_tree_render(src_dir, dst_dir, mapping):
         for fn in files:
             if fn.endswith(".pyc"):
                 continue
+            if fn in TENANT_ONLY_BASENAMES and not MULTI_TENANT:
+                continue  # 单租户模式不生成租户专属文件（context.py / TenantContext / TenantProperties）
             src = os.path.join(base, fn)
             dst = os.path.join(target_base, render_text(fn, mapping))
             if fn.endswith(TEXT_EXT):
@@ -339,6 +411,22 @@ def flag_name(_):  # 保留占位，简化调用
     return "choice"
 
 
+def resolve_multi_tenant(flag):
+    """多租户是红线设计，opt-in：命令行 --multi-tenant 优先；否则交互询问（默认否）；非交互一律否。"""
+    if flag:
+        return True
+    if not sys.stdin.isatty():
+        return False
+    print("\n是否启用多租户隔离红线设计？（默认：否；普通单租户项目请勿启用）")
+    while True:
+        raw = input("启用多租户？[y/N]: ").strip().lower()
+        if raw in ("", "n", "no"):
+            return False
+        if raw in ("y", "yes"):
+            return True
+        print("  无效输入，请输 y 或 n。")
+
+
 # ============ .claude 复制 + 渲染（不含 standards） ============
 def copy_claude_rendered(target, mapping):
     src = os.path.join(TEMPLATE_DIR, ".claude")
@@ -355,10 +443,30 @@ def copy_claude_rendered(target, mapping):
                 write(os.path.join(d, f), content)
         elif os.path.isdir(s):
             copy_tree(s, d)
+        elif entry == "settings.json":
+            render_settings(s, d)
         else:
-            os.makedirs(os.path.dirname(d), exist_ok=True)
-            shutil.copy2(s, d)
+            # 其余根文件也走 write() 以应用租户门禁
+            with open(s, encoding="utf-8") as f:
+                write(d, f.read())
     print("  [OK] 复制并渲染 .claude/（agents+commands 按技术栈渲染，settings/hooks）")
+
+
+def render_settings(src, dst):
+    """渲染 settings.json：单租户模式移除 tenant_guard.py 钩子，修改后写回。"""
+    with open(src, encoding="utf-8") as f:
+        settings = json.load(f)
+    if not MULTI_TENANT:
+        for event, entries in settings.get("hooks", {}).items():
+            settings["hooks"][event] = [
+                e for e in entries
+                if not any("tenant_guard.py" in h.get("command", "") for h in e.get("hooks", []))
+            ]
+        settings["hooks"] = {k: v for k, v in settings["hooks"].items() if v}  # 丢弃空的 hook 事件
+    os.makedirs(os.path.dirname(dst), exist_ok=True)
+    with open(dst, "w", encoding="utf-8", newline="\n") as f:
+        json.dump(settings, f, ensure_ascii=False, indent=2)
+        f.write("\n")
 
 
 def copy_standards_subset(target, backend, frontend, override_dir):
@@ -377,10 +485,12 @@ def copy_standards_subset(target, backend, frontend, override_dir):
             if name not in seen and os.path.isfile(os.path.join(tpl_std, name)):
                 seen.append(name)
         for name in seen:
-            shutil.copy2(os.path.join(tpl_std, name), os.path.join(std_dir, name))
+            with open(os.path.join(tpl_std, name), encoding="utf-8") as f:
+                write(os.path.join(std_dir, name), f.read())  # 应用租户条件标记
         readme = os.path.join(tpl_std, "README.md")
         if os.path.isfile(readme):
-            shutil.copy2(readme, os.path.join(std_dir, "README.md"))
+            with open(readme, encoding="utf-8") as f:
+                write(os.path.join(std_dir, "README.md"), f.read())
         print(f"  [OK] 载入技术栈相关规范：{', '.join(seen)}")
     # 重生成 topics（只针对被选中的规范）
     if os.path.isfile(SPLIT_SCRIPT):
@@ -471,7 +581,8 @@ def init_api_dotnet(target, code_name):
         os.makedirs(os.path.join(api_dir, "tests", f"{code_name}.Tests", d), exist_ok=True)
     mig = os.path.join(api_dir, "sql", "migrations")
     os.makedirs(mig, exist_ok=True)
-    shutil.copy2(os.path.join(TEMPLATE_DIR, "code", "api", "sql-migrations", "README.md"), os.path.join(mig, "README.md"))
+    with open(os.path.join(TEMPLATE_DIR, "code", "api", "sql-migrations", "README.md"), encoding="utf-8") as f:
+        write(os.path.join(mig, "README.md"), f.read())  # 应用租户条件标记
     print(f"  [OK] API 工程 {code_name} 生成完成（.NET 8 分层 + 迁移目录）")
 
 
@@ -482,7 +593,7 @@ def init_api_python(target, code_name, mapping):
     copy_tree_render(tpl, api, mapping)
     os.makedirs(os.path.join(api, "data"), exist_ok=True)
     write(os.path.join(api, ".gitignore"), "__pycache__/\n*.pyc\n.pytest_cache/\ndata/\n.env\n.venv/\n")
-    print(f"  [OK] API 工程 {code_name} 生成完成（FastAPI + SQLAlchemy + 租户基础设施）")
+    print(f"  [OK] API 工程 {code_name} 生成完成（FastAPI + SQLAlchemy" + (" + 租户基础设施" if MULTI_TENANT else "") + "）")
 
 
 def init_api_java_spring(target, code_name, mapping):
@@ -494,7 +605,7 @@ def init_api_java_spring(target, code_name, mapping):
         os.makedirs(os.path.join(api, "src", "main", "java",
                                  mapping["{{javaPackagePath}}"], *d.split("/")), exist_ok=True)
     os.makedirs(os.path.join(api, "src", "main", "resources", "mapper"), exist_ok=True)
-    print(f"  [OK] API 工程 {code_name} 生成完成（Spring Boot 3 + MyBatis-Plus + 租户插件）")
+    print(f"  [OK] API 工程 {code_name} 生成完成（Spring Boot 3 + MyBatis-Plus" + (" + 租户插件" if MULTI_TENANT else "") + "）")
 
 
 # ============ 前端工程 ============
@@ -625,7 +736,12 @@ def main():
     parser.add_argument("--backend", default=None, choices=list(BACKENDS.keys()), help="后端技术栈：dotnet|python|java-spring")
     parser.add_argument("--frontend", default=None, choices=list(FRONTS.keys()), help="前端技术栈：vue|uniapp|startech")
     parser.add_argument("--standards", default="", help="自定义开发规范源目录（可选），覆盖 .claude/standards/")
+    parser.add_argument("--multi-tenant", action="store_true",
+                        help="启用多租户隔离红线设计（默认关闭；仅在明确需要多租户时启用）")
     args = parser.parse_args()
+
+    global MULTI_TENANT
+    MULTI_TENANT = resolve_multi_tenant(args.multi_tenant)
 
     target = os.path.abspath(args.target)
     name = args.name
@@ -652,6 +768,7 @@ def main():
     print(f"初始化多 Agent 项目: {target}")
     print(f"  项目名: {name}  代码名: {code_name}")
     print(f"  技术栈: 后端={backend}  前端={frontend}")
+    print(f"  多租户红线: {'启用' if MULTI_TENANT else '关闭（单租户）'}")
 
     # ===== 静态模板（.claude 渲染 / docs / CLAUDE.md / README / 根文件） =====
     copy_claude_rendered(target, mapping)

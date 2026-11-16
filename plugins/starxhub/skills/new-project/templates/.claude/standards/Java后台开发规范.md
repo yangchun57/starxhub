@@ -112,15 +112,18 @@ public class UserController {
 
 ## 6. 持久层（MyBatis-Plus）
 
-- 实体必须 `@TableName("t_xxx")` 显式指定表名；主键 `@TableId(type = IdType.ASSIGN_ID)`（雪花 ID），禁止依赖数据库自增在多租户场景暴露规模。
+- 实体必须 `@TableName("t_xxx")` 显式指定表名；主键 `@TableId(type = IdType.ASSIGN_ID)`（雪花 ID）。
 - 逻辑删除用 `@TableLogic`，全局配置 `logic-delete-field: deleted`；**所有查询自动带删除标记，不要手写 `WHERE deleted = 0`**。
+#@@TENANT_ONLY_START
 - 多租户：优先 `TenantLineInnerInterceptor` 统一注入 `tenant_id`；禁止在每条 SQL 里手写租户条件（漏一条就是越权）。
+#@@TENANT_ONLY_END
 - 分页插件必须声明 `DbType.MYSQL` 并设 `maxLimit: 200`，防前端传超大 pageSize 打爆 DB。
 - 复杂 SQL 放 `resources/mapper/*.xml`，禁止在 `@Select` 注解里拼长 SQL；动态条件用 `<where>` / `<if>`，禁止 `${}` 拼接（SQL 注入）。
 - 禁止 `SELECT *`；联表超过 3 张或出现 `LIKE '%xx%'` 全表扫描时，先做执行计划评估。
 
 ---
 
+#@@TENANT_ONLY_START
 ## 7. 认证授权与多租户
 
 - JWT 放 `Authorization: Bearer <token>`，密钥与过期时间从配置读，**禁止硬编码**；`JwtAuthenticationFilter` 在 `UsernamePasswordAuthenticationFilter` 之前注册。
@@ -130,6 +133,7 @@ public class UserController {
 - 密码用 `BCryptPasswordEncoder`，日志里禁止打印 token、密码、身份证、手机号明文。
 
 ---
+#@@TENANT_ONLY_END
 
 ## 8. 参数校验与错误码
 
@@ -154,7 +158,7 @@ public class UserController {
 
 - 使用 SLF4J + Logback，占位符 `log.info("user={}, cost={}ms", id, cost)`，禁止字符串拼接。
 - 请求链路用 `traceId`（MDC）贯穿 controller → service → 日志；异常日志必须带 `traceId` 与入参摘要（脱敏后）。
-- 关键写操作记录审计日志（操作人、租户、资源、前后值），审计日志与业务事务分离。
+- 关键写操作记录审计日志（操作人、#@@TENANT_ONLY_START租户、#@@TENANT_ONLY_END资源、前后值），审计日志与业务事务分离。
 - 健康检查暴露 `/actuator/health`，生产只开放 health/info 端点。
 
 ---
@@ -164,7 +168,7 @@ public class UserController {
 - 单元测试：service 层用 Mockito mock mapper，不连数据库；方法命名 `should_xxx_when_yyy`。
 - 集成测试：`@SpringBootTest` + Testcontainers 或 H2（注意 MySQL 方言差异），`@Transactional` 回滚保证用例互不污染。
 - Controller 测试用 `MockMvc` / `WebTestClient`，断言 `R.code` 而不仅是 HTTP 200。
-- 每个 `BusinessException` 分支至少一条用例；多租户越权场景必须有专门用例。
+- 每个 `BusinessException` 分支至少一条用例；#@@TENANT_ONLY_START多租户越权场景必须有专门用例。#@@TENANT_ONLY_END
 - `mvn test` 必须能在无外网、无真实 MySQL 的环境下通过。
 
 ---
@@ -174,7 +178,9 @@ public class UserController {
 - [ ] `mvn clean package` 通过，`mvn test` 全绿
 - [ ] 新增接口都返回 `R<T>`，无 entity 直接出参
 - [ ] 新增 DTO 都有校验注解，错误信息中文
+#@@TENANT_ONLY_START
 - [ ] 涉及租户数据的查询已验证 `tenant_id` 注入生效
+#@@TENANT_ONLY_END
 - [ ] 新增 SQL 已检查执行计划，无 `SELECT *` / `${}` 拼接
 - [ ] 事务方法显式 `rollbackFor = Exception.class`
 - [ ] 配置无硬编码密钥，`.env` 未入库

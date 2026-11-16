@@ -16,7 +16,7 @@ paths:
 5. **分页固定 `R<PageResult<T>>`**，字段 `items/total/page/pageSize`，pageSize 上限 200。
 6. **entity 禁止出参**，一律经 MapStruct 转 `dto/response`，字段 camelCase。
 
-违反后果：响应形态不一致会让前端 `src/api/http.ts` 适配层失效；entity 直出会泄漏租户字段与内部列。
+违反后果：响应形态不一致会让前端 `src/api/http.ts` 适配层失效；entity 直出会泄漏#@@TENANT_ONLY_START租户字段与#@@TENANT_ONLY_END内部列。
 
 ## 标准写法
 

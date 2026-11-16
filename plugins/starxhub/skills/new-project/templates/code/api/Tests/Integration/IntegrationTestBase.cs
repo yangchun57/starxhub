@@ -5,7 +5,7 @@ namespace {{CodeName}}.Tests.Integration;
 
 /// <summary>
 /// 集成测试基类：基于 WebApplicationFactory 启动完整 API 管道（不含真实数据库）
-/// 红线类约束（如租户隔离、认证授权）优先用集成测试锁死，比文档更硬。
+/// 红线类约束（如认证授权）优先用集成测试锁死，比文档更硬。
 /// </summary>
 public abstract class IntegrationTestBase : IClassFixture<WebApplicationFactory<Program>>
 {
@@ -24,10 +24,20 @@ public abstract class IntegrationTestBase : IClassFixture<WebApplicationFactory<
 //     public HealthTests(WebApplicationFactory<Program> factory) : base(factory) { }
 //
 //     [Fact]
-//     public async Task UnknownTenant_CannotSeeOtherTenantData()
+//     public async Task Health_EndpointReturnsOk()
+//     {
+//         // Act: GET /api/health
+//         // Assert: 200 OK
+//     }
+// }
+#@@TENANT_ONLY_START
+//
+//     // 多租户项目追加：跨租户越权测试
+//     [Fact]
+//     public async Task TenantA_CannotSeeTenantBData()
 //     {
 //         // Arrange: 以租户 A 身份请求租户 B 的资源
 //         // Act: GET /api/xxx/{B 的资源 id}
 //         // Assert: 404 或 403（绝不能 200）
 //     }
-// }
+#@@TENANT_ONLY_END

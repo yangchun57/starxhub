@@ -14,11 +14,13 @@ paths:
 1. **JDK 17 + Spring Boot 3.2 + Jakarta 命名空间**（`jakarta.*`），禁止 `javax.*`；版本统一放 `<properties>`。
 2. **密钥/口令一律环境变量占位**（`${DB_PASSWORD:}`），禁止硬编码或提交 `.env`；生产关闭 Swagger UI。
 3. **无状态会话**：`SessionCreationPolicy.STATELESS` + `Authorization: Bearer`，禁止 `HttpSession`。
+#@@TENANT_ONLY_START
 4. **租户上下文 `ThreadLocal` 必须在 `finally` 里 `remove()`**；异步线程显式传递，禁止依赖隐式继承。
+#@@TENANT_ONLY_END
 5. **Jackson 全局配置**：日期 `yyyy-MM-dd HH:mm:ss`、时区 `Asia/Shanghai`、`Long` 序列化为字符串（防前端精度丢失）。
 6. **`GlobalExceptionHandler` 覆盖** `BusinessException` / `MethodArgumentNotValidException` / `ConstraintViolationException` / `AccessDeniedException` / 兜底 `Exception`；兜底不回传堆栈。
 
-违反后果：硬编码密钥直接泄漏；ThreadLocal 不清理会在线程池里串租户；Long 精度丢失会让前端 ID 对不上。
+违反后果：硬编码密钥直接泄漏；Long 精度丢失会让前端 ID 对不上。#@@TENANT_ONLY_START ThreadLocal 不清理会在线程池里串租户。#@@TENANT_ONLY_END
 
 ## 标准写法
 

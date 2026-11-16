@@ -116,14 +116,18 @@ from app.core.mixins import SnowflakeIdMixin, TimestampMixin, SoftDeleteMixin
 class User(SnowflakeIdMixin, TimestampMixin, SoftDeleteMixin, Base):
     __tablename__ = "users"
     
+#@@TENANT_ONLY_START
     tenant_id: Mapped[int] = mapped_column(BigInteger, nullable=False)
+#@@TENANT_ONLY_END
     username: Mapped[str] = mapped_column(String(50), nullable=False)
     email: Mapped[str] = mapped_column(String(100), nullable=False)
     
+#@@TENANT_ONLY_START
     __table_args__ = (
         Index("idx_users_tenant", "tenant_id"),
         Index("idx_users_tenant_username", "tenant_id", "username"),
     )
+#@@TENANT_ONLY_END
 ```
 
 ### ❌ 错误示例
@@ -145,6 +149,7 @@ class User(Base):
     __tablename__ = "users"  # ❌ 应该是 "user"（snake_case 单数）
 ```
 
+#@@TENANT_ONLY_START
 ## 多租户隔离（红线）
 
 ### 铁律
@@ -196,6 +201,7 @@ async def list_users(self, db: AsyncSession):
     return result.scalars().all()
 ```
 
+#@@TENANT_ONLY_END
 ## 迁移管理
 
 ### 规范
@@ -208,7 +214,9 @@ async def list_users(self, db: AsyncSession):
 -- sql/migrations/V001__create_users_table.sql
 CREATE TABLE IF NOT EXISTS users (
     id BIGINT PRIMARY KEY,
+    #@@TENANT_ONLY_START
     tenant_id BIGINT NOT NULL,
+    #@@TENANT_ONLY_END
     username VARCHAR(50) NOT NULL,
     email VARCHAR(100) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -216,7 +224,9 @@ CREATE TABLE IF NOT EXISTS users (
     is_deleted BOOLEAN DEFAULT FALSE
 );
 
+#@@TENANT_ONLY_START
 CREATE INDEX IF NOT EXISTS idx_users_tenant ON users(tenant_id);
+#@@TENANT_ONLY_END
 
 -- sql/migrations/V002__add_user_status.sql
 ALTER TABLE users ADD COLUMN IF NOT EXISTS status INT DEFAULT 1;
@@ -281,7 +291,9 @@ def generate_snowflake_id() -> int:
 - 字典表/配置表可省略软删除字段
 
 ### 优先级裁决
+#@@TENANT_ONLY_START
 当查询性能与租户过滤器冲突时，**优先保证租户隔离**，通过索引优化性能。
+#@@TENANT_ONLY_END
 
 ## 详细规范
 如需更多细节，参考 @.claude/standards/topics/Python后台开发规范_v0.1/04-4.-数据库与-ORM-规范.md

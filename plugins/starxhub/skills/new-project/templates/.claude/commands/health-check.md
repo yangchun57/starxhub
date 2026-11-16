@@ -1,5 +1,5 @@
 ---
-description: 项目健康度巡检。扫描项目的 .claude/ 配置完整性、Agent 匹配度、rules 覆盖度、多租户红线风险、测试覆盖率、CI 脚本等，输出结构化报告并给出整改建议。
+description: 项目健康度巡检。扫描项目的 .claude/ 配置完整性、Agent 匹配度、rules 覆盖度#@@TENANT_ONLY_START、多租户红线风险#@@TENANT_ONLY_END、测试覆盖率、CI 脚本等，输出结构化报告并给出整改建议。
 ---
 
 # 项目健康度巡检
@@ -48,7 +48,9 @@ description: 项目健康度巡检。扫描项目的 .claude/ 配置完整性、
 2. **Agent 定义**：是否有 24 个 Agent，关键 Agent 的 model 配置是否合理
 3. **rules 覆盖度**：通用规则 + 后端规则 + 前端规则是否完整
 4. **CLAUDE.md TODO**：项目速览、红线、技术栈等是否已填写
+#@@TENANT_ONLY_START
 5. **多租户红线**：是否存在跨租户数据访问风险
+#@@TENANT_ONLY_END
 6. **测试覆盖率**：是否有足够的测试文件
 7. **CI 脚本**：scripts/ci.sh 和 .githooks/pre-push 是否存在且可执行
 
@@ -83,6 +85,8 @@ description: 项目健康度巡检。扫描项目的 .claude/ 配置完整性、
 ## 注意事项
 
 - 巡检脚本是只读的，不会修改任何文件
+#@@TENANT_ONLY_START
 - 多租户红线扫描基于静态分析，可能存在误报
+#@@TENANT_ONLY_END
 - 评分规则可根据项目实际情况调整
 - 建议定期运行巡检（每月或每次大版本发布前）

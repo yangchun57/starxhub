@@ -34,8 +34,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
             chain.doFilter(request, response);
         } finally {
-            // 线程池复用：必须清理，否则会串用户与租户
+            // 线程池复用：必须清理上下文，否则会串用户
+            //@@TENANT_ONLY_START
             TenantContext.clear();
+            //@@TENANT_ONLY_END
             SecurityContextHolder.clearContext();
         }
     }
