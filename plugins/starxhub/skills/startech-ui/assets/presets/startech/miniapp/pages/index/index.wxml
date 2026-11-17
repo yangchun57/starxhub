@@ -1,0 +1,12 @@
+<view class="mp-hero">
+  <view class="mp-hero-tag">STARTECH · MINIPROGRAM</view>
+  <view class="mp-hero-title">星辰 · 首页示例</view>
+  <view class="mp-hero-desc">原生小程序首页，演示规范落地。完整组件见组件实例页。</view>
+</view>
+<view class="mp-wrap">
+  <view class="st-card">
+    <view class="st-row"><text class="st-title">欢迎使用星辰设计系统</text></view>
+    <view class="st-caption">令牌统一 · 组件复用 · 三端一致</view>
+  </view>
+  <button class="st-btn st-btn--primary" bindtap="goComponents">查看全部组件 →</button>
+</view>

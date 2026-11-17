@@ -1,0 +1,35 @@
+/* 星辰 starTech · 原生小程序全局样式
+ * 令牌单一真源：styles/tokens.wxss（由 H5 的 tokens.css 同步而来）
+ * 组件样式：styles/mobile.wxss（st-* 移动端类）
+ * 渲染层差异：小程序用 rpx，本次示例保留 px 兼容（750 设计稿下 1px≈1rpx 视觉近似）
+ */
+@import './styles/tokens.wxss';
+@import './styles/common.wxss';
+@import './styles/mobile.wxss';
+
+page {
+  background: var(--hx-page-bg);
+  color: var(--hx-text-primary);
+  font-family: var(--hx-font-sans);
+  font-size: var(--hx-fs-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 实例页外壳（非组件库） */
+.mp-hero { background: linear-gradient(135deg, #1B2537, #2f6df6); color: #fff; padding: 32rpx 32rpx 28rpx; }
+.mp-hero-tag { font-size: 20rpx; letter-spacing: 2rpx; color: #BFD4FF; }
+.mp-hero-title { font-size: 44rpx; font-weight: 700; margin: 12rpx 0 8rpx; }
+.mp-hero-desc { font-size: 24rpx; color: #D6E4FF; line-height: 1.6; }
+.mp-wrap { padding: 28rpx 24rpx 80rpx; }
+.mp-sec { margin-bottom: 44rpx; }
+.mp-sec-head { display: flex; align-items: baseline; gap: 16rpx; margin-bottom: 8rpx; }
+.mp-sec-num { font-size: 24rpx; color: var(--hx-brand); font-weight: 700; }
+.mp-sec-title { font-size: 34rpx; font-weight: 700; }
+.mp-sec-desc { font-size: 22rpx; color: var(--hx-text-muted); margin: 0 0 20rpx; line-height: 1.6; }
+.mp-card { background: #fff; border-radius: var(--st-radius-card); padding: 28rpx; margin-bottom: 20rpx; box-shadow: var(--hx-shadow-card); }
+.mp-card-title { font-size: 26rpx; font-weight: 600; margin-bottom: 20rpx; display: flex; justify-content: space-between; align-items: center; }
+.mp-card-title small { font-size: 20rpx; color: var(--hx-text-muted); font-weight: 400; }
+.mp-row { display: flex; flex-wrap: wrap; gap: 16rpx; align-items: center; }
+.mp-col { display: flex; flex-direction: column; gap: 20rpx; }
+.mp-code { background: #1B2434; color: #D6E4FF; font-size: 20rpx; line-height: 1.7; padding: 20rpx; border-radius: 12rpx; white-space: pre-wrap; word-break: break-all; font-family: Consolas, monospace; margin-top: 16rpx; }
+.mp-note { font-size: 20rpx; color: var(--hx-text-muted); line-height: 1.7; margin-top: 16rpx; padding: 16rpx; background: var(--hx-brand-wash); border-radius: 12rpx; }

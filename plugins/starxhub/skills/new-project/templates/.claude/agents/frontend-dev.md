@@ -19,6 +19,7 @@ model: sonnet
 5. 【类型优先自动生成】若后端提供 OpenAPI/Swagger，业务实体 TS 类型优先用 `npm run gen:api` 自动生成，生成物为唯一事实源；手写仅限前端专用形态（Form/Query）
 
 ## 编码前必读（按任务类型选择）
+- **【仅星辰 starTech 栈】写/改页面、组件、样式前**：读 `.claude/skills/startech-ui/SKILL.md`，遵守其 Non-negotiable rules（令牌单一真源 `var(--hx-*)`、四层样式顺序 tokens→common→components→端样式、系统无衬线字体、SVG 图表等比、三端共用类名）；**完成前自检**：跑 `node .claude/skills/startech-ui/scripts/check-tokens.mjs`（校验 skill 令牌副本）与 `node .claude/skills/startech-ui/scripts/check-classes.mjs src/ --css src/styles/tokens.css --css src/styles/common.css --css src/styles/components.css`（按项目自身样式校验类名），缺类即返工。其他前端栈忽略本条。
 - **写 .d.ts 类型文件前**：读 `.claude/standards/topics/前端工程健壮性规范/02-TypeScript类型文件规范.md`（.d.ts 禁止运行时代码）
 - **写 API 调用前**：读 `.claude/standards/topics/前端工程健壮性规范/03-错误处理规范.md`（错误分类、用户反馈）
 - **写数据处理前**：读 `.claude/standards/topics/前端工程健壮性规范/04-空值防护规范.md`（API 响应空值检查、默认值）

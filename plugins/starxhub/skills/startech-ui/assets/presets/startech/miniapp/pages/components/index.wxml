@@ -1,0 +1,501 @@
+<!-- 星辰 starTech · 原生小程序组件实例页
+     覆盖 docs/MOBILE_SPEC.md §8 全部 14 类组件 + §8 扩展组件
+     所有类名来自 styles/mobile.wxss 的真实 st-* 定义 -->
+<view class="mp-hero">
+  <view class="mp-hero-tag">STARTECH · MINIPROGRAM COMPONENT LIBRARY</view>
+  <view class="mp-hero-title">星辰 · 小程序组件实例</view>
+  <view class="mp-hero-desc">MOBILE_SPEC §8 全组件原生 WXML/WXSS 示例 · 令牌来自 tokens.wxss · 触控热区 ≥44px</view>
+</view>
+
+<view class="mp-wrap">
+
+  <!-- 01 导航栏 -->
+  <view class="mp-sec">
+    <view class="mp-sec-head"><text class="mp-sec-num">01</text><text class="mp-sec-title">导航栏 Navbar</text></view>
+    <view class="mp-sec-desc">navigationStyle: custom 时自绘；标题居中，右侧为胶囊预留 ≥100px。</view>
+    <view class="mp-card">
+      <view class="st-appbar">
+        <view class="st-back">‹</view>
+        <view class="st-title">页面标题</view>
+        <view class="st-capsule">··· ◉</view>
+      </view>
+      <view class="mp-code">&lt;view class="st-appbar"&gt;
+  &lt;view class="st-back" bindtap="onBack"&gt;‹&lt;/view&gt;
+  &lt;view class="st-title"&gt;页面标题&lt;/view&gt;
+  &lt;view class="st-capsule"&gt;··· ◉&lt;/view&gt;
+&lt;/view&gt;</view>
+      <view class="mp-note">小程序用 app.json 的 navigationStyle: custom；H5 用 history.back()。胶囊区宽 --st-capsule-w: 87px。</view>
+    </view>
+  </view>
+
+  <!-- 02 搜索框 -->
+  <view class="mp-sec">
+    <view class="mp-sec-head"><text class="mp-sec-num">02</text><text class="mp-sec-title">搜索框 Search</text></view>
+    <view class="mp-sec-desc">高 44px，圆角 10px，占位色 --hx-text-muted；小程序 confirm-type="search"。</view>
+    <view class="mp-card">
+      <view class="st-search">
+        <input class="st-input" placeholder="搜索订单 / 商品" placeholder-class="st-placeholder" confirm-type="search" bindconfirm="onSearch" />
+      </view>
+      <view class="mp-code">&lt;view class="st-search"&gt;
+  &lt;input class="st-input" placeholder="搜索…"
+    confirm-type="search" bindconfirm="onSearch"/&gt;
+&lt;/view&gt;</view>
+    </view>
+  </view>
+
+  <!-- 03 按钮 -->
+  <view class="mp-sec">
+    <view class="mp-sec-head"><text class="mp-sec-num">03</text><text class="mp-sec-title">按钮 Button</text></view>
+    <view class="mp-sec-desc">主/软/幽灵三类，高 44px，圆角 10px。小程序 button 需去默认样式。</view>
+    <view class="mp-card">
+      <view class="mp-row">
+        <button class="st-btn st-btn--primary" hover-class="none" bindtap="onTap">主按钮</button>
+        <button class="st-btn st-btn--soft" hover-class="none">软按钮</button>
+        <button class="st-btn st-btn--ghost" hover-class="none">幽灵按钮</button>
+        <button class="st-btn st-btn--disabled" disabled>禁用</button>
+      </view>
+      <view class="mp-code">&lt;button class="st-btn st-btn--primary"
+  hover-class="none" bindtap="onTap"&gt;主按钮&lt;/button&gt;</view>
+      <view class="mp-note">button 在小程序有默认样式，mobile.wxss 已用 ::after{display:none} 去除；禁用态用 st-btn--disabled。</view>
+    </view>
+  </view>
+
+  <!-- 04 卡片 -->
+  <view class="mp-sec">
+    <view class="mp-sec-head"><text class="mp-sec-num">04</text><text class="mp-sec-title">卡片 Card</text></view>
+    <view class="mp-sec-desc">圆角 16px，padding 14px，白底，无重阴影。</view>
+    <view class="mp-card">
+      <view class="st-card">
+        <view class="st-row"><text class="st-title">本周订单</text><text class="st-brand-text">查看全部 →</text></view>
+        <view class="st-kpi"><text class="st-kpi-label">订单总量</text><text class="st-kpi-value">1,284</text></view>
+      </view>
+      <view class="mp-code">&lt;view class="st-card"&gt;
+  &lt;view class="st-kpi"&gt;
+    &lt;text class="st-kpi-value"&gt;1,284&lt;/text&gt;
+  &lt;/view&gt;
+&lt;/view&gt;</view>
+    </view>
+  </view>
+
+  <!-- 05 状态标签 -->
+  <view class="mp-sec">
+    <view class="mp-sec-head"><text class="mp-sec-num">05</text><text class="mp-sec-title">状态标签 Tag</text></view>
+    <view class="mp-sec-desc">高 26px，胶囊，五套语义色 + 11px/500。</view>
+    <view class="mp-card">
+      <view class="mp-row">
+        <text class="st-tag st-tag--brand">品牌</text>
+        <text class="st-tag st-tag--success">成功</text>
+        <text class="st-tag st-tag--warning">警告</text>
+        <text class="st-tag st-tag--danger">危险</text>
+        <text class="st-tag st-tag--info">信息</text>
+      </view>
+      <view class="mp-code">&lt;text class="st-tag st-tag--success"&gt;成功&lt;/text&gt;</view>
+    </view>
+  </view>
+
+  <!-- 06 筛选 Chip -->
+  <view class="mp-sec">
+    <view class="mp-sec-head"><text class="mp-sec-num">06</text><text class="mp-sec-title">筛选 Chip</text></view>
+    <view class="mp-sec-desc">高 34px，胶囊；选中实心品牌底白字，横滚单选。</view>
+    <view class="mp-card">
+      <scroll-view scroll-x class="mp-row">
+        <view class="st-chip is-active" bindtap="onChip" data-key="all">全部</view>
+        <view class="st-chip" bindtap="onChip" data-key="doing">进行中</view>
+        <view class="st-chip" bindtap="onChip" data-key="done">已完成</view>
+        <view class="st-chip" bindtap="onChip" data-key="fail">异常</view>
+      </scroll-view>
+      <view class="mp-code">&lt;scroll-view scroll-x&gt;
+  &lt;view class="st-chip is-active" bindtap="onChip"&gt;全部&lt;/view&gt;
+  &lt;view class="st-chip" bindtap="onChip"&gt;进行中&lt;/view&gt;
+&lt;/scroll-view&gt;</view>
+    </view>
+  </view>
+
+  <!-- 07 列表项 -->
+  <view class="mp-sec">
+    <view class="mp-sec-head"><text class="mp-sec-num">07</text><text class="mp-sec-title">列表项 List Item</text></view>
+    <view class="mp-sec-desc">最小高 44px，卡内 12px 内边距，主文案 15px + 次文案 13px，最多 2 行。</view>
+    <view class="mp-card">
+      <view class="st-list-item" wx:for="{{listItems}}" wx:key="id" bindtap="onItem" data-id="{{item.id}}">
+        <view class="st-list-item-content">
+          <view class="st-list-item-title">{{item.title}}</view>
+          <view class="st-list-item-desc">{{item.desc}}</view>
+        </view>
+        <view class="st-list-item-extra">{{item.extra}}</view>
+        <view class="st-list-item-arrow">›</view>
+      </view>
+      <view class="mp-code">&lt;view class="st-list-item" wx:for="&#123;&#123;listItems&#125;&#125;" wx:key="id"&gt;
+  &lt;view class="st-list-item-title"&gt;&#123;&#123;item.title&#125;&#125;&lt;/view&gt;
+  &lt;view class="st-list-item-desc"&gt;&#123;&#123;item.desc&#125;&#125;&lt;/view&gt;
+&lt;/view&gt;</view>
+    </view>
+  </view>
+
+  <!-- 08 输入框 -->
+  <view class="mp-sec">
+    <view class="mp-sec-head"><text class="mp-sec-num">08</text><text class="mp-sec-title">输入框 Input</text></view>
+    <view class="mp-sec-desc">高 44px，聚焦描边品牌色，支持字数统计和错误态。</view>
+    <view class="mp-card">
+      <view class="mp-col">
+        <view class="st-input-wrap">
+          <input class="st-input" placeholder="请输入用户名" placeholder-class="st-placeholder" bindinput="onInput" />
+        </view>
+        <view class="st-input-wrap">
+          <text class="st-input-icon">⌕</text>
+          <input class="st-input" placeholder="带图标输入框" placeholder-class="st-placeholder" />
+        </view>
+        <view class="st-input-wrap">
+          <input class="st-input" value="{{inputValue}}" placeholder="字数统计" maxlength="20" bindinput="onInput" />
+          <text class="st-input-count">{{inputValue.length}}/20</text>
+        </view>
+        <view class="st-input-error">{{errorMsg || '错误态提示文字（st-input-error）'}}</view>
+      </view>
+      <view class="mp-code">&lt;view class="st-input-wrap"&gt;
+  &lt;input class="st-input" placeholder="请输入"
+    bindinput="onInput" maxlength="20"/&gt;
+  &lt;text class="st-input-count"&gt;&#123;&#123;len&#125;&#125;/20&lt;/text&gt;
+&lt;/view&gt;</view>
+    </view>
+  </view>
+
+  <!-- 09 下拉 -->
+  <view class="mp-sec">
+    <view class="mp-sec-head"><text class="mp-sec-num">09</text><text class="mp-sec-title">下拉 Select</text></view>
+    <view class="mp-sec-desc">小程序用原生 picker 包 st-select 类名，保持与 H5 同 API/同类名。</view>
+    <view class="mp-card">
+      <picker mode="selector" range="{{regions}}" value="{{regionIndex}}" bindchange="onRegionChange">
+        <view class="st-select">
+          <view class="st-select-trigger">
+            <text>{{regions[regionIndex]}}</text>
+            <text class="st-select-arrow">▾</text>
+          </view>
+        </view>
+      </picker>
+      <view class="mp-code">&lt;picker mode="selector" range="&#123;&#123;regions&#125;&#125;"
+  bindchange="onRegionChange"&gt;
+  &lt;view class="st-select"&gt;
+    &lt;view class="st-select-trigger"&gt;
+      &#123;&#123;regions[regionIndex]&#125;&#125; &lt;text class="st-select-arrow"&gt;▾&lt;/text&gt;
+    &lt;/view&gt;
+  &lt;/view&gt;
+&lt;/picker&gt;</view>
+      <view class="mp-note">H5 端用自绘 st-select-panel；小程序用 picker 原生弹层，但对外 API（value/options/change）一致。</view>
+    </view>
+  </view>
+
+  <!-- 10 单选 / 多选 -->
+  <view class="mp-sec">
+    <view class="mp-sec-head"><text class="mp-sec-num">10</text><text class="mp-sec-title">单选 / 多选</text></view>
+    <view class="mp-sec-desc">radio-group / checkbox-group，选中态用 is-selected。</view>
+    <view class="mp-card">
+      <view class="mp-col">
+        <radio-group bindchange="onRadio">
+          <label class="st-radio-item" wx:for="{{options}}" wx:key="*this">
+            <radio value="{{item}}" checked="{{item === radioValue}}" /> {{item}}
+          </label>
+        </radio-group>
+        <checkbox-group bindchange="onCheckbox">
+          <label class="st-checkbox-item" wx:for="{{options}}" wx:key="*this">
+            <checkbox value="{{item}}" checked="{{checkboxValues.indexOf(item) >= 0}}" /> {{item}}
+          </label>
+        </checkbox-group>
+      </view>
+      <view class="mp-code">&lt;radio-group bindchange="onRadio"&gt;
+  &lt;label class="st-radio-item" wx:for="&#123;&#123;options&#125;&#125;"&gt;
+    &lt;radio value="&#123;&#123;item&#125;&#125;"/&gt; &#123;&#123;item&#125;&#125;
+  &lt;/label&gt;
+&lt;/radio-group&gt;</view>
+    </view>
+  </view>
+
+  <!-- 11 开关 -->
+  <view class="mp-sec">
+    <view class="mp-sec-head"><text class="mp-sec-num">11</text><text class="mp-sec-title">开关 Switch</text></view>
+    <view class="mp-card">
+      <view class="mp-row">
+        <switch checked="{{switchOn}}" bindchange="onSwitch" color="#2f6df6" />
+        <text>{{switchOn ? '已开启' : '已关闭'}}</text>
+      </view>
+      <view class="mp-code">&lt;switch checked="&#123;&#123;switchOn&#125;&#125;" bindchange="onSwitch"
+  color="#2f6df6"/&gt;</view>
+    </view>
+  </view>
+
+  <!-- 12 步进器 -->
+  <view class="mp-sec">
+    <view class="mp-sec-head"><text class="mp-sec-num">12</text><text class="mp-sec-title">步进器 Stepper</text></view>
+    <view class="mp-card">
+      <view class="st-stepper">
+        <view class="st-stepper-btn" bindtap="onStepMinus">−</view>
+        <view class="st-stepper-value">{{stepValue}}</view>
+        <view class="st-stepper-btn" bindtap="onStepPlus">+</view>
+      </view>
+      <view class="mp-code">&lt;view class="st-stepper"&gt;
+  &lt;view class="st-stepper-btn" bindtap="onStepMinus"&gt;−&lt;/view&gt;
+  &lt;view class="st-stepper-value"&gt;&#123;&#123;stepValue&#125;&#125;&lt;/view&gt;
+  &lt;view class="st-stepper-btn" bindtap="onStepPlus"&gt;+&lt;/view&gt;
+&lt;/view&gt;</view>
+    </view>
+  </view>
+
+  <!-- 13 评分 -->
+  <view class="mp-sec">
+    <view class="mp-sec-head"><text class="mp-sec-num">13</text><text class="mp-sec-title">评分 Rate</text></view>
+    <view class="mp-card">
+      <view class="st-rating">
+        <text class="st-rating-star" wx:for="{{[1,2,3,4,5]}}" wx:key="*this" bindtap="onRate" data-value="{{item}}">{{item <= rateValue ? '★' : '☆'}}</text>
+      </view>
+      <view class="mp-code">&lt;view class="st-rating"&gt;
+  &lt;text class="st-rating-star" wx:for="&#123;&#123;[1,2,3,4,5]&#125;&#125;"
+    bindtap="onRate"&gt;★ / ☆&lt;/text&gt;
+&lt;/view&gt;</view>
+    </view>
+  </view>
+
+  <!-- 14 滑块 -->
+  <view class="mp-sec">
+    <view class="mp-sec-head"><text class="mp-sec-num">14</text><text class="mp-sec-title">滑块 Slider</text></view>
+    <view class="mp-card">
+      <slider value="{{sliderValue}}" bindchanging="onSlider" activeColor="#2f6df6" block-size="20" show-value />
+      <view class="mp-code">&lt;slider value="&#123;&#123;sliderValue&#125;&#125;" bindchanging="onSlider"
+  activeColor="#2f6df6" block-size="20" show-value/&gt;</view>
+      <view class="mp-note">小程序用原生 slider（性能更好），类名语义与 H5 st-slider 一致。</view>
+    </view>
+  </view>
+
+  <!-- 15 日期选择 -->
+  <view class="mp-sec">
+    <view class="mp-sec-head"><text class="mp-sec-num">15</text><text class="mp-sec-title">日期选择 Date Picker</text></view>
+    <view class="mp-card">
+      <picker mode="date" value="{{date}}" bindchange="onDateChange">
+        <view class="st-date-picker">{{date}} ›</view>
+      </picker>
+      <view class="mp-code">&lt;picker mode="date" value="&#123;&#123;date&#125;&#125;"
+  bindchange="onDateChange"&gt;
+  &lt;view class="st-date-picker"&gt;&#123;&#123;date&#125;&#125; ›&lt;/view&gt;
+&lt;/picker&gt;</view>
+    </view>
+  </view>
+
+  <!-- 16 上传 -->
+  <view class="mp-sec">
+    <view class="mp-sec-head"><text class="mp-sec-num">16</text><text class="mp-sec-title">上传 Upload</text></view>
+    <view class="mp-card">
+      <view class="st-upload">
+        <view class="st-upload-item" wx:for="{{uploads}}" wx:key="*this">
+          {{item}} <text class="st-upload-item-close" data-src="{{item}}" bindtap="onRemoveUpload">×</text>
+        </view>
+        <view class="st-upload-item" bindtap="onUpload">+ 上传</view>
+      </view>
+      <view class="mp-code">&lt;view class="st-upload"&gt;
+  &lt;view class="st-upload-item" bindtap="onChooseMedia"&gt;+ 上传&lt;/view&gt;
+&lt;/view&gt;</view>
+      <view class="mp-note">用 wx.chooseMedia 选图 + wx.uploadFile 上传；此处仅演示视觉与交互入口。</view>
+    </view>
+  </view>
+
+  <!-- 17 Tabs -->
+  <view class="mp-sec">
+    <view class="mp-sec-head"><text class="mp-sec-num">17</text><text class="mp-sec-title">标签页 Tabs</text></view>
+    <view class="mp-card">
+      <view class="st-tabs">
+        <view class="st-tab {{activeTab === index ? 'is-active' : ''}}" wx:for="{{tabs}}" wx:key="*this" data-index="{{index}}" bindtap="onTab">{{item}}</view>
+      </view>
+      <view class="mp-code">&lt;view class="st-tabs"&gt;
+  &lt;view class="st-tab &#123;&#123;activeTab === index ? &apos;is-active&apos; : &apos;&apos;&#125;&#125;"
+    wx:for="&#123;&#123;tabs&#125;&#125;" bindtap="onTab"&gt;&#123;&#123;item&#125;&#125;&lt;/view&gt;
+&lt;/view&gt;</view>
+    </view>
+  </view>
+
+  <!-- 18 底部 TabBar -->
+  <view class="mp-sec">
+    <view class="mp-sec-head"><text class="mp-sec-num">18</text><text class="mp-sec-title">底部标签栏 TabBar</text></view>
+    <view class="mp-sec-desc">内容 56px + 安全区；选中实心品牌胶囊，3~5 项。</view>
+    <view class="mp-card">
+      <view class="st-tabbar">
+        <view class="st-tab-item {{activeTabBar === index ? 'is-active' : ''}}" wx:for="{{tabBarItems}}" wx:key="*this" data-index="{{index}}" bindtap="onTabBar">
+          <view class="st-tab-icon">{{item.icon}}</view>
+          <view>{{item.label}}</view>
+        </view>
+      </view>
+      <view class="mp-code">// app.json 原生配置（推荐）
+"tabBar": { "list": [
+  { "pagePath": "pages/index/index", "text": "首页" },
+  { "pagePath": "pages/components/index", "text": "组件" }
+]}
+// 自绘时用 st-tabbar + st-tab-item.is-active</view>
+    </view>
+  </view>
+
+  <!-- 19 底部 Sheet -->
+  <view class="mp-sec">
+    <view class="mp-sec-head"><text class="mp-sec-num">19</text><text class="mp-sec-title">底部 Sheet</text></view>
+    <view class="mp-card">
+      <button class="st-btn st-btn--soft" bindtap="showSheet">打开底部 Sheet</button>
+      <view class="st-sheet" wx:if="{{sheetOpen}}">
+        <view class="st-modal-title">选择操作</view>
+        <view class="st-list-item" bindtap="onSheetAction">编辑</view>
+        <view class="st-list-item" bindtap="onSheetAction">分享</view>
+        <view class="st-list-item" bindtap="hideSheet">取消</view>
+      </view>
+      <view class="mp-code">&lt;view class="st-sheet" wx:if="&#123;&#123;sheetOpen&#125;&#125;"&gt;
+  &lt;view class="st-modal-title"&gt;选择操作&lt;/view&gt;
+  …
+&lt;/view&gt;</view>
+      <view class="mp-note">点击遮罩或下滑关闭；小程序可用 root-portal 挂到根节点避免被 overflow 裁剪。</view>
+    </view>
+  </view>
+
+  <!-- 20 Toast -->
+  <view class="mp-sec">
+    <view class="mp-sec-head"><text class="mp-sec-num">20</text><text class="mp-sec-title">轻提示 Toast</text></view>
+    <view class="mp-card">
+      <button class="st-btn st-btn--primary" bindtap="showToast">显示 Toast</button>
+      <view class="st-toast" wx:if="{{toastShow}}">操作成功</view>
+      <view class="mp-code">// 小程序推荐原生 API（2s 自动消失，不阻塞）
+wx.showToast({ title: '操作成功', icon: 'success', duration: 2000 })
+// 自绘时用 st-toast</view>
+    </view>
+  </view>
+
+  <!-- 21 弹窗 Modal -->
+  <view class="mp-sec">
+    <view class="mp-sec-head"><text class="mp-sec-num">21</text><text class="mp-sec-title">对话框 Modal</text></view>
+    <view class="mp-card">
+      <button class="st-btn st-btn--ghost" bindtap="showModal">打开对话框</button>
+      <view class="st-modal-mask" wx:if="{{modalOpen}}" bindtap="hideModal">
+        <view class="st-modal" catchtap="noop">
+          <view class="st-modal-title">确认删除</view>
+          <view class="st-modal-content">删除后不可恢复，是否继续？</view>
+          <view class="st-modal-actions">
+            <button class="st-btn st-btn--ghost" bindtap="hideModal">取消</button>
+            <button class="st-btn st-btn--primary" bindtap="hideModal">确认</button>
+          </view>
+        </view>
+      </view>
+      <view class="mp-code">&lt;view class="st-modal-mask" wx:if="&#123;&#123;modalOpen&#125;&#125;" bindtap="hideModal"&gt;
+  &lt;view class="st-modal" catchtap="noop"&gt;…&lt;/view&gt;
+&lt;/view&gt;</view>
+    </view>
+  </view>
+
+  <!-- 22 空态 / 骨架 / 错误态 -->
+  <view class="mp-sec">
+    <view class="mp-sec-head"><text class="mp-sec-num">22</text><text class="mp-sec-title">空态 / 骨架 / 错误态</text></view>
+    <view class="mp-card mp-col">
+      <view class="st-placeholder">◌　暂无数据</view>
+      <view class="st-skeleton" style="height:40rpx" wx:for="{{[1,2,3]}}" wx:key="*this"></view>
+      <view class="st-result">
+        <view class="st-result-icon st-result-icon--danger">!</view>
+        <view class="st-result-title">加载失败</view>
+        <view class="st-result-desc">网络异常，请稍后重试</view>
+        <button class="st-btn st-btn--primary" size="mini" bindtap="onRetry">重试</button>
+      </view>
+      <view class="mp-code">&lt;view class="st-placeholder"&gt;暂无数据&lt;/view&gt;
+&lt;view class="st-skeleton" wx:for="&#123;&#123;[1,2,3]&#125;&#125;"/&gt;
+&lt;view class="st-result"&gt;…&lt;/view&gt;</view>
+      <view class="mp-note">禁止只给一句「加载失败」，必须有原因 + 重试按钮；骨架屏首屏 ≥300ms 时给。</view>
+    </view>
+  </view>
+
+  <!-- 23 通知条 -->
+  <view class="mp-sec">
+    <view class="mp-sec-head"><text class="mp-sec-num">23</text><text class="mp-sec-title">通知条 Notice Bar</text></view>
+    <view class="mp-card">
+      <view class="st-notice-bar">
+        <text class="st-notice-bar-icon">!</text>
+        <text class="st-notice-bar-text">系统将于今晚 23:00 维护，请提前保存数据</text>
+        <text class="st-notice-bar-close" bindtap="onCloseNotice">×</text>
+      </view>
+      <view class="mp-code">&lt;view class="st-notice-bar"&gt;
+  &lt;text class="st-notice-bar-icon"&gt;!&lt;/text&gt;
+  &lt;text class="st-notice-bar-text"&gt;…&lt;/text&gt;
+&lt;/view&gt;</view>
+    </view>
+  </view>
+
+  <!-- 24 宫格 -->
+  <view class="mp-sec">
+    <view class="mp-sec-head"><text class="mp-sec-num">24</text><text class="mp-sec-title">宫格 Grid</text></view>
+    <view class="mp-card">
+      <view class="st-grid">
+        <view class="st-grid-item" wx:for="{{gridItems}}" wx:key="*this" bindtap="onGrid" data-name="{{item}}">
+          <view class="st-grid-item-icon">◫</view>
+          <view class="st-grid-item-label">{{item}}</view>
+        </view>
+      </view>
+      <view class="mp-code">&lt;view class="st-grid"&gt;
+  &lt;view class="st-grid-item" wx:for="&#123;&#123;gridItems&#125;&#125;"&gt;
+    &lt;view class="st-grid-item-icon"&gt;◫&lt;/view&gt;
+    &lt;view class="st-grid-item-label"&gt;&#123;&#123;item&#125;&#125;&lt;/view&gt;
+  &lt;/view&gt;
+&lt;/view&gt;</view>
+    </view>
+  </view>
+
+  <!-- 25 折叠面板 -->
+  <view class="mp-sec">
+    <view class="mp-sec-head"><text class="mp-sec-num">25</text><text class="mp-sec-title">折叠面板 Collapse</text></view>
+    <view class="mp-card">
+      <view class="st-collapse">
+        <view class="st-collapse-item" wx:for="{{faqs}}" wx:key="title">
+          <view class="st-collapse-header" bindtap="onCollapse" data-index="{{index}}">
+            {{item.title}} <text class="st-collapse-arrow">{{openFaq === index ? '−' : '+'}}</text>
+          </view>
+          <view class="st-collapse-content" wx:if="{{openFaq === index}}">{{item.content}}</view>
+        </view>
+      </view>
+      <view class="mp-code">&lt;view class="st-collapse-item"&gt;
+  &lt;view class="st-collapse-header" bindtap="onCollapse"&gt;标题 +&lt;/view&gt;
+  &lt;view class="st-collapse-content" wx:if="&#123;&#123;open&#125;&#125;"&gt;内容&lt;/view&gt;
+&lt;/view&gt;</view>
+    </view>
+  </view>
+
+  <!-- 26 商品卡 / 倒计时 / 地址卡 -->
+  <view class="mp-sec">
+    <view class="mp-sec-head"><text class="mp-sec-num">26</text><text class="mp-sec-title">业务卡片</text></view>
+    <view class="mp-card">
+      <view class="st-product-card">
+        <view class="st-product-card-img">图</view>
+        <view class="st-product-card-content">
+          <view class="st-product-card-title">智能仓储套件 Pro</view>
+          <view class="st-product-card-desc">高精度识别 · 双臂协同</view>
+          <view class="st-product-card-price"><text class="st-price-current">¥2,899</text><text class="st-price-original">¥3,599</text></view>
+        </view>
+      </view>
+      <view class="st-countdown">
+        距结束 <text class="st-countdown-block">{{countdown.h}}</text><text class="st-countdown-sep">:</text><text class="st-countdown-block">{{countdown.m}}</text><text class="st-countdown-sep">:</text><text class="st-countdown-block">{{countdown.s}}</text>
+      </view>
+      <view class="st-address-card">
+        <view class="st-address-icon">定位</view>
+        <view class="st-address-content">
+          <view class="st-address-name">星辰科技 · 张工 <text class="st-address-phone">138****0000</text></view>
+          <view class="st-address-detail">湖南省长沙市岳麓区</view>
+        </view>
+      </view>
+      <view class="mp-code">&lt;view class="st-product-card"&gt;…&lt;/view&gt;
+&lt;view class="st-countdown"&gt;距结束 &#123;&#123;countdown.h&#125;&#125;:&#123;&#123;countdown.m&#125;&#125;&lt;/view&gt;
+&lt;view class="st-address-card"&gt;…&lt;/view&gt;</view>
+    </view>
+  </view>
+
+  <!-- 27 图表 -->
+  <view class="mp-sec">
+    <view class="mp-sec-head"><text class="mp-sec-num">27</text><text class="mp-sec-title">图表 Chart</text></view>
+    <view class="mp-sec-desc">小程序用 Canvas 渲染器（属性同名）；轴标签仍用原生 text 层 12px，禁 preserveAspectRatio 变形。</view>
+    <view class="mp-card">
+      <view class="st-chart" style="height:260rpx;display:flex;align-items:flex-end;gap:12rpx;padding:16rpx 0;border-bottom:2rpx solid var(--hx-border)">
+        <view wx:for="{{chartData}}" wx:key="*this" style="flex:1;height:{{item}}%;background:var(--hx-brand);border-radius:8rpx 8rpx 0 0"></view>
+      </view>
+      <view class="st-row" style="justify-content:space-between;margin-top:8rpx">
+        <text class="st-micro" wx:for="{{chartLabels}}" wx:key="*this">{{item}}</text>
+      </view>
+      <view class="mp-code">// 小程序推荐 Canvas 2D
+&lt;canvas type="2d" id="chart" bindtouched="onChartTouch"&gt;&lt;/canvas&gt;
+// 简单柱状图可用 view + 百分比高度（如上），轴标签用原生 text 12px</view>
+    </view>
+  </view>
+
+</view>

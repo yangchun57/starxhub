@@ -60,40 +60,75 @@
   --hx-accent-yellow: #ffc86b;
   --hx-accent-mint: #4fc3a1;
 
-  /* ---------- 圆角 ---------- */
-  --hx-radius-card: 14px;
-  --hx-radius-panel: 12px;
-  --hx-radius-control: 9px;
-  --hx-radius-tag: 6px;
-  --hx-radius-pill: 999px;
+  /* ---------- 圆角（5 级系统） ---------- */
+  --hx-radius-xs: 4px;      /* 小标签、图标 */
+  --hx-radius-sm: 8px;      /* 输入框、小控件 */
+  --hx-radius-md: 12px;     /* 卡片、面板 */
+  --hx-radius-lg: 16px;     /* 大卡片 */
+  --hx-radius-xl: 20px;     /* 全屏容器 */
+  --hx-radius-pill: 999px;  /* 胶囊、头像 */
+  
+  /* 兼容旧命名（逐步废弃） */
+  --hx-radius-card: var(--hx-radius-lg);
+  --hx-radius-panel: var(--hx-radius-md);
+  --hx-radius-control: var(--hx-radius-sm);
+  --hx-radius-tag: var(--hx-radius-xs);
 
-  /* ---------- 间距 / 尺寸 ---------- */
-  --hx-gap-section: 18px;
-  --hx-gap-tight: 10px;
-  --hx-gap-wide: 24px;
+  /* ---------- 间距（6 级系统） ---------- */
+  --hx-space-xs: 4px;
+  --hx-space-sm: 8px;
+  --hx-space-md: 12px;
+  --hx-space-lg: 16px;
+  --hx-space-xl: 24px;
+  --hx-space-2xl: 32px;
+  
+  /* 兼容旧命名（逐步废弃） */
+  --hx-gap-section: var(--hx-space-xl);
+  --hx-gap-tight: var(--hx-space-md);
+  --hx-gap-wide: var(--hx-space-xl);
+  
+  /* ---------- 尺寸 ---------- */
   --hx-sidebar-w: 236px;
   --hx-topbar-h: 72px;
-  --hx-control-h: 36px;
-  --hx-control-h-lg: 40px;
+  --hx-control-h: 44px;      /* 符合触控规范 */
+  --hx-control-h-lg: 48px;
 
   /* ---------- 字体 ---------- */
   --hx-font-sans: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", system-ui, -apple-system, sans-serif;
   --hx-font-num: "Geist", "Inter", "SF Pro Display", system-ui, sans-serif;
 
-  /* ---------- 字阶 ---------- */
-  --hx-fs-display: 24px;
-  --hx-fs-title: 19px;
-  --hx-fs-section: 14px;
-  --hx-fs-body: 12px;
-  --hx-fs-sm: 11px;
-  --hx-fs-xs: 10px;
-  --hx-fs-metric: 25px;
+  /* ---------- 字阶（6 级系统） ---------- */
+  --hx-fs-display: 28px;    /* 页面大标题 */
+  --hx-fs-title: 20px;      /* 区块标题 */
+  --hx-fs-section: 16px;    /* 小节标题 */
+  --hx-fs-body: 15px;       /* 正文 */
+  --hx-fs-caption: 13px;    /* 说明文字 */
+  --hx-fs-micro: 11px;      /* 标签角标 */
+  --hx-fs-metric: 28px;     /* 大数字 */
+  
+  /* 兼容旧命名（逐步废弃） */
+  --hx-fs-sm: var(--hx-fs-caption);
+  --hx-fs-xs: var(--hx-fs-micro);
 
-  /* ---------- 阴影 / 动效 ---------- */
-  --hx-shadow-card: 0 1px 2px rgba(27, 37, 55, 0.04);
-  --hx-shadow-pop: 0 12px 32px rgba(27, 37, 55, 0.14);
+  /* ---------- 阴影（3 级系统，双层柔和） ---------- */
+  --hx-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --hx-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04);
+  --hx-shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.15), 0 8px 20px rgba(0, 0, 0, 0.1);
+  
+  /* 兼容旧命名（逐步废弃） */
+  --hx-shadow-card: var(--hx-shadow-sm);
+  --hx-shadow-pop: var(--hx-shadow-lg);
+  
+  /* ---------- 动效（3 级时长） ---------- */
+  --hx-duration-fast: 150ms;    /* hover、focus */
+  --hx-duration-normal: 200ms;  /* 状态切换 */
+  --hx-duration-slow: 300ms;    /* 页面转场 */
   --hx-ease: cubic-bezier(0.4, 0, 0.2, 1);
-  --hx-dur: 160ms;
+  --hx-ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --hx-ease-in: cubic-bezier(0.4, 0, 1, 1);
+  
+  /* 兼容旧命名（逐步废弃） */
+  --hx-dur: var(--hx-duration-normal);
 }
 
 /* ============================================================
@@ -123,5 +158,7 @@
   --hx-danger-soft: #40232c;
   --hx-info-soft: #223753;
   --hx-chart-grid: #263a58;
-  --hx-shadow-card: 0 1px 2px rgba(0, 0, 0, 0.2);
+  --hx-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
+  --hx-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.3);
+  --hx-shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.6), 0 8px 20px rgba(0, 0, 0, 0.4);
 }

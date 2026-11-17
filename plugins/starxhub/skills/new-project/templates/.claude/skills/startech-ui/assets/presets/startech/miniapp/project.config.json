@@ -1,0 +1,8 @@
+{
+  "description": "星辰 starTech · 原生小程序组件示例工程",
+  "appid": "touristappid",
+  "projectname": "startech-miniapp-components",
+  "miniprogramRoot": "./",
+  "compileType": "miniprogram",
+  "setting": { "urlCheck": false, "es6": true, "postcss": true, "minified": false }
+}
