@@ -49,7 +49,7 @@
               <div v-for="p in permissions" :key="p.label" class="hx-row-between" style="padding: 10px 0; border-bottom: 1px solid var(--hx-border-soft)">
                 <div class="hx-col">
                   <span class="hx-body hx-semibold">{{ p.label }}</span>
-                  <span class="hx-xs hx-muted">{{ p.desc }}</span>
+                  <span class="hx-micro hx-muted">{{ p.desc }}</span>
                 </div>
                 <span class="hx-switch" :class="{ 'is-on': p.on }" @click="p.on = !p.on" />
               </div>
@@ -59,7 +59,7 @@
               <div v-for="n in notifications" :key="n.label" class="hx-row-between" style="padding: 10px 0; border-bottom: 1px solid var(--hx-border-soft)">
                 <div class="hx-col">
                   <span class="hx-body hx-semibold">{{ n.label }}</span>
-                  <span class="hx-xs hx-muted">{{ n.desc }}</span>
+                  <span class="hx-micro hx-muted">{{ n.desc }}</span>
                 </div>
                 <span class="hx-switch" :class="{ 'is-on': n.on }" @click="n.on = !n.on" />
               </div>

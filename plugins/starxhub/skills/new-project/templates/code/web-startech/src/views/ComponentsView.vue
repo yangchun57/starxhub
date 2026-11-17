@@ -98,7 +98,7 @@
           <label class="hx-radio"><input type="radio" name="demo" checked /> 单选 A</label>
           <label class="hx-radio"><input type="radio" name="demo" /> 单选 B</label>
           <span class="hx-switch" :class="{ 'is-on': switchOn }" @click="switchOn = !switchOn" />
-          <span class="hx-sm hx-secondary">开关 {{ switchOn ? '开' : '关' }}</span>
+          <span class="hx-caption hx-secondary">开关 {{ switchOn ? '开' : '关' }}</span>
         </div>
         <textarea class="hx-input hx-textarea" placeholder="多行文本域…" />
       </div>
@@ -127,7 +127,7 @@
           <div class="hx-row" style="gap: 10px">
             <div class="hx-skeleton" style="width: 90px; height: 36px" />
             <div class="hx-skeleton" style="width: 140px; height: 36px" />
-            <span class="hx-sm hx-muted">骨架屏加载态</span>
+            <span class="hx-caption hx-muted">骨架屏加载态</span>
           </div>
           <HxEmpty text="暂无数据，试试调整筛选条件">
             <HxButton size="sm" variant="secondary" @click="showModal = true">打开弹窗</HxButton>
@@ -137,7 +137,7 @@
               <i class="hx-timeline-dot" :style="{ background: t.color }" />
               <div class="hx-col">
                 <span class="hx-body hx-semibold">{{ t.title }}</span>
-                <span class="hx-xs hx-muted">{{ t.time }}</span>
+                <span class="hx-micro hx-muted">{{ t.time }}</span>
               </div>
             </div>
           </div>
@@ -165,7 +165,7 @@
           </div>
         </div>
         <div class="hx-demo-row">
-          <span class="hx-sm hx-secondary">迷你趋势 Sparkline：</span>
+          <span class="hx-caption hx-secondary">迷你趋势 Sparkline：</span>
           <Sparkline v-for="(m, i) in metrics" :key="i" :data="m.spark" :color="m.color" style="width: 70px; height: 28px" />
         </div>
       </div>
@@ -238,7 +238,7 @@ const swatches = [
 const typeScale = [
   { cls: 'hx-display', label: 'Display 24' }, { cls: 'hx-title', label: 'Title 19' },
   { cls: 'hx-section', label: 'Section 14' }, { cls: 'hx-body', label: 'Body 12' },
-  { cls: 'hx-sm', label: 'Small 11' }, { cls: 'hx-xs', label: 'Tiny 10' },
+  { cls: 'hx-caption', label: 'Small 11' }, { cls: 'hx-micro', label: 'Tiny 10' },
   { cls: 'hx-metric', label: '486,320' },
 ]
 const allStatus = ['已完成', '待付款', '处理中', '已发货', '已取消', '退款中', '在售', '进行中']

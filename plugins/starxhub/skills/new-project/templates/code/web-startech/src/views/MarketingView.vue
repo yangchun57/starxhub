@@ -25,7 +25,7 @@
             <div v-for="c in channels" :key="c.label" class="hx-col" style="gap: 5px">
               <div class="hx-row-between">
                 <span class="hx-body">{{ c.label }}</span>
-                <span class="hx-num hx-sm hx-semibold">¥ {{ c.value.toLocaleString() }}</span>
+                <span class="hx-num hx-caption hx-semibold">¥ {{ c.value.toLocaleString() }}</span>
               </div>
               <div class="hx-progress" style="height: 8px">
                 <div class="hx-progress-fill" :style="{ width: c.percent + '%', background: c.color }" />
@@ -40,7 +40,7 @@
                 <i class="hx-timeline-dot" :style="{ background: colors[i % colors.length] }" />
                 <div class="hx-col">
                   <span class="hx-body hx-semibold">{{ c.name }}</span>
-                  <span class="hx-xs hx-muted">{{ c.period }} · {{ c.channel }}</span>
+                  <span class="hx-micro hx-muted">{{ c.period }} · {{ c.channel }}</span>
                 </div>
               </div>
             </div>

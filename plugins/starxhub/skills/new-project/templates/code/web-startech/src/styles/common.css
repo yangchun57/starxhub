@@ -85,8 +85,8 @@ svg {
 .hx-title   { font-size: var(--hx-fs-title);   font-weight: 700; }
 .hx-section { font-size: var(--hx-fs-section); font-weight: 600; }
 .hx-body    { font-size: var(--hx-fs-body); }
-.hx-sm      { font-size: var(--hx-fs-sm); }
-.hx-xs      { font-size: var(--hx-fs-xs); }
+.hx-caption { font-size: var(--hx-fs-caption); }
+.hx-micro   { font-size: var(--hx-fs-micro); }
 .hx-num     { font-family: var(--hx-font-num); font-variant-numeric: tabular-nums; }
 .hx-metric  { font-family: var(--hx-font-num); font-size: var(--hx-fs-metric); font-weight: 700; letter-spacing: -0.5px; }
 .hx-muted   { color: var(--hx-text-muted); }

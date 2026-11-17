@@ -14,9 +14,13 @@ const cssOverride = [];
 let prefix = 'hx';
 let target = process.cwd();
 for (let i = 0; i < args.length; i++) {
-  if (args[i] === '--css' && args[i + 1]) cssOverride.push(args[++i]);
-  else if (args[i] === '--prefix' && args[i + 1]) prefix = args[++i].replace(/^-+/, '');
-  else if (!args[i].startsWith('--')) target = resolve(args[i]);
+  if (args[i] === '--css') {
+    if (!args[i + 1] || args[i + 1].startsWith('--')) { console.error('[check-classes] --css 缺少文件路径'); process.exit(2); }
+    cssOverride.push(args[++i]);
+  } else if (args[i] === '--prefix') {
+    if (!args[i + 1] || args[i + 1].startsWith('--')) { console.error('[check-classes] --prefix 缺少取值'); process.exit(2); }
+    prefix = args[++i].replace(/^-+/, '');
+  } else if (!args[i].startsWith('--')) target = resolve(args[i]);
 }
 
 const skillDir = fileURLToPath(new URL('..', import.meta.url));
@@ -42,13 +46,16 @@ function walk(dir, out = []) {
 }
 
 const defined = new Set();
+const definedPerFile = new Map();
 for (const f of cssFiles) {
   if (!existsSync(f)) {
     console.error(`[check-classes] CSS 不存在：${f}`);
     process.exit(2);
   }
   const css = readFileSync(f, 'utf8');
+  const before = defined.size;
   for (const m of css.matchAll(PREFIX_RE)) defined.add(m[1]);
+  definedPerFile.set(f, defined.size - before);
 }
 
 const files = existsSync(target) && statSync(target).isDirectory() ? walk(target) : [target];
@@ -78,7 +85,7 @@ for (const f of files) {
 }
 
 const missing = [...used.keys()].filter((c) => !defined.has(c)).sort();
-for (const f of cssFiles) console.log(`[check-classes] 定义源：${relative(process.cwd(), f)}（${defined.size} 个 ${prefix}-* 类）`);
+for (const f of cssFiles) console.log(`[check-classes] 定义源：${relative(process.cwd(), f)}（${definedPerFile.get(f)} 个 ${prefix}-* 类）`);
 console.log(`[check-classes] 前缀 ${prefix}-* ｜ 扫描 ${files.length} 个文件，使用 ${used.size} 个类`);
 if (missing.length) {
   for (const c of missing) console.log(`MISS  ${c}  ← ${[...used.get(c)].join(', ')}`);

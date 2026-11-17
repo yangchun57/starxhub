@@ -282,7 +282,7 @@
         '<label class="hx-radio"><input type="radio" name="r1" checked /> 单选 A</label>' +
         '<label class="hx-radio"><input type="radio" name="r1" /> 单选 B</label>' +
         '<span class="hx-switch ' + (state.switchOn ? 'is-on' : '') + '" data-act="switch"></span>' +
-        '<span class="hx-sm hx-secondary">开关 ' + (state.switchOn ? '开' : '关') + '</span></div>' +
+        '<span class="hx-caption hx-secondary">开关 ' + (state.switchOn ? '开' : '关') + '</span></div>' +
         '<textarea class="hx-input hx-textarea" placeholder="多行文本域…"></textarea></div>') +
 
       card('03B · 下拉选项 / Select Options', '自定义浮层 · 选中 / 悬停 / 禁用三态 · 暗色自适应 · 挂到 body 不被卡片裁切',
@@ -292,7 +292,7 @@
             '<div class="hx-select-spec-line"><i class="hx-select-spec-dot" style="background:var(--hx-brand)"></i>选中项：品牌浅底 + 左侧竖条 + 右侧勾选</div>' +
             '<div class="hx-select-spec-line"><i class="hx-select-spec-dot" style="background:var(--hx-border)"></i>悬停 / 键盘激活：中性浅底，文字提亮</div>' +
             '<div class="hx-select-spec-line"><i class="hx-select-spec-dot" style="background:var(--hx-text-muted)"></i>禁用项：弱化文字，不响应 hover</div>' +
-            '<span class="hx-sm hx-muted">↑ ↓ 移动 · Enter 选择 · Esc 关闭 · 点击空白处收起 · 滚动时跟随定位</span>' +
+            '<span class="hx-caption hx-muted">↑ ↓ 移动 · Enter 选择 · Esc 关闭 · 点击空白处收起 · 滚动时跟随定位</span>' +
           '</div>' +
           '<div class="hx-select-panel hx-select-panel--inline hx-select-spec-panel" role="listbox">' +
             '<div class="hx-select-label">订单状态</div><div class="hx-select-list">' +
@@ -314,11 +314,11 @@
           }).join('') + '</div>' + alerts + '</div>') +
         card('05 · 状态反馈 / Empty & Timeline', '骨架屏 · 空态 · 时间线 · 弹窗',
           '<div class="hx-card-pad hx-demo">' +
-          '<div class="hx-row"><div class="hx-skeleton" style="width:90px;height:36px"></div><div class="hx-skeleton" style="width:140px;height:36px"></div><span class="hx-sm hx-muted">骨架屏加载态</span></div>' +
+          '<div class="hx-row"><div class="hx-skeleton" style="width:90px;height:36px"></div><div class="hx-skeleton" style="width:140px;height:36px"></div><span class="hx-caption hx-muted">骨架屏加载态</span></div>' +
           '<div class="hx-empty"><svg class="hx-empty-icon" viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="8" y="14" width="40" height="30" rx="5"/><path d="M8 22h40M18 32h8M18 38h14" stroke-linecap="round"/><circle cx="40" cy="36" r="6"/><path d="M44.5 40.5L50 46" stroke-linecap="round"/></svg>' +
           '<span>暂无数据</span><button class="hx-btn hx-btn--secondary hx-btn--sm" data-act="modal">打开弹窗</button></div>' +
           '<div class="hx-timeline">' + [['订单创建','2026-11-15 14:32','var(--hx-brand)'],['支付完成','2026-11-15 14:36','var(--hx-success-bright)'],['仓库出库','2026-11-15 16:02','var(--hx-warning-bright)']].map(function (t) {
-            return '<div class="hx-timeline-item"><i class="hx-timeline-dot" style="background:' + t[2] + '"></i><div class="hx-col"><span class="hx-body hx-semibold">' + t[0] + '</span><span class="hx-xs hx-muted">' + t[1] + '</span></div></div>'
+            return '<div class="hx-timeline-item"><i class="hx-timeline-dot" style="background:' + t[2] + '"></i><div class="hx-col"><span class="hx-body hx-semibold">' + t[0] + '</span><span class="hx-micro hx-muted">' + t[1] + '</span></div></div>'
           }).join('') + '</div></div>') +
       '</div>' +
 
@@ -326,7 +326,7 @@
         '<div class="hx-card-pad hx-demo"><div class="hx-grid-2">' +
         '<div class="hx-col" style="gap:8px"><span class="hx-section-title">营收趋势（含对比线）</span>' + lineChart(TREND, COMPARE) + '</div>' +
         '<div class="hx-row" style="gap:14px">' + donut(TRAFFIC, '总访问量', '42,861') + legend(TRAFFIC) + '</div></div>' +
-        '<div class="hx-demo-row"><span class="hx-sm hx-secondary">迷你趋势 Sparkline：</span>' +
+        '<div class="hx-demo-row"><span class="hx-caption hx-secondary">迷你趋势 Sparkline：</span>' +
         METRICS.map(function (m) { return spark(m.spark, m.color) }).join('') + '</div></div>') +
 
       card('07 · 表格与分页 / Table', '隔行底色 · 状态标签 · 横向滚动',
@@ -352,13 +352,13 @@
         card('02 · 字阶 / Typography', 'Noto Sans SC 中文 + Geist 数字',
           '<div class="hx-card-pad hx-demo"><div class="hx-row" style="gap:18px;flex-wrap:wrap;align-items:baseline">' +
           '<span class="hx-display">Display 24</span><span class="hx-title">Title 19</span><span class="hx-section">Section 14</span>' +
-          '<span class="hx-body">Body 12</span><span class="hx-sm">Small 11</span><span class="hx-xs">Tiny 10</span><span class="hx-metric">486,320</span></div>' +
+          '<span class="hx-body">Body 12</span><span class="hx-caption">Small 11</span><span class="hx-micro">Tiny 10</span><span class="hx-metric">486,320</span></div>' +
           '<div class="hx-code">--hx-font-sans: "Noto Sans SC", "PingFang SC", ...;\n--hx-font-num:  "Geist", "Inter", ...;</div></div>') +
         card('03 · 尺寸与间距 / Spacing', '严格栅格与统一圆角',
           '<div class="hx-card-pad hx-demo">' +
-          '<div class="hx-row"><span class="hx-sm" style="width:120px">卡片圆角 14px</span><div style="width:120px;height:36px;border-radius:var(--hx-radius-card);background:var(--hx-brand-soft)"></div></div>' +
-          '<div class="hx-row"><span class="hx-sm" style="width:120px">控件圆角 9px</span><div style="width:120px;height:36px;border-radius:var(--hx-radius-control);background:var(--hx-brand-soft)"></div></div>' +
-          '<div class="hx-row"><span class="hx-sm" style="width:120px">标签圆角 6px</span><div style="width:120px;height:36px;border-radius:var(--hx-radius-tag);background:var(--hx-brand-soft)"></div></div>' +
+          '<div class="hx-row"><span class="hx-caption" style="width:120px">卡片圆角 14px</span><div style="width:120px;height:36px;border-radius:var(--hx-radius-card);background:var(--hx-brand-soft)"></div></div>' +
+          '<div class="hx-row"><span class="hx-caption" style="width:120px">控件圆角 9px</span><div style="width:120px;height:36px;border-radius:var(--hx-radius-control);background:var(--hx-brand-soft)"></div></div>' +
+          '<div class="hx-row"><span class="hx-caption" style="width:120px">标签圆角 6px</span><div style="width:120px;height:36px;border-radius:var(--hx-radius-tag);background:var(--hx-brand-soft)"></div></div>' +
           '<div class="hx-code">--hx-sidebar-w: 236px;  --hx-topbar-h: 72px;\n--hx-gap-section: 18px;  --hx-control-h: 36px;</div></div>') +
       '</div>' +
       card('04 · 接入规范 / Convention', '三步把设计接进你的工程',
@@ -384,7 +384,7 @@
         '<div class="hx-card-pad hx-grid-3">' + list.map(function (p) {
           return '<div class="hx-swatch" style="padding:14px"><div class="hx-row" style="gap:9px;margin-bottom:8px">' +
             '<span style="color:var(--hx-brand)">' + icon(p[3]) + '</span><span class="hx-section">' + p[0] + '</span></div>' +
-            '<div class="hx-sm hx-secondary" style="min-height:36px">' + p[2] + '</div>' +
+            '<div class="hx-caption hx-secondary" style="min-height:36px">' + p[2] + '</div>' +
             '<div class="hx-swatch-var" style="margin-top:8px">src/views/' + p[1].slice(1) + 'View.vue</div></div>'
         }).join('') + '</div>') +
       card('02 · 目录结构 / Structure', '复制即可开工',
@@ -420,7 +420,7 @@
       '<button class="hx-banner-btn">查看待办</button></section>' +
       '<div class="hx-grid-kpi">' + METRICS.map(function (m) { return stat(m) }).join('') + '</div>' +
       '<div class="hx-grid-main">' +
-        card('营收趋势', '', '<div class="hx-card-pad" style="padding-top:0"><div class="hx-row" style="gap:10px;margin-bottom:8px"><span class="hx-num" style="font-size:22px;font-weight:700">¥ 486,320</span><span class="hx-sm" style="color:var(--hx-success)">同比 +12.8%</span></div>' + lineChart(TREND, COMPARE) + '<p class="hx-chart-axis">11/01　　11/05　　11/09　　11/13　　11/17　　11/21　　11/25　　11/30</p></div>',
+        card('营收趋势', '', '<div class="hx-card-pad" style="padding-top:0"><div class="hx-row" style="gap:10px;margin-bottom:8px"><span class="hx-num" style="font-size:22px;font-weight:700">¥ 486,320</span><span class="hx-caption" style="color:var(--hx-success)">同比 +12.8%</span></div>' + lineChart(TREND, COMPARE) + '<p class="hx-chart-axis">11/01　　11/05　　11/09　　11/13　　11/17　　11/21　　11/25　　11/30</p></div>',
           '<div class="hx-tabs">' + ['近 7 天','近 30 天','近 12 月'].map(function (t) {
             return '<button class="hx-tab ' + (state.tab === t ? 'is-active' : '') + '" data-act="tab" data-val="' + t + '">' + t + '</button>'
           }).join('') + '</div>') +
@@ -475,7 +475,7 @@
       '<nav class="hx-nav">' + nav + '</nav>' +
       '<div class="hx-sidebar-foot"><div class="hx-side-card hx-hide-narrow">' +
       '<span class="hx-side-card-title">本月目标 · 营收达成</span>' +
-      '<div class="hx-row-between"><span class="hx-num hx-sm" style="color:var(--hx-brand-on-dark)">78.6%</span><span class="hx-xs" style="color:var(--hx-icon-on-dark)">¥ 486,320</span></div>' +
+      '<div class="hx-row-between"><span class="hx-num hx-caption" style="color:var(--hx-brand-on-dark)">78.6%</span><span class="hx-micro" style="color:var(--hx-icon-on-dark)">¥ 486,320</span></div>' +
       '<div class="hx-progress"><div class="hx-progress-fill" style="width:78.6%"></div></div>' +
       '<span class="hx-side-card-desc">距目标还差 ¥ 132,480</span></div>' +
       '<div class="hx-side-card hx-hide-narrow"><span class="hx-side-card-title">新手使用指南</span>' +

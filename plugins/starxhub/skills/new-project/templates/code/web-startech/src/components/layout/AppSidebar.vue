@@ -31,8 +31,8 @@
       <div class="hx-side-card hx-hide-narrow">
         <span class="hx-side-card-title">本月目标 · 营收达成</span>
         <div class="hx-row-between">
-          <span class="hx-num hx-sm" style="color: var(--hx-brand-on-dark)">78.6%</span>
-          <span class="hx-xs" style="color: var(--hx-icon-on-dark)">¥ 486,320</span>
+          <span class="hx-num hx-caption" style="color: var(--hx-brand-on-dark)">78.6%</span>
+          <span class="hx-micro" style="color: var(--hx-icon-on-dark)">¥ 486,320</span>
         </div>
         <div class="hx-progress"><div class="hx-progress-fill" style="width: 78.6%" /></div>
         <span class="hx-side-card-desc">距目标还差 ¥ 132,480</span>

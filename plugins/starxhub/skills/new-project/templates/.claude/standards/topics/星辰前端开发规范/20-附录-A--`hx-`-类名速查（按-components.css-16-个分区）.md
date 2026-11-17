@@ -22,7 +22,7 @@
 | 15 空态 / 弹窗 | `.hx-empty` `.hx-empty-icon` `.hx-skeleton` `.hx-modal-mask` `.hx-modal` `.hx-modal-head` `.hx-modal-body` `.hx-modal-foot` `.hx-alert` `.hx-alert--success` `.hx-alert--warning` `.hx-alert--danger` |
 | 16 展示页专用 | `.hx-page-head` `.hx-page-title` `.hx-page-desc` `.hx-demo` `.hx-demo-row` `.hx-select-spec` `.hx-select-spec-notes` `.hx-select-spec-panel` `.hx-select-spec-line` `.hx-select-spec-dot` `.hx-swatch-grid` `.hx-swatch` `.hx-swatch-color` `.hx-swatch-meta` `.hx-swatch-name` `.hx-swatch-var` `.hx-code` `.hx-spec` `.hx-timeline` `.hx-timeline-item` `.hx-timeline-dot` |
 
-**common.css 工具类 / 骨架**：`.hx-app` `.hx-main` `.hx-content` `.hx-row` `.hx-row-between` `.hx-col` `.hx-spacer` `.hx-grid-2` `.hx-grid-3` `.hx-grid-kpi` `.hx-grid-main` `.hx-hide-narrow` `.hx-fade-in` `.hx-display` `.hx-title` `.hx-section` `.hx-body` `.hx-sm` `.hx-xs` `.hx-num` `.hx-metric` `.hx-muted` `.hx-secondary` `.hx-brand-text` `.hx-semibold`。
+**common.css 工具类 / 骨架**：`.hx-app` `.hx-main` `.hx-content` `.hx-row` `.hx-row-between` `.hx-col` `.hx-spacer` `.hx-grid-2` `.hx-grid-3` `.hx-grid-kpi` `.hx-grid-main` `.hx-hide-narrow` `.hx-fade-in` `.hx-display` `.hx-title` `.hx-section` `.hx-body` `.hx-caption` `.hx-micro` `.hx-num` `.hx-metric` `.hx-muted` `.hx-secondary` `.hx-brand-text` `.hx-semibold`。
 
 **状态类**（不带 `hx-` 前缀，与元素类组合）：`is-active` `is-selected` `is-disabled` `is-open` `is-up` `is-on` `is-striped` `is-placeholder`；`.hx-stat-hint` 另有 `is-up` / `is-down` 表示涨跌。
 

@@ -31,7 +31,7 @@
           <div v-for="(f, i) in funnel" :key="f.label" class="hx-col" style="gap: 5px">
             <div class="hx-row-between">
               <span class="hx-body">{{ f.label }}</span>
-              <span class="hx-num hx-sm hx-semibold">{{ f.value.toLocaleString() }} · {{ f.percent }}%</span>
+              <span class="hx-num hx-caption hx-semibold">{{ f.value.toLocaleString() }} · {{ f.percent }}%</span>
             </div>
             <div class="hx-progress" style="height: 10px">
               <div class="hx-progress-fill" :style="{ width: f.percent + '%', background: f.color }" />
@@ -61,7 +61,7 @@
           <div class="hx-spacer" style="height: 12px; border-radius: 6px; background: var(--hx-border-soft)">
             <div :style="{ width: r.percent + '%', height: '100%', borderRadius: '6px', background: r.color }" />
           </div>
-          <span class="hx-num hx-sm hx-semibold" style="width: 96px; text-align: right">¥ {{ r.value.toLocaleString() }}</span>
+          <span class="hx-num hx-caption hx-semibold" style="width: 96px; text-align: right">¥ {{ r.value.toLocaleString() }}</span>
         </div>
       </div>
     </HxCard>

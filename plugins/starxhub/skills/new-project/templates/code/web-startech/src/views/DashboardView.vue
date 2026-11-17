@@ -34,7 +34,7 @@
         <div class="hx-card-pad" style="padding-top: 0">
           <div class="hx-row" style="gap: 10px; margin-bottom: 8px">
             <span class="hx-num" style="font-size: 22px; font-weight: 700">¥ 486,320</span>
-            <span class="hx-sm" style="color: var(--hx-success)">同比 +12.8%</span>
+            <span class="hx-caption" style="color: var(--hx-success)">同比 +12.8%</span>
           </div>
           <HxLineChart :data="trend.revenue" :compare="trend.compare" />
           <p class="hx-chart-axis">11/01　　11/05　　11/09　　11/13　　11/17　　11/21　　11/25　　11/30</p>
