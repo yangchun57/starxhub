@@ -68,19 +68,19 @@
 
 **约定**：上游 Agent 的产出必须落盘到 docs/00-项目文档/，下游 Agent 通过读取文档获取上下文。
 
-## Agent 阵容（21 个专职 Agent，五阶段）
+## Agent 阵容（20 个专职 Agent，五阶段）
 
 | 阶段 | Agent | 角色 |
 |------|-------|------|
-| 需求分析 | requirement-analyst / ux-researcher / product-designer | 需求、研究、设计 |
+| 需求分析 | requirement-analyst / ux-researcher / product-designer / html-prototyper | 需求、研究、设计、高保真原型 |
 | 任务规划 | pm | 任务拆解、计划 |
-| 需求评审 | req-coordinator / req-quality-group-lead / req-impl-group-lead / req-quality-reviewer / req-consistency-reviewer / req-change-impact-reviewer / req-compliance-reviewer / req-test-coverage-reviewer | 需求与契约评审 |
-| 开发实施 | architect / db-engineer / backend-dev / frontend-dev / tester / reviewer / devops | 开发 |
+| 需求评审 | req-coordinator / req-doc-reviewer / req-impact-reviewer / req-test-reviewer | 需求质量、变更影响与合规、测试覆盖评审 |
+| 开发实施 | plan-risk-analyst / plan-gatekeeper / architect / db-engineer / backend-dev / frontend-dev / tester / reviewer / devops | 方案门禁与开发 |
 | 测试修复 | functional-tester / bug-fixer | 功能测试用例、缺陷修复 |
 
-**协作流程**：模糊需求 → requirement-analyst → ux-researcher → product-designer → pm → req-coordinator（需求评审团队把关，评审通过后再派发）→ 开发 agents → reviewer
+**协作流程**：模糊需求 → requirement-analyst → ux-researcher → product-designer → html-prototyper（高保真原型）→ pm → req-coordinator（需求评审团队把关，评审通过后再派发）→ plan-risk-analyst / plan-gatekeeper（方案门禁）→ 开发 agents → reviewer → functional-tester（用例）/ bug-fixer（修复）
 
-**命令入口**：`/product-discovery`（需求+设计）、`/new-feature`（开发）、`/change-request`（变更）、`/gen-test-cases`（功能测试用例）、`/fix-bug`（Bug 修复+知识沉淀）、`/retro`（复盘）、`/deploy`（部署/CI）
+**命令入口**：`/product-discovery`（需求+设计）、`/new-feature`（开发）、`/change-request`（变更）、`/req-review`（需求评审）、`/plan-gate`（方案门禁）、`/gen-test-cases`（功能测试用例）、`/fix-bug`（Bug 修复+知识沉淀）、`/review`、`/code-review`、`/gen-tests`、`/retro`（复盘）、`/deploy`（部署/CI）、`/doc-archive`（文档归档）、`/health-check`（健康巡检）
 
 ## 工作约定
 

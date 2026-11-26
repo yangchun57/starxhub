@@ -4,8 +4,8 @@ examples:
       zh: 初始化 Claude Code 多 Agent 项目
       en: Scaffold a Claude Code Multi-Agent Project
     description:
-      zh: 一键生成 21 个 Agent + 命令 + hooks + 开发规范 + 项目文档的完整脚手架
-      en: Generate a full scaffold with 21 agents, commands, hooks, standards, and project docs
+      zh: 一键生成 20 个 Agent + 命令 + hooks + 开发规范 + 项目文档的完整脚手架
+      en: Generate a full scaffold with 20 agents, commands, hooks, standards, and project docs
     prompt:
       zh: |-
         请初始化一个 Claude Code 多 Agent 项目：
@@ -15,7 +15,7 @@ examples:
         代码工程名：{{代码工程名，英文 PascalCase，如 Ecommerce}}
         项目描述：{{一句话描述}}
 
-        请生成完整的 .claude/（21 个 Agent、命令、hooks、开发规范）、CLAUDE.md、docs/00-项目文档/ 文档模板，并用 dotnet new / npm create vite 生成带正确命名的 src/backend 前后端代码工程。
+        请生成完整的 .claude/（20 个 Agent、命令、hooks、开发规范）、CLAUDE.md、docs/00-项目文档/ 文档模板，并用 dotnet new / npm create vite 生成带正确命名的 src/backend 前后端代码工程。
       en: |-
         Please scaffold a Claude Code multi-agent project:
 
@@ -24,7 +24,7 @@ examples:
         Code name: {{code name, PascalCase, e.g. Ecommerce}}
         Project description: {{one-line description}}
 
-        Generate the full .claude/ (21 agents, commands, hooks, standards), CLAUDE.md, docs/00-项目文档/ templates, and src/backend code projects (dotnet new API + npm create vite web) with correct naming.
+        Generate the full .claude/ (20 agents, commands, hooks, standards), CLAUDE.md, docs/00-项目文档/ templates, and src/backend code projects (dotnet new API + npm create vite web) with correct naming.
   - id: setup-agent-team
     title:
       zh: 搭建 AI 工程团队

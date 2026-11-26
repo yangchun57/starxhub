@@ -2,7 +2,7 @@
 
 **The Multi-Agent Development Team Configuration Center for Claude Code**
 
-Spin up 23 specialized agents, 10 slash commands, guardrail hooks, and path-scoped rules with a single command — whether you're starting a new project from scratch or onboarding an existing one into a multi-agent workflow.
+Spin up 20 specialized agents, 14 slash commands, guardrail hooks, and path-scoped rules with a single command — whether you're starting a new project from scratch or onboarding an existing one into a multi-agent workflow.
 
 ## Why starxhub
 
@@ -23,11 +23,12 @@ Every project has its own tech stack, business rules, and multi-tenant constrain
 
 What gets generated:
 
-- **23 Specialized Agents** across 5 lifecycle phases (Requirements Analysis / Task Planning / Requirements Review / Development / Testing & Fixing)
-  - 8 requirements review specialists (`req-*`) forming a complete review team
+- **20 Specialized Agents** across 5 lifecycle phases (Requirements Analysis / Task Planning / Requirements Review / Development / Testing & Fixing)
+  - 4 requirements review agents (`req-*`): 1 coordinator + 3 reviewers for document quality, change impact/compliance, and test coverage
   - Plan gate duo: `plan-risk-analyst` (failure point scanning) + `plan-gatekeeper` (go/no-go decision)
   - Test & fix duo: `functional-tester` (test case design) + `bug-fixer` (5-step closed-loop fix)
-- **11 Slash Commands** covering the full lifecycle from fuzzy idea to post-release retrospective
+  - Hi-fi prototyper: `html-prototyper` (turns designs into interactive prototypes)
+- **14 Slash Commands** covering the full lifecycle from fuzzy idea to post-release retrospective
 - **Guardrail Hooks** — pre-commit build+test checks, post-entity multi-tenant red-line scanning
 - **Path-Scoped Rules** — auto-loaded conventions based on tech stack, injected when editing matching files
 
@@ -130,8 +131,8 @@ starxhub/                              # Repo root = plugin marketplace
         │   └── templates/
         │       ├── CLAUDE.md          # Project memory template (with placeholders)
         │       ├── .claude/
-        │       │   ├── agents/        # 23 agent definitions
-        │       │   ├── commands/      # 10 slash commands
+        │       │   ├── agents/        # 20 agent definitions
+        │       │   ├── commands/      # 14 slash commands
         │       │   ├── hooks/         # Guardrail hook scripts
         │       │   ├── rules/         # Path-scoped rules
         │       │   ├── standards/     # Full standards documentation

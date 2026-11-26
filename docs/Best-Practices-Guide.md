@@ -1,7 +1,7 @@
 # 星枢使用指南 / starxhub Usage Guide
 
-> 从零到一，用 23 个 Agent 和 11 个命令构建完整代码工程的最佳实践。
-> From zero to one — best practices for building a complete codebase with 23 agents and 11 commands.
+> 从零到一，用 20 个 Agent 和 14 个命令构建完整代码工程的最佳实践。
+> From zero to one — best practices for building a complete codebase with 20 agents and 14 commands.
 
 ---
 
@@ -9,8 +9,8 @@
 
 1. [初始化后你得到了什么 / What You Get After Initialization](#1-初始化后你得到了什么)
 2. [第一步：填写 CLAUDE.md / Step 1: Fill in CLAUDE.md](#2-第一步填写-claudemd)
-3. [理解你的团队：23 个 Agent 全览 / Know Your Team: 23 Agents Overview](#3-理解你的团队23-个-agent-全览)
-4. [理解你的工具箱：10 个命令详解 / Know Your Tools: 10 Commands Explained](#4-理解你的工具箱10-个命令详解)
+3. [理解你的团队：20 个 Agent 全览 / Know Your Team: 20 Agents Overview](#3-理解你的团队20-个-agent-全览)
+4. [理解你的工具箱：14 个命令详解 / Know Your Tools: 14 Commands Explained](#4-理解你的工具箱14-个命令详解)
 5. [从零到一：完整开发流程 / Zero to One: Complete Development Workflow](#5-从零到一完整开发流程)
 6. [关键约定与最佳实践 / Key Conventions & Best Practices](#6-关键约定与最佳实践)
 7. [常见问题 / FAQ](#7-常见问题-faq)
@@ -26,8 +26,8 @@
 ├── CLAUDE.md                     # 项目集体记忆（需填写 TODO）
 ├── .claude/
 │   ├── settings.json             # 权限配置 + hooks
-│   ├── agents/                   # 23 个 Agent 定义
-│   ├── commands/                 # 10 个斜杠命令
+│   ├── agents/                   # 20 个 Agent 定义
+│   ├── commands/                 # 14 个斜杠命令
 │   ├── hooks/                    # 2 个护栏脚本
 │   ├── rules/                    # 路径范围规则（自动加载）
 │   └── standards/                # 完整开发规范
@@ -80,7 +80,7 @@
 
 ---
 
-## 3. 理解你的团队：23 个 Agent 全览
+## 3. 理解你的团队：20 个 Agent 全览
 
 你的项目现在有一支完整的开发团队。按 5 个阶段组织：
 
@@ -93,6 +93,7 @@ Your project now has a complete development team, organized in 5 phases:
 | `requirement-analyst` | 需求分析师 / Requirements Analyst | 模糊需求澄清、用户故事、验收标准 |
 | `ux-researcher` | 用户研究员 / UX Researcher | 用户画像、用户旅程、竞品分析 |
 | `product-designer` | 产品设计师 / Product Designer | 信息架构、交互流程、设计规范 |
+| `html-prototyper` | 高保真原型设计师 / Hi-fi Prototyper | 将设计方案转化为可交互 HTML 原型 |
 
 ### 阶段二：任务规划 / Phase 2: Task Planning
 
@@ -104,14 +105,10 @@ Your project now has a complete development team, organized in 5 phases:
 
 | Agent | 角色 / Role | 何时调用 / When to Use |
 |-------|------------|----------------------|
-| `req-coordinator` | 评审协调者 / Review Coordinator | 调度评审团队、汇总报告 |
-| `req-quality-group-lead` | 质量组长 / Quality Group Lead | 调度质量专家和一致性专家 |
-| `req-impl-group-lead` | 实现合规组长 / Implementation Group Lead | 调度变更影响、合规、测试覆盖专家 |
-| `req-quality-reviewer` | 质量专家 / Quality Reviewer | 检查完整性、无歧义性、可测试性 |
-| `req-consistency-reviewer` | 一致性专家 / Consistency Reviewer | 检查需求→API→DB→代码一致性 |
-| `req-change-impact-reviewer` | 变更影响专家 / Change Impact Reviewer | 分析影响范围、连锁反应、回滚方案 |
-| `req-compliance-reviewer` | 合规专家 / Compliance Reviewer | 检查分层边界、响应格式、字段映射 |
-| `req-test-coverage-reviewer` | 测试覆盖专家 / Test Coverage Reviewer | 检查测试用例对验收标准的覆盖 |
+| `req-coordinator` | 评审协调者 / Review Coordinator | 调度评审专家、汇总报告 |
+| `req-doc-reviewer` | 需求文档评审 / Requirements Doc Reviewer | 完整性/无歧义性/可测试性 + 需求→API→DB→代码一致性 |
+| `req-impact-reviewer` | 变更影响与合规 / Impact & Compliance Reviewer | 影响范围、连锁反应、回滚方案 + 分层边界/响应格式/字段映射 |
+| `req-test-reviewer` | 测试覆盖评审 / Test Coverage Reviewer | 测试用例对验收标准、边界与异常场景的覆盖 |
 
 ### 阶段四：开发实施 / Phase 4: Development
 
@@ -138,20 +135,16 @@ Your project now has a complete development team, organized in 5 phases:
 
 ```
 需求分析链 / Requirements Chain:
-  requirement-analyst → ux-researcher → product-designer → pm
+  requirement-analyst → ux-researcher → product-designer → html-prototyper → pm
 
 评审团队 / Review Team:
   req-coordinator
-  ├── req-quality-group-lead
-  │   ├── req-quality-reviewer
-  │   └── req-consistency-reviewer
-  └── req-impl-group-lead
-      ├── req-change-impact-reviewer
-      ├── req-compliance-reviewer
-      └── req-test-coverage-reviewer
+  ├── req-doc-reviewer（需求质量 + 上下游一致性）
+  ├── req-impact-reviewer（变更影响 + 红线合规）
+  └── req-test-reviewer（测试覆盖度）
 
 开发链 / Development Chain:
-  architect → [plan-gate] → db-engineer → backend-dev → frontend-dev → tester → reviewer
+  plan-risk-analyst / plan-gatekeeper（方案门禁）→ architect → db-engineer → backend-dev → frontend-dev → tester → reviewer
 
 修复链 / Fix Chain:
   functional-tester（用例设计）
@@ -160,7 +153,7 @@ Your project now has a complete development team, organized in 5 phases:
 
 ---
 
-## 4. 理解你的工具箱：11 个命令详解
+## 4. 理解你的工具箱：14 个命令详解
 
 ### 命令总览 / Commands Overview
 
@@ -177,6 +170,9 @@ Your project now has a complete development team, organized in 5 phases:
 | 9 | `/plan-gate` | 方案门禁（独立） | 对架构方案做独立评审 |
 | 10 | `/req-review` | 需求评审（独立） | 评审需求/设计/实现/PR |
 | 11 | `/deploy` | CI/部署配置 | 需要配置 CI 或部署 |
+| 12 | `/code-review` | 按 rules 自动扫描代码 | 需要批量规范/安全/性能扫描 |
+| 13 | `/doc-archive` | 项目文档归档压缩 | 00-项目文档 膨胀时 |
+| 14 | `/health-check` | 项目健康度巡检 | 交接、定期巡检、上线前检查 |
 
 ---
 
@@ -419,13 +415,9 @@ plan-risk-analyst（R1~R7 失效点扫描）
 
 ```
 req-coordinator（调度评审团队）
-    → req-quality-group-lead（质量组）
-        ├─ req-quality-reviewer（完整性/无歧义性/可测试性）
-        └─ req-consistency-reviewer（需求→API→DB→代码一致性）
-    → req-impl-group-lead（实现合规组）
-        ├─ req-change-impact-reviewer（影响范围/连锁反应/回滚方案）
-        ├─ req-compliance-reviewer（分层边界/响应格式/字段映射）
-        └─ req-test-coverage-reviewer（测试用例覆盖度）
+    → req-doc-reviewer（完整性/无歧义性/可测试性 + 上下游一致性）
+    → req-impact-reviewer（影响范围/连锁反应/回滚方案 + 分层边界/响应格式/字段映射）
+    → req-test-reviewer（测试用例覆盖度）
     → 评审报告（阻塞项 + 建议项）
     → 有阻塞项 → 修复 → 重新评审
 ```
@@ -470,6 +462,20 @@ devops → 基于内置部署文件按需扩展
 ```bash
 /deploy 给 CI 加上测试覆盖率报告
 ```
+
+---
+
+### 4.12 `/code-review` — 自动代码扫描 / Rule-based Scan
+
+按 `.claude/rules/` 扫描 API 规范、分层边界、安全漏洞与性能反模式，输出分级问题清单。与 `/review`（由 reviewer SubAgent 做语义审查）互补。
+
+### 4.13 `/doc-archive` — 文档归档压缩 / Doc Archiving
+
+`docs/00-项目文档/` 膨胀时，先 `--dry-run` 预览、再按确认执行归档；已完成条目移到 `archive/YYYY-MM/`，原文件保留摘要指针。
+
+### 4.14 `/health-check` — 项目健康度巡检 / Health Check
+
+扫描 `.claude/` 配置完整性、Agent（20 个）与 rules 覆盖度、测试与 CI 脚本存在性，输出结构化报告与整改建议。交接、定期巡检、上线前各跑一次。
 
 ---
 
@@ -662,6 +668,6 @@ A: No. onboard-project only adds, never deletes. Each step is git committed for 
     → /gen-test-cases → /change-request → /fix-bug → /retro → /deploy
 ```
 
-10 个命令各管一段，配合 23 个 SubAgent，构成一个能自我进化的闭环。
+14 个命令各管一段，配合 20 个 SubAgent，构成一个能自我进化的闭环。
 
-10 commands, each covering a phase, working with 23 SubAgents — forming a self-evolving closed loop.
+14 commands, each covering a phase, working with 20 SubAgents — forming a self-evolving closed loop.

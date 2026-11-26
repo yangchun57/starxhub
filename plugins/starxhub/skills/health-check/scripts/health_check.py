@@ -107,8 +107,8 @@ class HealthChecker:
         agent_files = list(agents_dir.glob("*.md"))
         agent_count = len(agent_files)
 
-        # 期望 24 个 Agent
-        expected_count = 24
+        # 期望 20 个 Agent（与 new-project 模板一致）
+        expected_count = 20
         if agent_count < expected_count:
             missing = expected_count - agent_count
             self._add_result(

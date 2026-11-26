@@ -45,7 +45,7 @@ description: 项目健康度巡检。扫描项目的 .claude/ 配置完整性、
 
 ### 关键检查项
 1. **.claude/ 配置完整性**：settings.json、agents/、commands/、hooks/、rules/ 是否齐全
-2. **Agent 定义**：是否有 24 个 Agent，关键 Agent 的 model 配置是否合理
+2. **Agent 定义**：是否有 20 个 Agent，关键 Agent 的 model 配置是否合理
 3. **rules 覆盖度**：通用规则 + 后端规则 + 前端规则是否完整
 4. **CLAUDE.md TODO**：项目速览、红线、技术栈等是否已填写
 #@@TENANT_ONLY_START

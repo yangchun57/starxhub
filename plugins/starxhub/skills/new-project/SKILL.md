@@ -1,6 +1,6 @@
 ---
 name: new-project
-description: 新建项目脚手架。为指定技术栈生成完整的 Claude Code 多 Agent 团队配置，包含 24 个专职 Agent（5 阶段生命周期）、11 个斜杠命令、2 个护栏 hooks、路径范围 rules 自动加载、开发规范。生成 .claude/ 目录、CLAUDE.md、docs/00-项目文档，以及可配置的生成器脚本（后端 dotnet|python|java-spring，前端 vue|uniapp|startech）。当用户需要从零开始搭建一个多 Agent 协作项目时使用。
+description: 新建项目脚手架。为指定技术栈生成完整的 Claude Code 多 Agent 团队配置，包含 20 个专职 Agent（5 阶段生命周期）、14 个斜杠命令、2 个护栏 hooks、路径范围 rules 自动加载、开发规范。生成 .claude/ 目录、CLAUDE.md、docs/00-项目文档，以及可配置的生成器脚本（后端 dotnet|python|java-spring，前端 vue|uniapp|startech）。当用户需要从零开始搭建一个多 Agent 协作项目时使用。
 ---
 
 # Claude Code Multi-Agent Team Scaffold
@@ -24,8 +24,8 @@ Generate a complete Claude Code multi-agent team covering the full software-engi
 ├── CLAUDE.md                  # project memory (TODO placeholders for business)
 ├── .claude/
 │   ├── settings.json          # permissions + hooks
-│   ├── agents/                # 23 role agents
-│   ├── commands/              # 10 slash commands
+│   ├── agents/                # 20 role agents
+│   ├── commands/              # 14 slash commands
 │   ├── hooks/                 # 2 guardrail scripts
 │   ├── rules/                 # path-scoped rules (auto-loaded by glob)
 │   └── standards/             # dev standards (abstract, reusable)
@@ -41,25 +41,21 @@ Generate a complete Claude Code multi-agent team covering the full software-engi
         └── web/               # Vue 3 前端骨架（业务无关）
 ```
 
-## Agent roster (24 agents, 5 phases)
+## Agent roster (20 agents, 5 phases)
 
 | Phase | Agent | Role | Model |
 |-------|-------|------|-------|
 | 需求分析 | requirement-analyst | 需求澄清、用户故事、验收标准 | opus |
 | 需求分析 | ux-researcher | 用户画像、用户旅程、竞品分析 | opus |
 | 需求分析 | product-designer | 信息架构、交互流程、设计规范 | opus |
-| 需求分析 | html-prototyper | 高保真原型设计、双模式输出（高保真/线框）、四套设计系统、微交互动效 | opus |
+| 需求分析 | html-prototyper | 高保真原型设计、多引擎双模式输出 | opus |
 | 任务规划 | pm | 需求拆解、任务计划、优先级 | opus |
-| 需求评审 | req-coordinator | 需求评审协调者，调度评审团队、汇总报告 | opus |
-| 需求评审 | req-quality-group-lead | 需求质量评审组长，调度质量专家和一致性专家 | opus |
-| 需求评审 | req-impl-group-lead | 实现合规评审组长，调度变更影响、合规、测试覆盖专家 | opus |
-| 需求评审 | req-quality-reviewer | 需求质量评审专家，检查完整性、无歧义性、可测试性 | opus |
-| 需求评审 | req-consistency-reviewer | 上下游一致性评审专家，检查需求→API→DB→代码一致性 | opus |
-| 需求评审 | req-change-impact-reviewer | 变更影响评审专家，分析影响范围、连锁反应、回滚方案 | opus |
-| 需求评审 | req-compliance-reviewer | 红线合规评审专家，检查分层边界、响应格式、字段映射、SDK锁定 | opus |
-| 需求评审 | req-test-coverage-reviewer | 测试覆盖度评审专家，检查测试用例对验收标准的覆盖 | opus |
-| 开发实施 | plan-risk-analyst | 方案失效点扫描（R1~R7），只读 | opus |
-| 开发实施 | plan-gatekeeper | 方案放行判定（C1/C2/C3），只读 | sonnet |
+| 需求评审 | req-coordinator | 需求评审协调者，调度评审专家、汇总报告 | opus |
+| 需求评审 | req-doc-reviewer | 需求质量与上下游一致性评审（只读） | sonnet |
+| 需求评审 | req-impact-reviewer | 变更影响与红线合规评审（只读） | sonnet |
+| 需求评审 | req-test-reviewer | 测试覆盖度评审（只读） | sonnet |
+| 开发实施 | plan-risk-analyst | 方案失效点扫描（只读） | opus |
+| 开发实施 | plan-gatekeeper | 方案放行判定（C1/C2/C3，只读） | sonnet |
 | 开发实施 | architect | 架构设计、接口契约 | opus |
 | 开发实施 | db-engineer | 表结构、SQL | sonnet |
 | 开发实施 | backend-dev | 后端代码 | sonnet |
@@ -70,20 +66,20 @@ Generate a complete Claude Code multi-agent team covering the full software-engi
 | 测试修复 | functional-tester | 功能测试用例设计（文档驱动 / 代码逆向） | opus |
 | 测试修复 | bug-fixer | Bug 复现、根因定位、最小修复、回归验证、知识沉淀 | opus |
 
-Flow: 模糊需求 → requirement-analyst → ux-researcher → product-designer → html-prototyper（高保真原型）→ pm → req-coordinator（评审团队把关）→ 开发 agents → reviewer → functional-tester（用例）/ bug-fixer（修复）
+Flow: 模糊需求 → requirement-analyst → ux-researcher → product-designer → html-prototyper（高保真原型）→ pm → req-coordinator（专家评审）→ plan-risk-analyst / plan-gatekeeper（方案门禁）→ 开发 agents → reviewer → functional-tester（用例）/ bug-fixer（修复）
 
 ### 需求评审团队拓扑
 
 ```
-req-coordinator                     （协调者）
-├── req-quality-group-lead          （需求质量组长）
-│   ├── req-quality-reviewer        （需求质量专家）
-│   └── req-consistency-reviewer    （上下游一致性专家）
-└── req-impl-group-lead             （实现合规组长）
-    ├── req-change-impact-reviewer  （变更影响专家）
-    ├── req-compliance-reviewer     （红线合规专家）
-    └── req-test-coverage-reviewer  （测试覆盖度专家）
+req-coordinator                     （协调者，编排与汇总）
+├── req-doc-reviewer                （需求质量 + 上下游一致性）
+├── req-impact-reviewer             （变更影响 + 红线合规）
+└── req-test-reviewer               （测试覆盖度）
 ```
+
+### 命令列表（14 个）
+
+`/product-discovery`、`/new-feature`、`/change-request`、`/req-review`、`/plan-gate`、`/review`、`/code-review`、`/gen-tests`、`/gen-test-cases`、`/fix-bug`、`/retro`、`/deploy`、`/doc-archive`、`/health-check`。
 
 ## Scaffolding workflow
 
@@ -92,7 +88,7 @@ req-coordinator                     （协调者）
    - `--multi-tenant` 省略则生成单租户项目：不注入租户红线到 CLAUDE.md/rules/agents/commands/standards，不生成租户守卫 hook 与租户基础设施代码（Python `context.py`、`TenantMixin`；Java `TenantContext`/租户拦截器；前端租户登录字段等），分页/JWT/迁移等通用设施照常生成。传入则完整启用上述租户能力。
    - 交互终端下脚本也会二次确认（默认否），非交互终端默认单租户。
    - `--frontend startech` 走 `init_web_startech()`：直接渲染 `templates/code/web-startech/`（不调 create-vite、不装 UI 库），再 `npm install` 与 `node showcase/sync-styles.mjs` 补齐预览站 CSS 副本。
-3. The script generates: .claude/（agents/commands/hooks/settings）、CLAUDE.md、docs/ 整目录（00-项目文档 md 工作文件模板 + README 三轨格式规范 + common.css + md2html.py 转换器 + _模板与规范 裸HTML模板与图标速查），src/backend 代码工程（dotnet new .NET 8 分层 API 含集成测试基类 + npm create vite Vue 3 web 含 prettier），外加 sql/migrations 迁移目录、gen:api 类型生成、.editorconfig、本地优先质量门禁 `scripts/ci.sh`（fmt+build+test+前端构建，按栈渲染）与 `.githooks/pre-push` 钩子（`git push` 前自动跑、init 时已设 `core.hooksPath`），CI workflow + Dockerfile x2 + docker-compose + dependabot（远端 CI 复用同一 ci.sh 作兜底）。CLAUDE.md 内置分支约定（trunk-based：main 干净可构建 + feat/change 分支）。docs 三轨格式约定：README/Agent 工作文件=md，01/02 交付物=HTML（裸HTML 引 common.css，用 md2html.py 转换）。包含 8 个需求评审 Agent（req-*），形成完整的需求评审团队；另含 functional-tester / bug-fixer 两个测试修复 Agent（对应 /gen-test-cases、/fix-bug 命令）。
+3. The script generates: .claude/（agents/commands/hooks/settings）、CLAUDE.md、docs/ 整目录（00-项目文档 md 工作文件模板 + README 三轨格式规范 + common.css + md2html.py 转换器 + _模板与规范 裸HTML模板与图标速查），src/backend 代码工程（dotnet new .NET 8 分层 API 含集成测试基类 + npm create vite Vue 3 web 含 prettier），外加 sql/migrations 迁移目录、gen:api 类型生成、.editorconfig、本地优先质量门禁 `scripts/ci.sh`（fmt+build+test+前端构建，按栈渲染）与 `.githooks/pre-push` 钩子（`git push` 前自动跑、init 时已设 `core.hooksPath`），CI workflow + Dockerfile x2 + docker-compose + dependabot（远端 CI 复用同一 ci.sh 作兜底）。CLAUDE.md 内置分支约定（trunk-based：main 干净可构建 + feat/change 分支）。docs 三轨格式约定：README/Agent 工作文件=md，01/02 交付物=HTML（裸HTML 引 common.css，用 md2html.py 转换）。包含 4 个需求评审 Agent（req-*：1 协调者 + 3 评审专家），形成完整的需求评审团队；另含 functional-tester / bug-fixer 两个测试修复 Agent（对应 /gen-test-cases、/fix-bug 命令），以及 plan-risk-analyst / plan-gatekeeper 两个方案门禁 Agent（对应 /plan-gate 命令）。
 4. `--standards` 指向自定义规范源目录时，脚本覆盖 `.claude/standards/`；未提供时按技术栈从内置规范集挑选源文档（顶层共 12 份：含《星辰前端开发规范》《Java后台开发规范》及安全编码 / 并发与资源管理 / 前端工程健壮性三份质量规范）复制到项目，并重跑 `split-standards.py` 生成 `topics/` 主题索引——Agent 优先读 topics/INDEX.md 定位主题，禁止无目的整读大规范。规范更新后可重跑 `python scripts/split-standards.py <standards目录>` 重新生成 topics。
 5. 脚本自动 `git init` 并创建初始提交（`chore: 初始化项目脚手架`）；git 未安装或未配置 user.name/email 时只 git init、跳过提交。
 6. Remind the user: fill CLAUDE.md TODO placeholders, add `git remote add origin <url>`, then run `claude` at the project ROOT (not a subdirectory).
@@ -135,8 +131,9 @@ Rules:
 - [ ] Dev standards bundled by default in .claude/standards/ (override with --standards if needed)
 - [ ] `claude` runs at project root
 - [ ] `/product-discovery` starts the workflow
-- [ ] 需求评审团队 Agent 已包含（req-* 共 8 个）
+- [ ] 需求评审团队 Agent 已包含（req-* 共 4 个）
 - [ ] 功能测试与 Bug 修复命令可用（`/gen-test-cases`、`/fix-bug`）
+- [ ] 方案门禁命令可用（`/plan-gate`）
 - [ ] 文档归档压缩命令可用（`/doc-archive`，防止 00-项目文档 无限膨胀）
 
 ## Skill layout
@@ -151,7 +148,7 @@ new-project/
 │   ├── .mcp.json
 │   ├── .gitignore
 │   ├── .claude/            ← agents/commands/hooks/rules/settings + standards
-│   │   ├── agents/         ← 24 个 Agent 模板（含 8 个需求评审 + 2 个方案门禁 + 2 个测试修复 + 1 个高保真原型）
+│   │   ├── agents/         ← 20 个 Agent 模板（含 4 个需求评审 + 2 个方案门禁 + 2 个测试修复 + 1 个高保真原型）
 │   │   ├── rules/          ← 18 个路径范围规则模板（_always 3 + _backend 9 + _frontend 6，按技术栈选择并去掉变体后缀）
 │   │   └── skills/         ← 内置 Skill（hifi-prototype 高保真原型设计系统）
 │   ├── docs/00-项目文档/   ← 12 个文档模板

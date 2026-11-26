@@ -267,7 +267,7 @@ agent 犯错
 │   ├── _backend/          #   paths: 后端文件
 │   └── _frontend/         #   paths: 前端文件
 ├── agents/                # 20 个角色定义 ✅
-├── commands/              # 11 个命令 ✅
+├── commands/              # 14 个命令 ✅
 ├── hooks/                 # 2 个钩子脚本 ✅
 └── standards/             # 100+ 详细规范文档 ✅
     └── topics/            #   按主题分目录

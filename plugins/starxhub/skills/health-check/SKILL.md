@@ -21,7 +21,7 @@ description: 项目健康度巡检。扫描已有项目的 .claude/ 配置完整
 | # | 维度 | 检查内容 | 严重级别 |
 |---|------|---------|---------|
 | 1 | .claude/ 配置完整性 | settings.json、agents/、commands/、hooks/、rules/ 是否存在 | Blocker |
-| 2 | Agent 定义与技术栈匹配 | Agent 数量是否达标（24 个）、model 配置是否合理 | Major |
+| 2 | Agent 定义与技术栈匹配 | Agent 数量是否达标（20 个）、model 配置是否合理 | Major |
 | 3 | rules 覆盖度 | _always 通用规则 + 后端规则 + 前端规则是否齐全 | Major |
 | 4 | standards 存在性 | 技术栈相关规范是否已载入、topics 索引是否生成 | Minor |
 | 5 | hooks 配置 | pre_commit_guard.py、tenant_guard.py 是否存在且可执行 | Major |
@@ -59,13 +59,13 @@ description: 项目健康度巡检。扫描已有项目的 .claude/ 配置完整
 
 ### 1. .claude/ 配置完整性 [PASS]
 - [x] settings.json 存在
-- [x] agents/ 目录存在（24 个 Agent）
-- [x] commands/ 目录存在（11 个命令）
+- [x] agents/ 目录存在（20 个 Agent）
+- [x] commands/ 目录存在（14 个命令）
 - [x] hooks/ 目录存在
 - [x] rules/ 目录存在
 
 ### 2. Agent 定义与技术栈匹配 [WARN]
-- [x] 24 个 Agent 定义完整
+- [x] 20 个 Agent 定义完整
 - [ ] backend-dev 的 model 配置为 sonnet，建议改为 opus（复杂业务逻辑）
 - [ ] 缺少 db-engineer 的 SQL 审查规则
 

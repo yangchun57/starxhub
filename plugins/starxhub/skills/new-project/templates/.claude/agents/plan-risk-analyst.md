@@ -140,8 +140,8 @@ R1 契约往返 ✅ | R2 字段映射 ✅ | R3 分层边界 ✅ | R5 并发事�
 ## 禁止事项
 
 - 不修改任何代码或文档
-- 不评审需求文档质量（那是 req-quality-reviewer 的职责）
-- 不检查实现是否合规（那是 req-compliance-reviewer 的职责）
+- 不评审需求文档质量（那是 req-doc-reviewer 的职责）
+- 不检查实现是否合规（那是 req-impact-reviewer 的职责）
 #@@TENANT_ONLY_START
 - 不跳过 R4 多租户红线 —— 这是本项目最高优先级约束
 #@@TENANT_ONLY_END

@@ -52,7 +52,7 @@ python ~/.qwenworkcn/skills/claude-code-multi-agent-scaffold/scripts/scaffold.py
 ```
 <项目根目录>/
 ├── CLAUDE.md                     ← 项目集体记忆（含 TODO，需填写）
-├── .claude/                      ← 24 个 Agent + 11 个命令 + hooks + 7 份规范 + 1 个 Skill
+├── .claude/                      ← 20 个 Agent + 14 个命令 + hooks + 7 份规范 + 1 个 Skill
 ├── .github/                      ← CI workflow（复用 ci.sh）+ dependabot
 ├── scripts/ci.sh + .githooks/    ← 本地优先质量门禁（fmt+build+test+前端构建；pre-push 推送前自动跑）
 ├── docs/00-项目文档/              ← 文档模板 + 变更/经验记录
@@ -128,9 +128,9 @@ push 后 CI（.github/workflows/ci.yml）自动运行：后端 build+test、前�
 
 # 命令详解
 
-这个 skill 有 9 个命令，覆盖从"模糊想法"到"上线复盘"的完整生命周期。先讲通用约定，再逐个展开。
+这个 skill 有 14 个命令，覆盖从"模糊想法"到"上线复盘"的完整生命周期。下面展开其中 10 个核心命令，其余 4 个见「其他命令速览」。先讲通用约定，再逐个展开。
 
-## 所有命令共有的三条约定
+## 所有命令共有的四条约定
 
 1. **SubAgent 编排**：角色工作（分析/设计/开发/审查）必须通过 Task 工具下发给 `.claude/agents/` 里的对应 SubAgent，不在主 Agent 里内联做；只有澄清、确认、汇报这些编排动作留在主 Agent。
 2. **阶段化提交**：每个交付物落盘后立即 `git commit`，禁止攒到最后；commit message 遵循 Conventional Commits（`docs:`/`feat:`/`fix:`/`test:`/`chore:`）。
@@ -360,6 +360,19 @@ python scripts/doc-archive.py . --threshold 500     # 只处理超过 500 行的
 
 ---
 
+## 其他命令速览（4 个）
+
+| 命令 | 用途 |
+|------|------|
+| `/req-review` | 独立需求评审，可评审 requirements / design / implementation 阶段，由 req-coordinator 调度 3 位评审专家 |
+| `/code-review` | 按 rules 自动扫描代码：API 规范、分层边界、安全漏洞、性能反模式等，输出分级问题清单 |
+| `/health-check` | 项目健康度巡检：配置完整性、Agent/rules 覆盖度、测试与 CI 脚本存在性等，输出整改建议 |
+| `/plan-gate` | 独立方案门禁：plan-risk-analyst 风险扫描 + plan-gatekeeper 三重校验，编码前的强制闸门 |
+
+> 14 个命令 = 上文 10 个详解 + 此处 4 个速览。
+
+---
+
 ## html-prototyper Agent 升级说明
 
 **升级内容**：html-prototyper 已从"HTML 原型设计师"升级为"高保真原型设计师"，具备完整的设计系统能力。
@@ -402,4 +415,4 @@ python scripts/doc-archive.py . --threshold 500     # 只处理超过 500 行的
     → /doc-archive（文档膨胀了，归档压缩）
 ```
 
-10 个命令各管一段，配合 21 个 SubAgent（含需求评审团队与测试修复角色）、阶段化提交、版本化数据库迁移和 Swagger 类型生成，构成一个能自我进化的闭环。
+14 个命令各管一段，配合 20 个 SubAgent（含需求评审团队与测试修复角色）、阶段化提交、版本化数据库迁移和 Swagger 类型生成，构成一个能自我进化的闭环。

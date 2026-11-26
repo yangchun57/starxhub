@@ -1,6 +1,6 @@
 {
   "name": "starxhub",
-  "description": "星枢（starxhub）：Claude Code 多 Agent 开发团队配置中心。提供 new-project（新建项目脚手架）、onboard-project（接入已有项目）、pm-skills（产品经理技能包，46 个 PM 框架）、startech-ui（星辰 starTech UI 规范执行器，Web/H5/小程序三端预设 + 令牌/类名/布局校验）等 skill。按技术栈（后端 dotnet/python/java-spring，前端 vue/uniapp/startech）生成定制化的 .claude 配置，含 23 个专职 Agent、10 个斜杠命令、多租户护栏 hooks、路径范围 rules 自动加载机制。v2.3.0 新增 startech 前端栈：星辰设计系统全量规范（69 令牌 / 174 类名）＋ 完整可运行工程模板（三层 CSS + 四层组件 + showcase 预览站），零 UI 库依赖。v2.4.0 补全 java-spring 后端栈（Spring Boot 3 工程模板 + 3 份 rules + 部署变体）、前后端响应契约适配层，并补齐 3 份孤儿规范源文档。v2.5.0 集成 startech-ui skill：插件级 + 项目级双位置分发，前端 Agent 按技术栈自动加载规范并完成编码前自检；多租户改为 opt-in 默认关闭。v2.6.0 在规则与工程模板中完整落地雪花 ID 全链路：WorkId 多实例唯一、后端 ID 序列化为字符串、前端 ID 用 string、禁止自增。",
+  "description": "星枢（starxhub）：Claude Code 多 Agent 开发团队配置中心。提供 new-project（新建项目脚手架）、onboard-project（接入已有项目）、pm-skills（产品经理技能包，46 个 PM 框架）、startech-ui（星辰 starTech UI 规范执行器，Web/H5/小程序三端预设 + 令牌/类名/布局校验）等 skill。按技术栈（后端 dotnet/python/java-spring，前端 vue/uniapp/startech）生成定制化的 .claude 配置，含 20 个专职 Agent、14 个斜杠命令、护栏 hooks、路径范围 rules 自动加载机制。v2.3.0 新增 startech 前端栈：星辰设计系统全量规范（69 令牌 / 174 类名）＋ 完整可运行工程模板（三层 CSS + 四层组件 + showcase 预览站），零 UI 库依赖。v2.4.0 补全 java-spring 后端栈（Spring Boot 3 工程模板 + 3 份 rules + 部署变体）、前后端响应契约适配层，并补齐 3 份孤儿规范源文档。v2.5.0 集成 startech-ui skill：插件级 + 项目级双位置分发，前端 Agent 按技术栈自动加载规范并完成编码前自检；多租户改为 opt-in 默认关闭。v2.6.0 在规则与工程模板中完整落地雪花 ID 全链路：WorkId 多实例唯一、后端 ID 序列化为字符串、前端 ID 用 string、禁止自增。",
   "version": "2.6.0",
   "author": {
     "name": "yangchun57"

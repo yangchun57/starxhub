@@ -79,9 +79,9 @@ claude
 
 ## 第四步：使用命令的最佳时机 / Step 4: When to Use Each Command
 
-星枢提供 10 个命令，覆盖从模糊想法到上线复盘的完整生命周期。以下是推荐的使用顺序和最佳实践。
+星枢提供 14 个命令，覆盖从模糊想法到上线复盘的完整生命周期。以下按推荐顺序展开 10 个主流程命令，另外 4 个见「其他命令速览」。
 
-starxhub provides 10 commands covering the full lifecycle from fuzzy idea to post-release retrospective. Here's the recommended order and best practices.
+starxhub provides 14 commands covering the full lifecycle from fuzzy idea to post-release retrospective. The 10 main commands are detailed below; the other 4 are summarized in "Other Commands".
 
 ### 生命周期总览 / Lifecycle Overview
 
@@ -250,6 +250,17 @@ starxhub provides 10 commands covering the full lifecycle from fuzzy idea to pos
 
 ---
 
+### 其他命令速览 / Other Commands
+
+| 命令 / Command | 用途 / Purpose |
+|----------------|----------------|
+| `/req-review` | 独立需求评审（requirements / design / implementation 三阶段）/ Standalone requirements review |
+| `/code-review` | 按 rules 扫描代码规范、分层边界、安全与性能反模式 / Rule-based code scan |
+| `/doc-archive` | 压缩归档 00-项目文档中已完成条目 / Archive completed doc entries |
+| `/health-check` | 项目健康度巡检并输出整改建议 / Project health check with remediation advice |
+
+---
+
 ## 推荐工作流 / Recommended Workflow
 
 ### 场景 A：从零开始一个新功能 / Scenario A: Building a New Feature from Scratch
@@ -371,6 +382,6 @@ A: No. onboard-project only adds, never deletes. Each step is git committed for 
     → /deploy（配置 CI/容器化/部署）
 ```
 
-10 个命令各管一段，配合 23 个 SubAgent、阶段化提交、版本化数据库迁移和 Swagger 类型生成，构成一个能自我进化的闭环。
+14 个命令各管一段，配合 20 个 SubAgent、阶段化提交、版本化数据库迁移和 Swagger 类型生成，构成一个能自我进化的闭环。
 
-10 commands, each covering a phase, working with 23 SubAgents, phased commits, versioned database migrations, and Swagger type generation — forming a self-evolving closed loop.
+14 commands, each covering a phase, working with 20 SubAgents, phased commits, versioned database migrations, and Swagger type generation — forming a self-evolving closed loop.
