@@ -49,7 +49,8 @@ public class User
 ## 实体定义
 
 ### 规范
-- 主键: 雪花 ID（Snowflake ID），类型 `long`，禁止自增
+- 主键: 雪花 ID（Snowflake ID），类型 `long`，禁止自增（禁止 `IsIdentity = true`）
+- **雪花 ID 是 19 位**，超出 JavaScript 安全整数范围（`2^53-1`）：后端实体用 `long`，**对前端输出时必须序列化为字符串**（见下方「ID 序列化」）
 - 公共字段: 通过基类或接口复用（`ITenantEntity`, `IAuditable`）
 - 表名: snake_case 复数（`users`, `order_items`）
 - 字段: PascalCase（`Id`, `CreatedAt`, `UserId`）
@@ -227,30 +228,77 @@ CREATE TABLE users (
 ## 雪花 ID 生成
 
 ### 规范
+- 进程启动时设置 WorkId（1-30），**多实例部署时每个实例必须不同**，否则生成重复主键
+- 实体构造时生成 ID（保证 `ExecuteCommand()` 也带 ID）；SqlSugar 的普通 `ExecuteCommand()` **不会**自动填雪花 ID
+- 只有 `ExecuteReturnSnowflakeId()` / `ExecuteReturnSnowflakeIdAsync()` 会由 ORM 生成并回填
+
 ```csharp
-// 全局雪花 ID 生成器
-public static class SnowflakeIdGenerator
+// 全局雪花 ID 生成器（包装 SqlSugar.SnowFlakeSingle）
+public static class SnowflakeId
 {
-    private static readonly SnowflakeId _generator = new SnowflakeId(workerId: 1);
-    
-    public static long NewId() => _generator.NextId();
+    // 进程启动时调用一次：SnowflakeId.Init(workId); workId 来自配置 Snowflake:WorkId
+    public static void Init(int workId) => SnowFlakeSingle.WorkId = workId;
+    public static long NewId() => SnowFlakeSingle.Instance.NextId();
 }
 
-// 在实体创建时使用
-public class UserService
+// Program.cs 启动配置
+SnowflakeId.Init(int.Parse(builder.Configuration["Snowflake:WorkId"] ?? "1"));
+
+// appsettings.json
+// "Snowflake": { "WorkId": 1 }   // 多实例用环境变量 Snowflake__WorkId 覆盖
+
+// 实体构造时生成（配合实体里 Id 的默认值）
+public class User
 {
-    public async Task<long> CreateAsync(CreateUserRequest request)
-    {
-        var user = new User
-        {
-            Id = SnowflakeIdGenerator.NewId(),  // 雪花 ID
-            Username = request.Username,
-            CreatedAt = DateTime.UtcNow
-        };
-        await _userRepo.InsertAsync(user);
-        return user.Id;
-    }
+    public long Id { get; set; } = SnowflakeId.NewId();  // 禁止 IsIdentity = true
 }
+```
+
+### 插入方式对照
+```csharp
+// ✅ 实体已带 ID，普通插入即可
+var user = new User { Username = request.Username };
+await _db.Insertable(user).ExecuteCommandAsync();
+
+// ✅ 或让 ORM 生成并回填（实体 Id 会拿到返回值）
+var id = await _db.Insertable(user).ExecuteReturnSnowflakeIdAsync();
+
+// ❌ 不要再用自增回填 API
+// await _db.Insertable(user).ExecuteReturnBigIdentityAsync();
+```
+
+## ID 序列化（雪花 ID 必做）
+
+### 规范
+雪花 ID 19 位，JS `number` 无法精确表示。所有 `long` 类型的 ID 字段（含 `*Id`）对前端输出为**字符串**，请求体也接受字符串形式；`Count` / `Total` 等普通数值字段不受影响。
+
+```csharp
+// Program.cs：注册 System.Text.Json 转换器
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new LongIdAsStringConverter());
+    });
+// LongIdAsStringConverter：把名为 Id / *Id 的 long 序列化为字符串，反序列化时接受字符串或数字
+```
+
+### ✅ 正确
+```json
+// 响应：ID 是字符串，前端用 string 接收
+{ "id": "2125094192584724480", "tenantId": "2125094192584724001", "total": 42 }
+```
+```typescript
+// 前端
+export interface UserDto {
+  id: string;
+  tenantId: string;
+}
+```
+
+### ❌ 错误
+```json
+// ❌ ID 输出为数字，前端 JSON.parse 后精度丢失，最后几位变成 0
+{ "id": 2125094192584724480 }
 ```
 
 ## 命名约定

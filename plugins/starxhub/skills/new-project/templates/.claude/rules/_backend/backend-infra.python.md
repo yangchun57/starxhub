@@ -67,6 +67,7 @@ engine = create_async_engine(settings.DATABASE_URL)
 
 ### 规范
 - 主键: 雪花 ID（Snowflake ID），类型 `BigInteger`，禁止自增
+- **雪花 ID 是 19 位**，超出 JavaScript 安全整数范围：后端用 `int`，**Pydantic 响应模型须把 ID 序列化为字符串**（见下方「ID 序列化」）
 - 公共字段: 通过 Mixin 复用（`TimestampMixin`, `SnowflakeIdMixin`）
 - 表名: snake_case 单数（`user`, `order_item`）
 - 字段: snake_case（`created_at`, `user_id`）
@@ -270,10 +271,39 @@ class SnowflakeGenerator:
         self.last_timestamp = timestamp
         return (timestamp << 22) | (self.worker_id << 12) | self.sequence
 
-_generator = SnowflakeGenerator(worker_id=1)
+# worker_id 从配置读取，多实例部署时每个实例必须不同（0-31），否则生成重复主键
+# settings.SNOWFLAKE_WORKER_ID 由环境变量 SNOWFLAKE_WORKER_ID 注入
+_generator = SnowflakeGenerator(worker_id=settings.SNOWFLAKE_WORKER_ID)
 
 def generate_snowflake_id() -> int:
     return _generator.generate()
+```
+
+> **并发安全**：上面用 `self.sequence` + `last_timestamp`，须加锁（`threading.Lock`）或确保单线程事件循环内使用；多进程/多实例必须分配不同 `worker_id`。
+
+## ID 序列化（雪花 ID 必做）
+
+雪花 ID 19 位，JS `number` 会丢精度。Pydantic 响应用 `field_validator(..., mode="before")` 或自定义 `json_encoders` 把 ID 序列化为字符串；请求侧接受 `str | int` 再转 `int`。
+
+```python
+# app/schemas/common.py
+from pydantic import BaseModel, field_validator
+
+class UserOut(BaseModel):
+    id: str
+    tenant_id: str
+
+    @field_validator("id", "tenant_id", mode="before")
+    @classmethod
+    def to_str(cls, v):
+        return str(v) if v is not None else v
+```
+
+```json
+// ✅ 响应：ID 为字符串
+{ "id": "2125094192584724480", "tenantId": "2125094192584724001", "total": 42 }
+// ❌ 响应：ID 为数字，前端精度丢失
+{ "id": 2125094192584724480 }
 ```
 
 ## 命名约定

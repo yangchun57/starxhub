@@ -80,6 +80,8 @@ API_CUSTOM_DOTNET = [
     ("Common/ApiResult.cs", "{cn}.Common/ApiResult.cs"),
     ("Common/PageResult.cs", "{cn}.Common/PageResult.cs"),
     ("Common/BusinessException.cs", "{cn}.Common/BusinessException.cs"),
+    ("Common/SnowflakeId.cs", "{cn}.Common/SnowflakeId.cs"),
+    ("Api/Converters/LongIdAsStringConverter.cs", "{cn}.Api/Converters/LongIdAsStringConverter.cs"),
     ("Api/Filters/GlobalExceptionFilter.cs", "{cn}.Api/Filters/GlobalExceptionFilter.cs"),
     ("Api/Program.cs", "{cn}.Api/Program.cs"),
     ("Api/appsettings.json", "{cn}.Api/appsettings.json"),
@@ -562,6 +564,8 @@ def init_api_dotnet(target, code_name):
     run(["dotnet", "add", f"tests/{code_name}.Tests/{code_name}.Tests.csproj", "reference",
          f"{code_name}.Api/{code_name}.Api.csproj", f"{code_name}.Service/{code_name}.Service.csproj", f"{code_name}.Model/{code_name}.Model.csproj"], api_dir)
     run(["dotnet", "add", f"tests/{code_name}.Tests/{code_name}.Tests.csproj", "package", "Microsoft.AspNetCore.Mvc.Testing"], api_dir, "添加集成测试包")
+    # ORM（SqlSugar）与雪花 ID 生成器依赖；Common 层放 SnowflakeId.cs，故装到 Common 项目
+    run(["dotnet", "add", f"{code_name}.Common/{code_name}.Common.csproj", "package", "SqlSugarCore"], api_dir, "添加 SqlSugar ORM 包")
     for f in [f"{code_name}.Api/WeatherForecast.cs", f"{code_name}.Api/{code_name}.Api.http",
               f"{code_name}.Api/Controllers/WeatherForecastController.cs", f"{code_name}.Common/Class1.cs",
               f"{code_name}.Model/Class1.cs", f"{code_name}.Service/Class1.cs", f"tests/{code_name}.Tests/UnitTest1.cs"]:

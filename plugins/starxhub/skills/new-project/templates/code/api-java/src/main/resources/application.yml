@@ -27,9 +27,13 @@ mybatis-plus:
     log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
   global-config:
     db-config:
+      id-type: assign_id   # 雪花 ID，禁止 AUTO 自增
       logic-delete-field: deleted
       logic-delete-value: 1
       logic-not-delete-value: 0
+
+machine:
+  worker-id: ${SNOWFLAKE_WORKER_ID:1}   # 多实例必须不同（0-31）
 
 springdoc:
   api-docs:

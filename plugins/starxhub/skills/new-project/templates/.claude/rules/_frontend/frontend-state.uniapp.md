@@ -151,6 +151,8 @@ export function request<T = any>(options: RequestOptions): Promise<T> {
 
 ### API 模块规范
 
+> **ID 类型铁律**：主键为 19 位雪花 ID，超出 JS 安全整数范围（`2^53-1`）。后端已把 ID 序列化为字符串，**前端所有实体 ID 及 `*Id` 字段一律用 `string`**，禁止用 `number`、`Number()` / `parseInt()` 转换 ID（会丢精度）。`total` / `page` 等普通数值字段不受影响。
+
 ✅ 正确
 ```typescript
 // src/api/user.ts
@@ -158,7 +160,7 @@ export function request<T = any>(options: RequestOptions): Promise<T> {
 import { request } from "./request";
 
 export interface UserDto {
-  id: number;
+  id: string;        // 雪花 ID，后端以字符串下发
   username: string;
   email: string;
   status: number;
@@ -193,7 +195,7 @@ export function getUserList(params: QueryUserRequest) {
   });
 }
 
-export function getUserById(id: number) {
+export function getUserById(id: string) {
   return request<UserDto>({
     url: `/api/v1/users/${id}`,
     method: "GET",
@@ -201,14 +203,14 @@ export function getUserById(id: number) {
 }
 
 export function createUser(data: CreateUserRequest) {
-  return request<number>({
+  return request<string>({  // 返回雪花 ID，字符串
     url: "/api/v1/users",
     method: "POST",
     data,
   });
 }
 
-export function deleteUser(id: number) {
+export function deleteUser(id: string) {
   return request<void>({
     url: `/api/v1/users/${id}`,
     method: "DELETE",
@@ -245,7 +247,7 @@ async function loadData() {
 |-----|------|------|
 | `access_token` | string | JWT Token |
 | `user_info` | string (JSON) | 用户信息 |
-| `tenant_id` | number | 租户 ID |
+| `tenant_id` | string | 租户 ID（雪花 ID，19 位，勿用 number） |
 
 ### ✅ 正确
 ```typescript

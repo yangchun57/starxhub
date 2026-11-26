@@ -23,8 +23,9 @@ V003__create_biz_reservation.sql
 2. **顺序执行**：序号严格递增，新脚本序号 = 当前最大序号 + 1
 3. **一个脚本一件事**：一个迁移脚本只做一类变更（一张新表 / 一个加字段批次），便于回滚和审计
 4. **幂等优先**：DDL 尽量写成可重复执行不报错（如 `CREATE TABLE IF NOT EXISTS`），便于各环境对齐
-5. **由 db-engineer 维护**：`/new-feature` 和 `/change-request` 涉及表结构变更时，必须产出迁移脚本并立即提交（`docs: 迁移脚本 V00N`）
-6. **红线不变**：所有业务表迁移脚本必须遵守 CLAUDE.md 最高优先级约束#@@TENANT_ONLY_START（如租户隔离字段要求）#@@TENANT_ONLY_END
+5. **主键统一雪花 ID**：`id BIGINT NOT NULL PRIMARY KEY`，**禁止 `AUTO_INCREMENT`**；ID 由应用层生成器赋值（19 位，勿用 UUID / 自增）
+6. **由 db-engineer 维护**：`/new-feature` 和 `/change-request` 涉及表结构变更时，必须产出迁移脚本并立即提交（`docs: 迁移脚本 V00N`）
+7. **红线不变**：所有业务表迁移脚本必须遵守 CLAUDE.md 最高优先级约束#@@TENANT_ONLY_START（如租户隔离字段要求）#@@TENANT_ONLY_END
 
 ## 执行方式
 

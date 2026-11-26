@@ -84,8 +84,10 @@ public class UserController
 |------|------|------|
 | 查询参数（分页、筛选） | `[FromQuery]` | `?page=1&size=10` |
 | 请求体（创建、更新） | `[FromBody]` | `{ "username": "test" }` |
-| 路由参数（ID） | `[FromRoute]` | `/api/users/123` |
+| 路由参数（ID） | `[FromRoute]` | `/api/users/{id}`（雪花 ID 为 19 位字符串） |
 | 表单提交（文件上传） | `[FromForm]` | `multipart/form-data` |
+
+> **雪花 ID 路由/响应约定**：主键为 19 位雪花 ID，路由参数用 `string` 接收后再转 `long`；响应中的 ID 由全局 JSON 转换器序列化为字符串（见 `backend-infra.dotnet.md`「ID 序列化」），前端类型一律 `string`。
 
 ✅ 正确
 ```csharp
@@ -245,7 +247,7 @@ public static class UserMapper
     {
         return new User
         {
-            Id = SnowflakeIdGenerator.NewId(),
+            Id = SnowflakeId.NewId(),
             Username = request.Username,
             Email = request.Email,
             CreatedAt = DateTime.UtcNow

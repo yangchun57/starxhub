@@ -154,6 +154,8 @@ export function del<T>(url: string): Promise<T> {
 
 ### API 模块规范
 
+> **ID 类型铁律**：主键为 19 位雪花 ID，超出 JS 安全整数范围（`2^53-1`）。后端已把 ID 序列化为字符串，**前端所有实体 ID 及 `*Id` 字段一律用 `string`**，禁止用 `number`、`Number()` / `parseInt()` 转换 ID（会丢精度）。`total` / `page` 等普通数值字段不受影响。
+
 ✅ 正确
 ```typescript
 // src/api/user.ts
@@ -161,7 +163,7 @@ export function del<T>(url: string): Promise<T> {
 import { get, post, put, del } from "./request";
 
 export interface UserDto {
-  id: number;
+  id: string;        // 雪花 ID，后端以字符串下发
   username: string;
   email: string;
   status: number;
@@ -192,19 +194,19 @@ export function getUserList(params: QueryUserRequest) {
   return get<PageResult<UserDto>>("/api/v1/users", params);
 }
 
-export function getUserById(id: number) {
+export function getUserById(id: string) {
   return get<UserDto>(`/api/v1/users/${id}`);
 }
 
 export function createUser(data: CreateUserRequest) {
-  return post<number>("/api/v1/users", data);
+  return post<string>("/api/v1/users", data);  // 返回雪花 ID，字符串
 }
 
-export function updateUser(id: number, data: Partial<CreateUserRequest>) {
+export function updateUser(id: string, data: Partial<CreateUserRequest>) {
   return put<void>(`/api/v1/users/${id}`, data);
 }
 
-export function deleteUser(id: number) {
+export function deleteUser(id: string) {
   return del<void>(`/api/v1/users/${id}`);
 }
 ```
@@ -241,7 +243,7 @@ npm run gen:api
 # 3. 生成的类型在 src/api/generated/
 # src/api/generated/user.ts
 export interface UserDto {
-  id: number;
+  id: string;   // 雪花 ID：后端序列化为字符串，生成后确认此处为 string
   username: string;
   // ... 从 Swagger 生成
 }
@@ -266,7 +268,7 @@ export interface UserQuery {
 ```typescript
 // ❌ 手动维护所有类型，与后端不同步
 export interface UserDto {
-  id: number;
+  id: number;   // ❌ 雪花 ID 不能用 number，会丢精度
   username: string;
   email: string;
   // ... 手动维护，容易遗漏
@@ -349,7 +351,7 @@ service.interceptors.response.use(
 ✅ 正确
 ```typescript
 // 在页面中捕获特定错误
-async function handleDelete(id: number) {
+async function handleDelete(id: string) {
   try {
     await deleteUser(id);
     ElMessage.success("删除成功");

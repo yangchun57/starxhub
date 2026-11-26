@@ -67,7 +67,7 @@ async function loadData() {
   }
 }
 
-function navigateToDetail(id: number) {
+function navigateToDetail(id: string) {  // 雪花 ID 用 string 透传，勿 Number() 转换
   uni.navigateTo({ url: `/pages/user/detail?id=${id}` });
 }
 </script>
@@ -238,7 +238,7 @@ const formattedDate = formatDate(new Date());
 // utils/format.ts
 import { useUserStore } from "@/stores/user";
 
-export function formatUserName(id: number) {
+export function formatUserName(id: string) {
   const userStore = useUserStore();
   return userStore.getUser(id).name;
 }
@@ -273,7 +273,7 @@ import type { UserDto } from "@/api/user";
 
 const user = ref<UserDto>({ ... });
 
-function handleClick(id: number) {
+function handleClick(id: string) {
   uni.navigateTo({ url: `/pages/user/detail?id=${id}` });
 }
 </script>
@@ -293,7 +293,7 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-  click: [id: number];
+  click: [id: string];
 }>();
 </script>
 ```

@@ -6,7 +6,7 @@ export interface UserInfo {
   nickname?: string;
   role: string;
 #@@TENANT_ONLY_START
-  tenantId: number;
+  tenantId: string;   // 雪花 ID，19 位，用 string 接收
 #@@TENANT_ONLY_END
 }
 

@@ -15,6 +15,8 @@ class Settings(BaseSettings):
     JWT_SECRET: str = "change-me-in-prod"
     JWT_ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 120
+    # 雪花 ID 机器号：多实例部署必须不同（0-31），用环境变量 SNOWFLAKE_WORKER_ID 覆盖
+    SNOWFLAKE_WORKER_ID: int = 1
     # CORS：开发环境 uni-app/H5 直连需要放行；生产由网关统一处理
     CORS_ORIGINS: list[str] = ["*"]
 

@@ -61,6 +61,31 @@ spring.datasource.password: Root@123456     # 明文口令入库
 http.sessionManagement(s -> s.sessionCreationPolicy(STATEFUL)); // 有状态会话
 ```
 
+## 主键：雪花 ID
+
+- 主键用 MyBatis-Plus `ASSIGN_ID`（雪花 ID），类型 `Long`，**禁止 `IdType.AUTO` / 数据库自增**。
+- 19 位雪花 ID 超出 JS 安全整数，Jackson 已全局把 `Long` 序列化为字符串（见铁律 5），前端类型用 `string`。
+- 多实例部署必须配置不同 `worker-id`（0-31），否则生成重复主键：
+
+```yaml
+# application.yml
+mybatis-plus:
+  global-config:
+    db-config:
+      id-type: assign_id
+machine:
+  worker-id: ${SNOWFLAKE_WORKER_ID:1}   # 多实例用环境变量区分，0-31
+```
+
+```java
+@Bean
+public IdentifierGenerator identifierGenerator(
+        @Value("${machine.worker-id:1}") long workerId) {
+    DefaultIdentifierGenerator generator = new DefaultIdentifierGenerator(workerId);
+    return generator;  // 与 MyBatis-Plus ASSIGN_ID 对齐
+}
+```
+
 ## 补充
 
 - 日志用 SLF4J 占位符 + MDC `traceId`；禁止打印 token / 密码 / 手机号明文。
