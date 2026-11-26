@@ -1,0 +1,33 @@
+// starxhub OpenCode V2 配置（由 build.py 生成，勿手改；改源模板后重跑）
+// 护栏插件由 .opencode/plugins/*.ts 自动发现；测试命令可用环境变量 OPENCODE_TEST_COMMAND 覆盖。
+{
+  "$schema": "https://opencode.ai/config.json",
+  "default_agent": "build",
+  "instructions": [
+    ".opencode/rules/database.md",
+    ".opencode/rules/git.md",
+    ".opencode/rules/workflow.md"
+  ],
+  "permission": [
+    {
+      "action": "shell",
+      "resource": "rm -rf *",
+      "effect": "deny"
+    },
+    {
+      "action": "shell",
+      "resource": "git push *",
+      "effect": "deny"
+    },
+    {
+      "action": "shell",
+      "resource": "git reset --hard *",
+      "effect": "deny"
+    },
+    {
+      "action": "shell",
+      "resource": "git clean -fd *",
+      "effect": "deny"
+    }
+  ]
+}

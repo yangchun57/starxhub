@@ -1,0 +1,15 @@
+{
+  "pages": [
+    "pages/components/index",
+    "pages/index/index"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#FFFFFF",
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "星辰 starTech · 组件库",
+    "backgroundColor": "#F4F6FA",
+    "backgroundTextStyle": "light"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

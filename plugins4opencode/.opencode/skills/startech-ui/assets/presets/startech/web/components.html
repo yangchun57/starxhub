@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>星辰 starTech · PC 组件实例</title>
+<link rel="stylesheet" href="./tokens.css" />
+<link rel="stylesheet" href="./common.css" />
+<link rel="stylesheet" href="./components.css" />
+<style>
+  /* 实例页外壳（非组件库本身，不进 components.css） */
+  body.pc-body{margin:0;background:var(--hx-page-bg,#F4F6FA);font-family:var(--hx-font-sans);color:var(--hx-text-primary,#1B2537);}
+  .pc-hero{background:linear-gradient(135deg,#1B2537,#2f6df6);color:#fff;padding:38px 48px 30px;}
+  .pc-hero-tag{font-size:11px;letter-spacing:.16em;color:#BFD4FF;}
+  .pc-hero h1{font-size:32px;margin:10px 0 6px;font-weight:700;}
+  .pc-hero p{font-size:14px;color:#D6E4FF;margin:0;}
+  .pc-hero-meta{margin-top:16px;display:flex;gap:10px;flex-wrap:wrap;}
+  .pc-hero-meta span{font-size:12px;padding:5px 12px;border:1px solid rgba(191,212,255,.4);border-radius:999px;}
+  .pc-nav{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--hx-border,#E3E8F0);padding:12px 48px;display:flex;gap:8px;flex-wrap:wrap;box-shadow:0 2px 8px rgba(27,37,55,.04);}
+  .pc-nav a{font-size:12px;padding:6px 12px;border-radius:6px;color:var(--hx-text-secondary,#5A6478);text-decoration:none;}
+  .pc-nav a:hover{background:var(--hx-brand-soft,#EAF1FF);color:var(--hx-brand,#2f6df6);}
+  .pc-wrap{max-width:1240px;margin:0 auto;padding:32px 48px 80px;}
+  .pc-sec{margin-bottom:44px;scroll-margin-top:70px;}
+  .pc-sec-head{display:flex;align-items:baseline;gap:12px;margin-bottom:6px;}
+  .pc-sec-num{font-family:var(--hx-font-num);font-size:14px;color:var(--hx-brand,#2f6df6);font-weight:700;}
+  .pc-sec h2{font-size:22px;margin:0;font-weight:700;}
+  .pc-sec-en{font-size:11px;color:var(--hx-text-muted,#8B95A7);letter-spacing:.1em;}
+  .pc-sec-desc{font-size:13px;color:var(--hx-text-muted,#8B95A7);margin:0 0 18px;}
+  .pc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;}
+  .pc-item{background:#fff;border:1px solid var(--hx-border,#E3E8F0);border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(27,37,55,.04);}
+  .pc-item--wide{grid-column:1/-1;}
+  .pc-item-head{padding:12px 18px;border-bottom:1px solid var(--hx-border,#E3E8F0);background:#FAFBFD;font-size:13px;font-weight:600;display:flex;justify-content:space-between;align-items:center;}
+  .pc-item-head small{font-weight:400;color:var(--hx-text-muted,#8B95A7);font-size:11px;}
+  .pc-demo{padding:24px 18px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;background:#fff;}
+  .pc-demo--col{flex-direction:column;align-items:stretch;}
+  .pc-code{margin:0;padding:14px 18px;background:#1B2434;color:#D6E4FF;font-size:12px;line-height:1.7;overflow-x:auto;font-family:"SFMono-Regular",Consolas,monospace;white-space:pre;}
+  .pc-code .tk{color:#8FB8FF;}
+  .pc-code .ta{color:#BFD4FF;}
+  .pc-code .tv{color:#A8E6B8;}
+  .pc-note{font-size:12px;color:var(--hx-text-muted,#8B95A7);padding:10px 18px;background:#FAFBFD;border-top:1px dashed var(--hx-border,#E3E8F0);}
+  .pc-swatches{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;width:100%;}
+  .pc-sw{height:60px;border-radius:8px;display:flex;align-items:flex-end;padding:8px;font-size:10px;}
+  .pc-chart{width:100%;height:170px;}
+  @media(max-width:900px){.pc-grid{grid-template-columns:1fr;}.pc-wrap,.pc-nav,.pc-hero{padding-left:20px;padding-right:20px;}}
+</style>
+</head>
+<body class="pc-body">
+
+<header class="pc-hero">
+  <div class="pc-hero-tag">STARTECH · DESKTOP COMPONENT LIBRARY</div>
+  <h1>星辰 starTech · PC 组件实例</h1>
+  <p>16 个组件域的可运行实例与对应代码 · 全部基于 tokens.css 令牌 · 与 src/components 的 21 个 Vue SFC 一一对应</p>
+  <div class="pc-hero-meta"><span>品牌蓝 #2F6DF6</span><span>系统无衬线</span><span>Light + Dark</span><span>v1.1</span></div>
+</header>
+<nav class="pc-nav">
+  <a href="#s1">导航</a><a href="#s2">按钮</a><a href="#s3">表单</a><a href="#s4">下拉</a>
+  <a href="#s5">卡片</a><a href="#s6">标签</a><a href="#s7">横幅</a><a href="#s8">指标卡</a>
+  <a href="#s9">标签页</a><a href="#s10">筛选栏</a><a href="#s11">表格</a><a href="#s12">分页</a>
+  <a href="#s13">待办</a><a href="#s14">图表</a><a href="#s15">反馈</a><a href="#s16">展示页专用</a>
+</nav>
+
+<div class="pc-wrap">
+
+<!-- ============ 1 导航 ============ -->
+<section class="pc-sec" id="s1">
+  <div class="pc-sec-head"><span class="pc-sec-num">01</span><h2>侧边导航 / 顶部栏</h2><span class="pc-sec-en">LAYOUT</span></div>
+  <p class="pc-sec-desc">AppShell / AppSidebar / AppTopbar / PageHeader 四件套。实例页内用静态结构演示，真实工程请用 Vue SFC。</p>
+  <div class="pc-grid">
+    <div class="pc-item pc-item--wide">
+      <div class="pc-item-head">侧边导航 + 顶部栏 <small>AppShell + AppSidebar + AppTopbar</small></div>
+      <!-- 与 index.html / app.js 真实骨架完全一致：hx-app > hx-sidebar + hx-main(hx-topbar + hx-content) -->
+      <div class="pc-demo" style="padding:0;background:var(--hx-page-bg);">
+        <div class="hx-app" style="height:440px;">
+          <aside class="hx-sidebar">
+            <div class="hx-brand">
+              <svg class="hx-brand-mark" viewBox="0 0 34 34" fill="none"><rect width="34" height="34" rx="10" fill="var(--hx-brand)"/><path d="M10 22V12M10 17h6M17 12v10M24 12v10" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/><circle cx="24" cy="8.5" r="2" fill="var(--hx-accent-yellow)"/></svg>
+              <div class="hx-col hx-hide-narrow"><span class="hx-brand-name">星辰</span><span class="hx-brand-en">starTech</span></div>
+            </div>
+            <nav class="hx-nav">
+              <div class="hx-nav-group hx-hide-narrow">工作台</div>
+              <a class="hx-nav-item is-active" href="#s1"><span class="hx-nav-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="6" height="6" rx="1.5"/><rect x="10" y="2" width="6" height="6" rx="1.5"/><rect x="2" y="10" width="6" height="6" rx="1.5"/><rect x="10" y="10" width="6" height="6" rx="1.5"/></svg></span><span class="hx-hide-narrow">概览</span></a>
+              <a class="hx-nav-item" href="#s1"><span class="hx-nav-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 15V8M7.5 15V4M12 15v-5M16 15V6"/></svg></span><span class="hx-hide-narrow">数据看板</span><span class="hx-nav-badge hx-hide-narrow">3</span></a>
+              <div class="hx-nav-group hx-hide-narrow">业务</div>
+              <a class="hx-nav-item" href="#s1"><span class="hx-nav-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="2" width="12" height="14" rx="2"/><path d="M6 6h6M6 9h6M6 12h4"/></svg></span><span class="hx-hide-narrow">订单管理</span></a>
+              <a class="hx-nav-item" href="#s1"><span class="hx-nav-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 2l6 3.2v7.6L9 16l-6-3.2V5.2L9 2z"/><path d="M3 5.2L9 8.5l6-3.3M9 8.5V16"/></svg></span><span class="hx-hide-narrow">商品中心</span></a>
+            </nav>
+            <div class="hx-sidebar-foot">
+              <div class="hx-side-card hx-hide-narrow"><span class="hx-side-card-title">本月目标 · 营收达成</span><div class="hx-row-between"><span class="hx-num hx-caption" style="color:var(--hx-brand-on-dark)">78.6%</span><span class="hx-micro" style="color:var(--hx-icon-on-dark)">¥ 486,320</span></div><div class="hx-progress"><div class="hx-progress-fill" style="width:78.6%"></div></div><span class="hx-side-card-desc">距目标还差 ¥ 132,480</span></div>
+              <div class="hx-user"><svg class="hx-avatar" viewBox="0 0 34 34" fill="none"><circle cx="17" cy="17" r="17" fill="#3E6FD8"/><circle cx="17" cy="13.5" r="5.2" fill="#DCE8FF"/><path d="M6.5 30c1.4-6 5-9 10.5-9s9.1 3 10.5 9" fill="#DCE8FF"/></svg><div class="hx-col hx-hide-narrow"><span class="hx-user-name">星辰</span><span class="hx-user-role">超级管理员</span></div></div>
+            </div>
+          </aside>
+          <div class="hx-main">
+            <header class="hx-topbar">
+              <div class="hx-col"><span class="hx-crumb">框架资源&nbsp; / &nbsp;数据概览</span><span class="hx-topbar-title">数据概览</span></div>
+              <div class="hx-topbar-actions">
+                <label class="hx-input-wrap hx-hide-narrow"><span class="hx-input-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5L14 14"/></svg></span><input class="hx-input hx-input--with-icon" style="width:200px" placeholder="搜索订单、客户或商品" /></label>
+                <button class="hx-icon-btn" title="切换主题"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13.5 10.5A6 6 0 017 4a6 6 0 106.5 6.5z"/></svg></button>
+                <button class="hx-icon-btn" title="通知"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M9 2.5a5 5 0 00-5 5v3l-1.2 2h12.4L14 10.5v-3a5 5 0 00-5-5z"/><path d="M7.5 15a1.5 1.5 0 003 0"/></svg><i class="hx-dot"></i></button>
+                <span class="hx-v-divider hx-hide-narrow"></span>
+              </div>
+            </header>
+            <main class="hx-content">
+              <div class="hx-page-head"><div class="hx-page-title">数据概览</div><div class="hx-page-desc">这是内容区，实际项目中由路由驱动</div></div>
+              <div class="hx-row"><span class="hx-tag hx-tag--brand">品牌</span><span class="hx-tag hx-tag--success">正常</span></div>
+            </main>
+          </div>
+        </div>
+      </div>
+<pre class="pc-code"><span class="tk">&lt;div</span> <span class="ta">class</span>=<span class="tv">"hx-app"</span><span class="tk">&gt;</span>
+  <span class="tk">&lt;aside</span> <span class="ta">class</span>=<span class="tv">"hx-sidebar"</span><span class="tk">&gt;</span>…<span class="tk">&lt;/aside&gt;</span>
+  <span class="tk">&lt;div</span> <span class="ta">class</span>=<span class="tv">"hx-main"</span><span class="tk">&gt;</span>
+    <span class="tk">&lt;header</span> <span class="ta">class</span>=<span class="tv">"hx-topbar"</span><span class="tk">&gt;</span>…<span class="tk">&lt;/header&gt;</span>
+    <span class="tk">&lt;main</span> <span class="ta">class</span>=<span class="tv">"hx-content"</span><span class="tk">&gt;</span>…<span class="tk">&lt;/main&gt;</span>
+  <span class="tk">&lt;/div&gt;</span>
+<span class="tk">&lt;/div&gt;</span></pre>
+      <div class="pc-note">与 <code>index.html</code> 真实骨架一致：<code>.hx-app</code> 为 flex 行容器（锁视口高），侧栏 <code>.hx-sidebar</code> 在左，右侧 <code>.hx-main</code> 内自上而下是 <code>.hx-topbar</code> + <code>.hx-content</code>。侧栏深底 <code>--hx-sidebar</code>、顶栏白底 <code>--hx-surface</code>、内容区 <code>--hx-page-bg</code> 全部走令牌，勿手写宽度或色值覆盖。Vue 版：<code>&lt;AppShell&gt;</code> 包 <code>&lt;AppSidebar/&gt;</code> + <code>&lt;AppTopbar/&gt;</code> + <code>&lt;PageHeader/&gt;</code>。</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 2 按钮 ============ -->
+<section class="pc-sec" id="s2">
+  <div class="pc-sec-head"><span class="pc-sec-num">02</span><h2>按钮 Button</h2><span class="pc-sec-en">BUTTON</span></div>
+  <p class="pc-sec-desc">HxButton · 主/次/软/幽灵/危险 五类 + 大中小三档 + 块级。</p>
+  <div class="pc-grid">
+    <div class="pc-item">
+      <div class="pc-item-head">按钮层级 <small>hx-btn--*</small></div>
+      <div class="pc-demo"><span class="hx-btn hx-btn--primary">主按钮</span><span class="hx-btn hx-btn--secondary">次按钮</span><span class="hx-btn hx-btn--soft">软按钮</span><span class="hx-btn hx-btn--ghost">幽灵按钮</span><span class="hx-btn hx-btn--danger">危险</span></div>
+<pre class="pc-code"><span class="tk">&lt;button</span> <span class="ta">class</span>=<span class="tv">"hx-btn hx-btn--primary"</span><span class="tk">&gt;</span>主按钮<span class="tk">&lt;/button&gt;</span>
+<span class="tk">&lt;button</span> <span class="ta">class</span>=<span class="tv">"hx-btn hx-btn--ghost"</span><span class="tk">&gt;</span>幽灵按钮<span class="tk">&lt;/button&gt;</span></pre>
+    </div>
+    <div class="pc-item">
+      <div class="pc-item-head">尺寸 + 块级 <small>sm / lg / block</small></div>
+      <div class="pc-demo pc-demo--col"><div class="hx-row"><span class="hx-btn hx-btn--sm hx-btn--primary">小</span><span class="hx-btn hx-btn--primary">中</span><span class="hx-btn hx-btn--lg hx-btn--primary">大</span></div><span class="hx-btn hx-btn--primary hx-btn--block">块级按钮</span></div>
+<pre class="pc-code"><span class="tk">&lt;button</span> <span class="ta">class</span>=<span class="tv">"hx-btn hx-btn--sm"</span><span class="tk">&gt;</span>小<span class="tk">&lt;/button&gt;</span>
+<span class="tk">&lt;button</span> <span class="ta">class</span>=<span class="tv">"hx-btn hx-btn--block"</span><span class="tk">&gt;</span>块级<span class="tk">&lt;/button&gt;</span></pre>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 3 表单 ============ -->
+<section class="pc-sec" id="s3">
+  <div class="pc-sec-head"><span class="pc-sec-num">03</span><h2>表单控件</h2><span class="pc-sec-en">FORM</span></div>
+  <p class="pc-sec-desc">HxInput / Textarea / Switch / Checkbox / Radio · 控件高 36px，圆角 <code>--hx-radius-control</code>。</p>
+  <div class="pc-grid">
+    <div class="pc-item">
+      <div class="pc-item-head">输入框 / 文本域 <small>hx-input / hx-textarea</small></div>
+      <div class="pc-demo pc-demo--col">
+        <label class="hx-label">用户名</label><input class="hx-input" placeholder="请输入用户名" />
+        <label class="hx-label">备注</label><textarea class="hx-textarea" rows="3" placeholder="请输入备注"></textarea>
+        <div class="hx-input-wrap"><span class="hx-input-icon">⌕</span><input class="hx-input hx-input--with-icon" placeholder="带图标输入框" /></div>
+      </div>
+<pre class="pc-code"><span class="tk">&lt;input</span> <span class="ta">class</span>=<span class="tv">"hx-input"</span> <span class="ta">placeholder</span>=<span class="tv">"请输入"</span><span class="tk">/&gt;</span>
+<span class="tk">&lt;textarea</span> <span class="ta">class</span>=<span class="tv">"hx-textarea"</span> <span class="ta">rows</span>=<span class="tv">"3"</span><span class="tk">&gt;&lt;/textarea&gt;</span></pre>
+    </div>
+    <div class="pc-item">
+      <div class="pc-item-head">开关 / 复选 / 单选 <small>hx-switch / hx-check</small></div>
+      <div class="pc-demo pc-demo--col">
+        <div class="hx-row"><span class="hx-switch" role="switch" aria-checked="true"></span><span>开启状态</span></div>
+        <div class="hx-row"><span class="hx-check">✓</span><span>已勾选</span></div>
+        <div class="hx-row"><span class="hx-check"></span><span>未勾选</span></div>
+        <div class="hx-row"><span class="hx-check" style="border-radius:50%">•</span><span>单选项</span></div>
+      </div>
+<pre class="pc-code"><span class="tk">&lt;button</span> <span class="ta">class</span>=<span class="tv">"hx-switch"</span> <span class="ta">aria-checked</span>=<span class="tv">"true"</span><span class="tk">&gt;&lt;/button&gt;</span>
+<span class="tk">&lt;span</span> <span class="ta">class</span>=<span class="tv">"hx-check"</span><span class="tk">&gt;</span>✓<span class="tk">&lt;/span&gt;</span></pre>
+      <div class="pc-note">Radio/Checkbox 的 <code>name</code>/<code>checked</code> 语义由 Vue 组件处理，此处仅演示视觉。</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 4 下拉 ============ -->
+<section class="pc-sec" id="s4">
+  <div class="pc-sec-head"><span class="pc-sec-num">04</span><h2>下拉选择 Select</h2><span class="pc-sec-en">SELECT</span></div>
+  <p class="pc-sec-desc">HxSelect · 自绘下拉：按钮触发器 + 自定义浮层，右侧 28px 箭头区 + chevron，展开态主色底白箭头。下方为可交互实例（点击展开，↑↓ 切换，Enter 选中，Esc 关闭）。</p>
+  <div class="pc-grid">
+    <div class="pc-item pc-item--wide">
+      <div class="pc-item-head">可交互实例 <small>点击展开 / 选择 / 关闭</small></div>
+      <div class="pc-demo">
+        <div class="hx-select-wrap" data-hx-select data-options='["湖南省","长沙市","株洲市","湘潭市","衡阳市"]' data-value="湖南省" style="width:220px;">
+          <button type="button" class="hx-select hx-select-trigger" role="combobox" aria-haspopup="listbox" aria-expanded="false"><span class="hx-select-value">湖南省</span></button>
+          <span class="hx-select-arrow"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2.5 4.5L6 8l3.5-3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </div>
+        <div class="hx-select-wrap" data-hx-select data-label="选择城市" data-options='[{"label":"长沙市","value":"cs","hint":"省会"},{"label":"株洲市","value":"zz"},{"label":"湘潭市","value":"xt"},{"label":"衡阳市","value":"hy","disabled":true}]' data-value="cs" style="width:220px;">
+          <button type="button" class="hx-select hx-select-trigger" role="combobox" aria-haspopup="listbox" aria-expanded="false"><span class="hx-select-value">长沙市</span></button>
+          <span class="hx-select-arrow"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2.5 4.5L6 8l3.5-3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </div>
+        <div class="hx-select-wrap" data-hx-select data-options='["全部","进行中","已完成","已归档"]' data-value="" style="width:180px;">
+          <button type="button" class="hx-select hx-select-trigger" role="combobox" aria-haspopup="listbox" aria-expanded="false"><span class="hx-select-value is-placeholder">请选择状态</span></button>
+          <span class="hx-select-arrow"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2.5 4.5L6 8l3.5-3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </div>
+      </div>
+<pre class="pc-code">&lt;HxSelect
+  v-model="city"
+  :options="['长沙市','株洲市','湘潭市']"
+  label="选择城市"
+  :width="220"
+/&gt;
+
+&lt;!-- 原生静态结构（展开态用 --inline 变体） --&gt;
+&lt;div class="hx-select-wrap" style="width:220px"&gt;
+  &lt;button class="hx-select hx-select-trigger"&gt;…&lt;/button&gt;
+  &lt;span class="hx-select-arrow"&gt;…&lt;/span&gt;
+  &lt;div class="hx-select-panel hx-select-panel--inline"&gt;…&lt;/div&gt;
+&lt;/div&gt;</pre>
+      <div class="pc-note">浮层挂到 body + fixed 定位，按触发器位置计算 left/top，下方空间不足时自动向上翻转，避免被卡片 overflow:hidden 裁切。键盘：↑↓ 切换，Enter 选中，Esc 关闭。</div>
+    </div>
+    <div class="pc-item pc-item--wide">
+      <div class="pc-item-head">展开态结构对照（静态） <small>hx-select-panel--inline</small></div>
+      <div class="pc-demo">
+        <div class="hx-select-wrap" style="width:220px;">
+          <div class="hx-select"><span class="hx-select-value">长沙市</span><span class="hx-select-arrow" style="background:var(--hx-brand);color:#fff;transform:translateY(-50%) rotate(180deg);"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2.5 4.5L6 8l3.5-3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+          <div class="hx-select-panel hx-select-panel--inline" style="margin-top:6px;width:100%;">
+            <div class="hx-select-list">
+              <div class="hx-select-option is-selected"><span class="hx-select-option-text">长沙市</span><span class="hx-select-option-check"><svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2.5 7.2l3 3L11.6 3.8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+              <div class="hx-select-option"><span class="hx-select-option-text">株洲市</span></div>
+              <div class="hx-select-option"><span class="hx-select-option-text">湘潭市</span><span class="hx-select-option-hint">3</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pc-note">静态对照用 <code class="hx-code">--inline</code> 变体固定在触发框下方，仅展示选项层视觉结构；实际交互请用上方实例或 Vue 组件 HxSelect.vue。</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 5 卡片 ============ -->
+<section class="pc-sec" id="s5">
+  <div class="pc-sec-head"><span class="pc-sec-num">05</span><h2>卡片 Card</h2><span class="pc-sec-en">CARD</span></div>
+  <p class="pc-sec-desc">HxCard · 普通卡 / 侧栏卡 / 内容卡。</p>
+  <div class="pc-grid">
+    <div class="pc-item">
+      <div class="pc-item-head">内容卡片 <small>hx-card</small></div>
+      <div class="pc-demo"><div class="hx-card" style="width:100%;">
+        <div class="hx-card-head"><span class="hx-card-title">本周订单</span><a class="hx-card-link">查看全部 →</a></div>
+        <div class="hx-card-pad"><div class="hx-metric">1,284</div><div class="hx-card-sub">较上周 +12.6%</div></div>
+      </div></div>
+<pre class="pc-code"><span class="tk">&lt;div</span> <span class="ta">class</span>=<span class="tv">"hx-card"</span><span class="tk">&gt;</span>
+  <span class="tk">&lt;div</span> <span class="ta">class</span>=<span class="tv">"hx-card-head"</span><span class="tk">&gt;</span>标题 + 链接<span class="tk">&lt;/div&gt;</span>
+  <span class="tk">&lt;div</span> <span class="ta">class</span>=<span class="tv">"hx-card-pad"</span><span class="tk">&gt;</span>内容<span class="tk">&lt;/div&gt;</span>
+<span class="tk">&lt;/div&gt;</span></pre>
+    </div>
+    <div class="pc-item">
+      <div class="pc-item-head">侧栏卡片 <small>hx-side-card</small></div>
+      <div class="pc-demo"><div class="hx-side-card" style="width:100%;">
+        <div class="hx-side-card-title">快捷服务</div>
+        <div class="hx-side-card-desc">常用功能入口聚合</div>
+        <a class="hx-side-card-link">进入 →</a>
+      </div></div>
+<pre class="pc-code"><span class="tk">&lt;div</span> <span class="ta">class</span>=<span class="tv">"hx-side-card"</span><span class="tk">&gt;</span>
+  <span class="tk">&lt;div</span> <span class="ta">class</span>=<span class="tv">"hx-side-card-title"</span><span class="tk">&gt;</span>快捷服务<span class="tk">&lt;/div&gt;</span>
+<span class="tk">&lt;/div&gt;</span></pre>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 6 标签 ============ -->
+<section class="pc-sec" id="s6">
+  <div class="pc-sec-head"><span class="pc-sec-num">06</span><h2>标签 / 徽标 Tag</h2><span class="pc-sec-en">TAG</span></div>
+  <p class="pc-sec-desc">HxTag / StatusTag · 五套语义色 + 胶囊 / 描边变体。</p>
+  <div class="pc-grid">
+    <div class="pc-item">
+      <div class="pc-item-head">语义标签 <small>hx-tag--*</small></div>
+      <div class="pc-demo"><span class="hx-tag hx-tag--brand">品牌</span><span class="hx-tag hx-tag--success">成功</span><span class="hx-tag hx-tag--warning">警告</span><span class="hx-tag hx-tag--danger">危险</span><span class="hx-tag hx-tag--info">信息</span><span class="hx-tag hx-tag--outline">描边</span><span class="hx-tag hx-tag--pill">胶囊</span></div>
+<pre class="pc-code"><span class="tk">&lt;span</span> <span class="ta">class</span>=<span class="tv">"hx-tag hx-tag--success"</span><span class="tk">&gt;</span>成功<span class="tk">&lt;/span&gt;</span>
+<span class="tk">&lt;span</span> <span class="ta">class</span>=<span class="tv">"hx-tag hx-tag--pill"</span><span class="tk">&gt;</span>胶囊<span class="tk">&lt;/span&gt;</span></pre>
+    </div>
+    <div class="pc-item">
+      <div class="pc-item-head">头像 / 圆点 <small>hx-avatar / hx-dot</small></div>
+      <div class="pc-demo"><span class="hx-avatar">星</span><span class="hx-avatar" style="background:var(--hx-brand);color:#fff;">辰</span><span class="hx-dot"></span><span class="hx-dot" style="background:var(--hx-danger-dot)"></span><span class="hx-icon-block">⌂</span></div>
+<pre class="pc-code"><span class="tk">&lt;span</span> <span class="ta">class</span>=<span class="tv">"hx-avatar"</span><span class="tk">&gt;</span>星<span class="tk">&lt;/span&gt;</span>
+<span class="tk">&lt;span</span> <span class="ta">class</span>=<span class="tv">"hx-dot"</span> <span class="ta">style</span>=<span class="tv">"background:var(--hx-danger-dot)"</span><span class="tk">&gt;&lt;/span&gt;</span></pre>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 7 横幅 ============ -->
+<section class="pc-sec" id="s7">
+  <div class="pc-sec-head"><span class="pc-sec-num">07</span><h2>欢迎横幅 Banner</h2><span class="pc-sec-en">BANNER</span></div>
+  <div class="pc-grid">
+    <div class="pc-item pc-item--wide">
+      <div class="pc-item-head">品牌横幅 <small>hx-banner</small></div>
+      <div class="pc-demo"><div class="hx-banner" style="width:100%;">
+        <span class="hx-banner-deco">✦</span>
+        <div><span class="hx-banner-tag">NEW</span><div class="hx-banner-title">欢迎使用星辰设计系统</div><div class="hx-banner-desc">统一令牌、组件与交互规范，开箱即用。</div></div>
+        <a class="hx-banner-btn">查看文档 →</a>
+      </div></div>
+<pre class="pc-code"><span class="tk">&lt;div</span> <span class="ta">class</span>=<span class="tv">"hx-banner"</span><span class="tk">&gt;</span>
+  <span class="tk">&lt;span</span> <span class="ta">class</span>=<span class="tv">"hx-banner-tag"</span><span class="tk">&gt;</span>NEW<span class="tk">&lt;/span&gt;</span>
+  <span class="tk">&lt;div</span> <span class="ta">class</span>=<span class="tv">"hx-banner-title"</span><span class="tk">&gt;</span>标题<span class="tk">&lt;/div&gt;</span>
+  <span class="tk">&lt;a</span> <span class="ta">class</span>=<span class="tv">"hx-banner-btn"</span><span class="tk">&gt;</span>查看文档<span class="tk">&lt;/a&gt;</span>
+<span class="tk">&lt;/div&gt;</span></pre>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 8 指标卡 ============ -->
+<section class="pc-sec" id="s8">
+  <div class="pc-sec-head"><span class="pc-sec-num">08</span><h2>指标卡 StatCard</h2><span class="pc-sec-en">STAT</span></div>
+  <div class="pc-grid">
+    <div class="pc-item">
+      <div class="pc-item-head">标准指标卡 <small>hx-stat</small></div>
+      <div class="pc-demo"><div class="hx-stat" style="width:100%;">
+        <div class="hx-stat-head"><span class="hx-stat-label">今日访问</span><span class="hx-tag hx-tag--success">+12%</span></div>
+        <div class="hx-stat-value">12,846</div><div class="hx-stat-hint">较昨日同期</div>
+      </div></div>
+<pre class="pc-code"><span class="tk">&lt;div</span> <span class="ta">class</span>=<span class="tv">"hx-stat"</span><span class="tk">&gt;</span>
+  <span class="tk">&lt;div</span> <span class="ta">class</span>=<span class="tv">"hx-stat-label"</span><span class="tk">&gt;</span>今日访问<span class="tk">&lt;/div&gt;</span>
+  <span class="tk">&lt;div</span> <span class="ta">class</span>=<span class="tv">"hx-stat-value"</span><span class="tk">&gt;</span>12,846<span class="tk">&lt;/div&gt;</span>
+<span class="tk">&lt;/div&gt;</span></pre>
+    </div>
+    <div class="pc-item">
+      <div class="pc-item-head">紧凑 + 迷你趋势 <small>hx-stat--compact / hx-stat-spark</small></div>
+      <div class="pc-demo pc-demo--col"><div class="hx-stat hx-stat--compact" style="width:100%;">
+        <div class="hx-stat-label">转化率</div><div class="hx-stat-value">8.4%</div>
+        <svg class="hx-stat-spark" viewBox="0 0 120 30" width="100%" height="30"><path d="M0 24 L20 18 L40 20 L60 10 L80 14 L100 6 L120 8" fill="none" stroke="var(--hx-brand,#2f6df6)" stroke-width="2"/></svg>
+      </div></div>
+<pre class="pc-code"><span class="tk">&lt;div</span> <span class="ta">class</span>=<span class="tv">"hx-stat hx-stat--compact"</span><span class="tk">&gt;</span>
+  <span class="tk">&lt;svg</span> <span class="ta">class</span>=<span class="tv">"hx-stat-spark"</span> <span class="ta">viewBox</span>=<span class="tv">"0 0 120 30"</span><span class="tk">&gt;</span>…<span class="tk">&lt;/svg&gt;</span>
+<span class="tk">&lt;/div&gt;</span></pre>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 9 标签页 ============ -->
+<section class="pc-sec" id="s9">
+  <div class="pc-sec-head"><span class="pc-sec-num">09</span><h2>标签页 Tabs</h2><span class="pc-sec-en">TABS</span></div>
+  <div class="pc-grid">
+    <div class="pc-item">
+      <div class="pc-item-head">胶囊标签页 <small>hx-tabs / hx-tab</small></div>
+      <div class="pc-demo"><div class="hx-tabs"><span class="hx-tab is-active">全部</span><span class="hx-tab">进行中</span><span class="hx-tab">已完成</span></div></div>
+<pre class="pc-code"><span class="tk">&lt;div</span> <span class="ta">class</span>=<span class="tv">"hx-tabs"</span><span class="tk">&gt;</span>
+  <span class="tk">&lt;button</span> <span class="ta">class</span>=<span class="tv">"hx-tab is-active"</span><span class="tk">&gt;</span>全部<span class="tk">&lt;/button&gt;</span>
+  <span class="tk">&lt;button</span> <span class="ta">class</span>=<span class="tv">"hx-tab"</span><span class="tk">&gt;</span>进行中<span class="tk">&lt;/button&gt;</span>
+<span class="tk">&lt;/div&gt;</span></pre>
+    </div>
+    <div class="pc-item">
+      <div class="pc-item-head">下划线标签页 <small>hx-tabs--line</small></div>
+      <div class="pc-demo"><div class="hx-tabs hx-tabs--line"><span class="hx-tab is-active">概览</span><span class="hx-tab">详情</span><span class="hx-tab">日志</span></div></div>
+<pre class="pc-code"><span class="tk">&lt;div</span> <span class="ta">class</span>=<span class="tv">"hx-tabs hx-tabs--line"</span><span class="tk">&gt;</span>…<span class="tk">&lt;/div&gt;</span></pre>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 10 筛选栏 ============ -->
+<section class="pc-sec" id="s10">
+  <div class="pc-sec-head"><span class="pc-sec-num">10</span><h2>筛选栏 FilterBar</h2><span class="pc-sec-en">FILTER</span></div>
+  <div class="pc-grid">
+    <div class="pc-item pc-item--wide">
+      <div class="pc-item-head">查询条件组合 <small>hx-filter / hx-field</small></div>
+      <div class="pc-demo"><div class="hx-filter" style="width:100%;">
+        <div class="hx-field"><label class="hx-label">关键字</label><input class="hx-input" placeholder="订单号 / 客户名" /></div>
+        <div class="hx-field"><label class="hx-label">状态</label><div class="hx-select" style="width:160px;"><span class="hx-select-value">全部</span><span class="hx-select-arrow">▾</span></div></div>
+        <div class="hx-field"><label class="hx-label">日期</label><input class="hx-input" type="date" /></div>
+        <span class="hx-btn hx-btn--primary">查询</span><span class="hx-btn hx-btn--ghost">重置</span>
+      </div></div>
+<pre class="pc-code"><span class="tk">&lt;div</span> <span class="ta">class</span>=<span class="tv">"hx-filter"</span><span class="tk">&gt;</span>
+  <span class="tk">&lt;div</span> <span class="ta">class</span>=<span class="tv">"hx-field"</span><span class="tk">&gt;</span>
+    <span class="tk">&lt;label</span> <span class="ta">class</span>=<span class="tv">"hx-label"</span><span class="tk">&gt;</span>关键字<span class="tk">&lt;/label&gt;</span>
+    <span class="tk">&lt;input</span> <span class="ta">class</span>=<span class="tv">"hx-input"</span><span class="tk">/&gt;</span>
+  <span class="tk">&lt;/div&gt;</span>
+<span class="tk">&lt;/div&gt;</span></pre>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 11 表格 ============ -->
+<section class="pc-sec" id="s11">
+  <div class="pc-sec-head"><span class="pc-sec-num">11</span><h2>数据表格 DataTable</h2><span class="pc-sec-en">TABLE</span></div>
+  <p class="pc-sec-desc">表头字号统一 <code>var(--hx-fs-micro)</code>，字重 600；行高舒适，无外边框。</p>
+  <div class="pc-grid">
+    <div class="pc-item pc-item--wide">
+      <div class="pc-item-head">标准表格 <small>hx-table / hx-table-wrap</small></div>
+      <div class="pc-demo"><div class="hx-table-wrap" style="width:100%;">
+        <table class="hx-table" style="width:100%;"><thead><tr><th>订单号</th><th>客户</th><th>金额</th><th>状态</th></tr></thead>
+        <tbody><tr><td>SO-20260701</td><td>湖南大学</td><td>¥12,800</td><td><span class="hx-tag hx-tag--success">已完成</span></td></tr>
+        <tr><td>SO-20260702</td><td>星辰科技</td><td>¥8,400</td><td><span class="hx-tag hx-tag--warning">进行中</span></td></tr></tbody></table>
+        <div class="hx-table-foot">共 2 条记录</div>
+      </div></div>
+<pre class="pc-code"><span class="tk">&lt;div</span> <span class="ta">class</span>=<span class="tv">"hx-table-wrap"</span><span class="tk">&gt;</span>
+  <span class="tk">&lt;table</span> <span class="ta">class</span>=<span class="tv">"hx-table"</span><span class="tk">&gt;</span>
+    <span class="tk">&lt;thead&gt;&lt;tr&gt;&lt;th&gt;</span>订单号<span class="tk">&lt;/th&gt;…&lt;/tr&gt;&lt;/thead&gt;</span>
+    <span class="tk">&lt;tbody&gt;…&lt;/tbody&gt;</span>
+  <span class="tk">&lt;/table&gt;</span>
+<span class="tk">&lt;/div&gt;</span></pre>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 12 分页 ============ -->
+<section class="pc-sec" id="s12">
+  <div class="pc-sec-head"><span class="pc-sec-num">12</span><h2>分页 Pagination</h2><span class="pc-sec-en">PAGINATION</span></div>
+  <div class="pc-grid">
+    <div class="pc-item">
+      <div class="pc-item-head">基础分页 <small>hx-pagination</small></div>
+      <div class="pc-demo"><div class="hx-pagination"><span class="hx-btn hx-btn--sm hx-btn--ghost">上一页</span><span class="hx-btn hx-btn--sm hx-btn--primary">1</span><span class="hx-btn hx-btn--sm hx-btn--ghost">2</span><span class="hx-btn hx-btn--sm hx-btn--ghost">3</span><span class="hx-btn hx-btn--sm hx-btn--ghost">下一页</span></div></div>
+<pre class="pc-code"><span class="tk">&lt;div</span> <span class="ta">class</span>=<span class="tv">"hx-pagination"</span><span class="tk">&gt;</span>
+  <span class="tk">&lt;button</span> <span class="ta">class</span>=<span class="tv">"hx-btn hx-btn--sm"</span><span class="tk">&gt;</span>1<span class="tk">&lt;/button&gt;</span>…
+<span class="tk">&lt;/div&gt;</span></pre>
+    </div>
+    <div class="pc-item">
+      <div class="pc-item-head">汇总条 <small>hx-summary-bar</small></div>
+      <div class="pc-demo"><div class="hx-summary-bar" style="width:100%;">显示 1–10 条，共 128 条记录</div></div>
+<pre class="pc-code"><span class="tk">&lt;div</span> <span class="ta">class</span>=<span class="tv">"hx-summary-bar"</span><span class="tk">&gt;</span>显示 1–10 条<span class="tk">&lt;/div&gt;</span></pre>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 13 待办 ============ -->
+<section class="pc-sec" id="s13">
+  <div class="pc-sec-head"><span class="pc-sec-num">13</span><h2>待办 / 时间轴</h2><span class="pc-sec-en">TODO & TIMELINE</span></div>
+  <div class="pc-grid">
+    <div class="pc-item">
+      <div class="pc-item-head">待办项 <small>hx-todo</small></div>
+      <div class="pc-demo pc-demo--col"><div class="hx-todo" style="width:100%;"><span class="hx-todo-icon">✓</span><div><div class="hx-todo-title">审核订单 SO-20260701</div><div class="hx-todo-time">10 分钟前</div></div></div></div>
+<pre class="pc-code"><span class="tk">&lt;div</span> <span class="ta">class</span>=<span class="tv">"hx-todo"</span><span class="tk">&gt;</span>
+  <span class="tk">&lt;span</span> <span class="ta">class</span>=<span class="tv">"hx-todo-icon"</span><span class="tk">&gt;</span>✓<span class="tk">&lt;/span&gt;</span>
+  <span class="tk">&lt;div</span> <span class="ta">class</span>=<span class="tv">"hx-todo-title"</span><span class="tk">&gt;</span>标题<span class="tk">&lt;/div&gt;</span>
+<span class="tk">&lt;/div&gt;</span></pre>
+    </div>
+    <div class="pc-item">
+      <div class="pc-item-head">时间轴 <small>hx-timeline</small></div>
+      <div class="pc-demo pc-demo--col"><div class="hx-timeline" style="width:100%;">
+        <div class="hx-timeline-item"><span class="hx-timeline-dot"></span>已下单 · 09:30</div>
+        <div class="hx-timeline-item"><span class="hx-timeline-dot"></span>已发货 · 11:20</div>
+        <div class="hx-timeline-item"><span class="hx-timeline-dot"></span>已签收 · 15:40</div>
+      </div></div>
+<pre class="pc-code"><span class="tk">&lt;div</span> <span class="ta">class</span>=<span class="tv">"hx-timeline"</span><span class="tk">&gt;</span>
+  <span class="tk">&lt;div</span> <span class="ta">class</span>=<span class="tv">"hx-timeline-item"</span><span class="tk">&gt;</span>
+    <span class="tk">&lt;span</span> <span class="ta">class</span>=<span class="tv">"hx-timeline-dot"</span><span class="tk">&gt;&lt;/span&gt;</span>已下单
+  <span class="tk">&lt;/div&gt;</span>
+<span class="tk">&lt;/div&gt;</span></pre>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 14 图表 ============ -->
+<section class="pc-sec" id="s14">
+  <div class="pc-sec-head"><span class="pc-sec-num">14</span><h2>图表 Charts</h2><span class="pc-sec-en">CHARTS</span></div>
+  <p class="pc-sec-desc">纯 SVG，无第三方依赖。轴标签放 HTML 层固定 12px，禁用 <code>preserveAspectRatio="none"</code>（变形元凶）。</p>
+  <div class="pc-grid">
+    <div class="pc-item">
+      <div class="pc-item-head">折线图 HxLineChart <small>hx-chart</small></div>
+      <div class="pc-demo"><svg class="pc-chart" viewBox="0 0 320 150" role="img" aria-label="七日访问趋势折线图">
+        <line x1="30" y1="10" x2="30" y2="130" stroke="var(--hx-border,#E3E8F0)"/><line x1="30" y1="130" x2="315" y2="130" stroke="var(--hx-border,#E3E8F0)"/>
+        <path d="M30 110 L75 86 L120 96 L165 52 L210 68 L255 30 L300 42" fill="none" stroke="var(--hx-brand,#2f6df6)" stroke-width="2.5"/>
+        <circle cx="165" cy="52" r="4" fill="var(--hx-brand,#2f6df6)"/>
+      </svg></div>
+<pre class="pc-code"><span class="tk">&lt;svg</span> <span class="ta">class</span>=<span class="tv">"hx-chart"</span> <span class="ta">viewBox</span>=<span class="tv">"0 0 320 150"</span><span class="tk">&gt;</span>
+  <span class="tk">&lt;path</span> <span class="ta">d</span>=<span class="tv">"M30 110 L75 86 …"</span> <span class="ta">fill</span>=<span class="tv">"none"</span> <span class="ta">stroke</span>=<span class="tv">"var(--hx-brand)"</span><span class="tk">/&gt;</span>
+<span class="tk">&lt;/svg&gt;</span></pre>
+    </div>
+    <div class="pc-item">
+      <div class="pc-item-head">环形图 HxDonutChart <small>hx-legend</small></div>
+      <div class="pc-demo"><svg class="pc-chart" viewBox="0 0 160 150" role="img" aria-label="访问来源环形图">
+        <circle cx="80" cy="75" r="50" fill="none" stroke="var(--hx-brand,#2f6df6)" stroke-width="18" stroke-dasharray="180 314"/>
+        <circle cx="80" cy="75" r="50" fill="none" stroke="var(--hx-success,#10a37f)" stroke-width="18" stroke-dasharray="90 314" stroke-dashoffset="-180"/>
+        <circle cx="80" cy="75" r="50" fill="none" stroke="var(--hx-border,#E3E8F0)" stroke-width="18" stroke-dasharray="44 314" stroke-dashoffset="-270"/>
+      </svg></div>
+      <div class="hx-legend-row"><span class="hx-legend"><span class="hx-legend-dot" style="background:var(--hx-brand)"></span><span class="hx-legend-label">直接访问</span><span class="hx-legend-value">57%</span></span></div>
+<pre class="pc-code"><span class="tk">&lt;svg</span> <span class="ta">viewBox</span>=<span class="tv">"0 0 160 150"</span><span class="tk">&gt;</span>
+  <span class="tk">&lt;circle</span> <span class="ta">stroke-dasharray</span>=<span class="tv">"180 314"</span> <span class="ta">stroke</span>=<span class="tv">"var(--hx-brand)"</span><span class="tk">/&gt;</span>
+<span class="tk">&lt;/svg&gt;</span></pre>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 15 反馈 ============ -->
+<section class="pc-sec" id="s15">
+  <div class="pc-sec-head"><span class="pc-sec-num">15</span><h2>反馈组件</h2><span class="pc-sec-en">FEEDBACK</span></div>
+  <div class="pc-grid">
+    <div class="pc-item">
+      <div class="pc-item-head">提示条 / 进度 <small>hx-alert / hx-progress</small></div>
+      <div class="pc-demo pc-demo--col"><div class="hx-alert hx-alert--success">操作成功，数据已保存</div><div class="hx-alert hx-alert--warning">有 3 项待处理</div><div class="hx-alert hx-alert--danger">提交失败，请重试</div><div class="hx-progress" style="width:100%;"><div class="hx-progress-fill" style="width:68%"></div></div></div>
+<pre class="pc-code"><span class="tk">&lt;div</span> <span class="ta">class</span>=<span class="tv">"hx-alert hx-alert--success"</span><span class="tk">&gt;</span>操作成功<span class="tk">&lt;/div&gt;</span>
+<span class="tk">&lt;div</span> <span class="ta">class</span>=<span class="tv">"hx-progress"</span><span class="tk">&gt;</span>
+  <span class="tk">&lt;div</span> <span class="ta">class</span>=<span class="tv">"hx-progress-fill"</span> <span class="ta">style</span>=<span class="tv">"width:68%"</span><span class="tk">&gt;&lt;/div&gt;</span>
+<span class="tk">&lt;/div&gt;</span></pre>
+    </div>
+    <div class="pc-item">
+      <div class="pc-item-head">空态 / 骨架 / 弹窗 <small>hx-empty / hx-skeleton / hx-modal</small></div>
+      <div class="pc-demo pc-demo--col"><div class="hx-empty"><span class="hx-empty-icon">◌</span>暂无数据</div><div class="hx-skeleton" style="width:100%;height:20px"></div><div class="hx-skeleton" style="width:60%;height:20px"></div><span class="hx-btn hx-btn--primary" onclick="document.getElementById('pc-modal').style.display='flex'">打开弹窗</span></div>
+<pre class="pc-code"><span class="tk">&lt;div</span> <span class="ta">class</span>=<span class="tv">"hx-empty"</span><span class="tk">&gt;</span>暂无数据<span class="tk">&lt;/div&gt;</span>
+<span class="tk">&lt;div</span> <span class="ta">class</span>=<span class="tv">"hx-skeleton"</span><span class="tk">&gt;&lt;/div&gt;</span>
+<span class="tk">&lt;div</span> <span class="ta">class</span>=<span class="tv">"hx-modal-mask"</span><span class="tk">&gt;</span>
+  <span class="tk">&lt;div</span> <span class="ta">class</span>=<span class="tv">"hx-modal"</span><span class="tk">&gt;</span>…<span class="tk">&lt;/div&gt;</span>
+<span class="tk">&lt;/div&gt;</span></pre>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 16 展示页专用 ============ -->
+<section class="pc-sec" id="s16">
+  <div class="pc-sec-head"><span class="pc-sec-num">16</span><h2>展示页专用</h2><span class="pc-sec-en">SHOWCASE</span></div>
+  <p class="pc-sec-desc">仅用于规范展示，业务代码请用对应语义化类名。</p>
+  <div class="pc-grid">
+    <div class="pc-item">
+      <div class="pc-item-head">色板 / 分隔 <small>hx-swatch / hx-divider</small></div>
+      <div class="pc-demo pc-demo--col"><div class="pc-swatches" style="grid-template-columns:repeat(6,1fr)">
+        <div class="hx-swatch"><div class="hx-swatch-color" style="background:var(--hx-brand)"></div><span class="hx-swatch-name">brand</span></div>
+        <div class="hx-swatch"><div class="hx-swatch-color" style="background:var(--hx-success)"></div><span class="hx-swatch-name">success</span></div>
+        <div class="hx-swatch"><div class="hx-swatch-color" style="background:var(--hx-warning)"></div><span class="hx-swatch-name">warning</span></div>
+        <div class="hx-swatch"><div class="hx-swatch-color" style="background:var(--hx-danger)"></div><span class="hx-swatch-name">danger</span></div>
+        <div class="hx-swatch"><div class="hx-swatch-color" style="background:var(--hx-page-bg)"></div><span class="hx-swatch-name">page-bg</span></div>
+        <div class="hx-swatch"><div class="hx-swatch-color" style="background:var(--hx-surface)"></div><span class="hx-swatch-name">surface</span></div>
+      </div><div class="hx-divider" style="width:100%"></div><div class="hx-row"><span class="hx-code">hx-btn--primary</span><span class="hx-v-divider"></span><span class="hx-crumb">首页 / 组件</span></div></div>
+<pre class="pc-code"><span class="tk">&lt;div</span> <span class="ta">class</span>=<span class="tv">"hx-swatch"</span><span class="tk">&gt;</span>
+  <span class="tk">&lt;div</span> <span class="ta">class</span>=<span class="tv">"hx-swatch-color"</span> <span class="ta">style</span>=<span class="tv">"background:var(--hx-brand)"</span><span class="tk">&gt;&lt;/div&gt;</span>
+<span class="tk">&lt;/div&gt;</span></pre>
+    </div>
+    <div class="pc-item">
+      <div class="pc-item-head">规范说明块 <small>hx-spec / hx-legend / hx-crumb</small></div>
+      <div class="pc-demo pc-demo--col"><div class="hx-spec" style="width:100%">主按钮仅用于页面最重要的操作，一屏不超过 1 个。</div><span class="hx-crumb">首页 / 组件 / 按钮</span><span class="hx-section-title">规范要点</span></div>
+<pre class="pc-code"><span class="tk">&lt;div</span> <span class="ta">class</span>=<span class="tv">"hx-spec"</span><span class="tk">&gt;</span>主按钮仅用于最重要的操作<span class="tk">&lt;/div&gt;</span></pre>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<!-- 弹窗演示 -->
+<div class="hx-modal-mask" id="pc-modal" style="display:none;position:fixed;inset:0;z-index:100;align-items:center;justify-content:center;">
+  <div class="hx-modal" style="width:420px;">
+    <div class="hx-modal-head">确认操作</div>
+    <div class="hx-modal-body">这是一个示例弹窗，点击遮罩或按钮关闭。</div>
+    <div class="hx-modal-foot"><span class="hx-btn hx-btn--ghost" onclick="document.getElementById('pc-modal').style.display='none'">取消</span><span class="hx-btn hx-btn--primary" onclick="document.getElementById('pc-modal').style.display='none'">确认</span></div>
+  </div>
+</div>
+<script>document.getElementById('pc-modal').addEventListener('click',function(e){if(e.target===this)this.style.display='none';});</script>
+<script>
+/* 下拉实例交互：与 HxSelect.vue 行为一致（触发器 + fixed 浮层 + 键盘 + 点外部关闭）。
+ * 仅用于组件实例页演示，真实工程请直接使用 HxSelect.vue。 */
+(function () {
+  'use strict';
+  var CHECK = '<svg viewBox="0 0 14 14" fill="none"><path d="M2.5 7.2l3 3L11.6 3.8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  var current = null; // { wrap, panel, opts, value, active }
+
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+  function parse(raw) { try { return JSON.parse(raw); } catch (e) { return []; } }
+  function normalize(arr) {
+    return (arr || []).map(function (o) {
+      if (typeof o === 'string') return { label: o, value: o };
+      return { label: o.label || '', value: o.value || o.label || '', hint: o.hint || '', disabled: !!o.disabled };
+    });
+  }
+  function labelOf(opts, value) {
+    for (var i = 0; i < opts.length; i++) if (opts[i].value === value) return opts[i].label;
+    return '';
+  }
+
+  function place(c) {
+    if (!c.panel) return;
+    var r = c.wrap.getBoundingClientRect();
+    var ph = c.panel.offsetHeight, pw = c.panel.offsetWidth;
+    var up = (window.innerHeight - r.bottom < ph + 12) && (r.top > ph + 12);
+    c.panel.classList.toggle('is-up', up);
+    c.panel.style.left = Math.max(8, Math.min(r.left, window.innerWidth - pw - 8)) + 'px';
+    c.panel.style.top = (up ? r.top - ph - 6 : r.bottom + 6) + 'px';
+    c.panel.style.minWidth = r.width + 'px';
+  }
+
+  function setActive(c, idx) {
+    var els = c.panel.querySelectorAll('.hx-select-option');
+    c.active = idx;
+    for (var i = 0; i < els.length; i++) els[i].classList.toggle('is-active', i === idx);
+    var el = els[idx];
+    if (!el) return;
+    var list = c.panel.querySelector('.hx-select-list');
+    var top = el.offsetTop, bottom = top + el.offsetHeight;
+    if (top < list.scrollTop) list.scrollTop = top;
+    else if (bottom > list.scrollTop + list.clientHeight) list.scrollTop = bottom - list.clientHeight;
+  }
+
+  function close() {
+    if (!current) return;
+    if (current.panel && current.panel.parentNode) current.panel.parentNode.removeChild(current.panel);
+    current.wrap.classList.remove('is-open');
+    var t = current.wrap.querySelector('.hx-select-trigger');
+    if (t) t.setAttribute('aria-expanded', 'false');
+    current = null;
+  }
+
+  function pick(c, opt) {
+    var v = c.wrap.querySelector('.hx-select-value');
+    if (v) { v.textContent = opt.label; v.classList.remove('is-placeholder'); }
+    c.wrap.setAttribute('data-value', opt.value);
+    close();
+  }
+
+  function open(wrap) {
+    close();
+    var opts = normalize(parse(wrap.getAttribute('data-options') || '[]'));
+    var value = wrap.getAttribute('data-value') || '';
+    var label = wrap.getAttribute('data-label') || '';
+    var html = '';
+    if (label) html += '<div class="hx-select-label">' + esc(label) + '</div>';
+    html += '<div class="hx-select-list">';
+    opts.forEach(function (o, i) {
+      var cls = 'hx-select-option' + (o.value === value ? ' is-selected' : '') + (o.disabled ? ' is-disabled' : '');
+      html += '<div class="' + cls + '" data-i="' + i + '" role="option"' + (o.disabled ? ' aria-disabled="true"' : '') + '>';
+      html += '<span class="hx-select-option-text">' + esc(o.label) + '</span>';
+      if (o.hint) html += '<span class="hx-select-option-hint">' + esc(o.hint) + '</span>';
+      html += '<span class="hx-select-option-check">' + CHECK + '</span></div>';
+    });
+    if (!opts.length) html += '<div class="hx-select-empty">暂无可选项</div>';
+    html += '</div>';
+
+    var panel = document.createElement('div');
+    panel.className = 'hx-select-panel';
+    panel.setAttribute('role', 'listbox');
+    panel.innerHTML = html;
+    document.body.appendChild(panel);
+    wrap.classList.add('is-open');
+    var trig = wrap.querySelector('.hx-select-trigger');
+    if (trig) trig.setAttribute('aria-expanded', 'true');
+
+    var c = { wrap: wrap, panel: panel, opts: opts, value: value, active: 0 };
+    current = c;
+    place(c);
+    var start = 0;
+    for (var i = 0; i < opts.length; i++) {
+      if (opts[i].value === value && !opts[i].disabled) { start = i; break; }
+    }
+    setActive(c, start);
+
+    panel.addEventListener('click', function (e) {
+      var el = e.target.closest ? e.target.closest('.hx-select-option') : null;
+      if (!el || el.classList.contains('is-disabled')) return;
+      e.stopPropagation();
+      pick(c, c.opts[+el.getAttribute('data-i')]);
+    });
+    panel.addEventListener('mousemove', function (e) {
+      var el = e.target.closest ? e.target.closest('.hx-select-option') : null;
+      if (!el || el.classList.contains('is-disabled')) return;
+      var idx = +el.getAttribute('data-i');
+      if (idx !== c.active) setActive(c, idx);
+    });
+    if (trig) trig.focus();
+  }
+
+  function onKey(e) {
+    if (!current) return;
+    var c = current, n = c.opts.length;
+    if (e.key === 'Escape') { e.preventDefault(); close(); return; }
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      if (!n) return;
+      var step = e.key === 'ArrowDown' ? 1 : -1, idx = c.active;
+      for (var k = 0; k < n; k++) { idx = (idx + step + n) % n; if (!c.opts[idx].disabled) break; }
+      setActive(c, idx);
+    } else if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      var opt = c.opts[c.active];
+      if (opt && !opt.disabled) pick(c, opt);
+    }
+  }
+
+  Array.prototype.forEach.call(document.querySelectorAll('[data-hx-select]'), function (wrap) {
+    var trig = wrap.querySelector('.hx-select-trigger');
+    if (!trig) return;
+    trig.addEventListener('click', function (e) {
+      e.stopPropagation();
+      if (current && current.wrap === wrap) close(); else open(wrap);
+    });
+    trig.addEventListener('keydown', function (e) {
+      if (!current || current.wrap !== wrap) {
+        if (e.key === 'ArrowDown' || e.key === 'ArrowUp' || e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(wrap); }
+      } else onKey(e);
+    });
+  });
+
+  document.addEventListener('click', function (e) {
+    if (!current) return;
+    if (current.wrap.contains(e.target) || (current.panel && current.panel.contains(e.target))) return;
+    close();
+  });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+  window.addEventListener('resize', function () { if (current) place(current); });
+  window.addEventListener('scroll', function () { if (current) place(current); }, true);
+})();
+</script>
+</body>
+</html>
