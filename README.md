@@ -173,6 +173,15 @@ starxhub/                              # 仓库根 = 插件市场
 
 ## 更新日志
 
+### v2.6.0 — 规则与工程模板落地雪花 ID 全链路
+
+- **主键口径从"文档说雪花、代码没闭环"变为全链路一致**：此前 `database.md` / `backend-infra.*` 已写雪花 ID，但缺 WorkId 配置、ID 序列化、前端类型三段闭环，生成的项目会出现 19 位 ID 精度丢失。
+- **规则层**：`.NET` / Python / Java-Spring 三栈补齐 WorkId 多实例唯一配置、后端 `long`/`Long` 序列化为字符串、禁止自增（`IsIdentity` / `autoincrement` / `IdType.AUTO`）、前端 `frontend-state.*` 与 `frontend-pages.uniapp.md` 的实体 ID 全部改 `string` 并加"超 JS 安全整数"铁律。
+- **工程模板**：新增 .NET `SnowflakeId.cs` + `LongIdAsStringConverter.cs`（含 Program/appsettings 接线）、Python `app/core/snowflake.py`（加锁 + 时钟回拨校验）+ `mixins.py`（`SnowflakeIdMixin`）、Java `SnowflakeConfig.java`（MyBatis-Plus `ASSIGN_ID`）；迁移 README 补主键约定。
+- **脚手架脚本**：`scaffold.py` 白名单登记新增 .NET 文件，并补装 `SqlSugarCore`（此前模板声明 SqlSugar 却未装包，生成即编译失败）。
+- 冒烟验证：Python 栈生成的项目新增文件落地、占位符渲染、`compileall` 全通过；.NET/Java 新增文件渲染通过。
+- `plugin.json` 与 `marketplace.json` 版本统一为 2.6.0。
+
 ### v2.4.0 — 补全 java-spring 栈、前后端契约与孤儿规范源文档
 
 - **`java-spring` 后端栈真正可用**：此前 `--backend java-spring` 会因 `CI_BACKEND_CMDS` 缺键直接崩溃，且 `main()` 的 `if dotnet else python` 会给 Java 项目生成一套 Python 工程。本版补齐：
